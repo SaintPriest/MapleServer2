@@ -341,6 +341,25 @@ namespace MapleServer2.Types
             };
         }
 
+        public static Item TutorialBow(Player owner)
+        {
+            return new Item(15100216)
+            {
+                Uid = 3430503306390578751,
+                Rarity = 1,
+                CreationTime = DateTimeOffset.UtcNow.ToUnixTimeSeconds(),
+                Owner = owner,
+                Color = EquipColor.Custom(
+                    Maple2Storage.Types.Color.Argb(0xFF, 147, 226, 242),
+                    Maple2Storage.Types.Color.Argb(0xFF, 0xC3, 0xDA, 0x3D),
+                    Maple2Storage.Types.Color.Argb(0xFF, 89, 153, 165),
+                    0x13
+                ),
+                AppearanceFlag = 0x5,
+                TransferFlag = TransferFlag.Binds | TransferFlag.Splitable,
+            };
+        }
+
         public static Item Bow(Player owner)
         {
             // bow 15100216, Tairen Officer bow 15100302
@@ -359,7 +378,7 @@ namespace MapleServer2.Types
             // [orb]  - 15600229
             return new Item(15100302)
             {
-                Uid = 3430503306390578751, // Make sure its unique! If the UID is equipped, it will say "Equipped" on the item in your inventory
+                Uid = 3430503306390578751,
                 Rarity = 4,
                 CreationTime = DateTimeOffset.UtcNow.ToUnixTimeSeconds(),
                 Owner = owner,
