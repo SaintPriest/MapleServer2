@@ -7,7 +7,7 @@ All the progress was follow by author.
 
 Tested can run with Gms2 and Jms2
 
-## Customized Func:
+## Customized details:
 Characters are set to my own's characters.
 
 Add some outfit and equipment items to suitable my own's characters.
