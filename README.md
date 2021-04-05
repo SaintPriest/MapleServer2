@@ -6,3 +6,4 @@ This software is licensed under the GNU GPL. Because of this, every user is free
 Join the [community discord](https://discord.gg/mABkFFhBuU) if you are interested in contributing to this project or would like assistance getting set up.
 
 testing fork
+SaintPriest is a beginner to use github, if something gone wrong, please ignore.
