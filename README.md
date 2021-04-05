@@ -26,4 +26,9 @@ Discord: https://discord.gg/mABkFFhBuU.
 ## Follow me on discord:
 My discord server: https://discord.gg/E96qZNA.
 
-SaintPriest#4610.
+My discord ID: SaintPriest#4610.
+
+Also report bugs please message me to fix.
+
+##Note:
+I have my own's operation in this project, please don't think I will getting more work.
