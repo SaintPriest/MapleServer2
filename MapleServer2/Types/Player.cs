@@ -103,8 +103,6 @@ namespace MapleServer2.Types
 
         public Mailbox Mailbox = new Mailbox();
 
-        public List<Buddy> BuddyList = new List<Buddy>();
-
         public long PartyId;
 
         public long ClubId;
@@ -146,11 +144,13 @@ namespace MapleServer2.Types
             Timestamps = new TimeInfo(DateTimeOffset.UtcNow.ToUnixTimeSeconds());
         }
 
-        public static Player Char1(long accountId, long characterId, string name = "Char1")
+        public static Player Char1(long accountId, long characterId, string name = "priestDiana")
         {
-            Job job = Job.Archer;
+            Job job = Job.Priest;
             PlayerStats stats = new PlayerStats();
-            StatDistribution statPointDistribution = new StatDistribution(totalStats: 18);
+            int mapId = (int) Map.Ellinia;
+            MapPlayerSpawn spawn = MapEntityStorage.GetRandomPlayerSpawn(mapId);
+            StatDistribution statPointDistribution = new StatDistribution(totalStats: 0);
             List<SkillTab> skillTabs = new List<SkillTab>
             {
                 new SkillTab(job)
@@ -160,63 +160,57 @@ namespace MapleServer2.Types
             {
                 SkillTabs = skillTabs,
                 StatPointDistribution = statPointDistribution,
-                MapId = 2000062,
+                MapId = mapId,
                 AccountId = accountId,
                 CharacterId = characterId,
                 Name = name,
                 Gender = 1,
                 Motto = "Motto",
                 HomeName = "HomeName",
-                Coord = CoordF.From(2850, 2550, 1800), // Lith Harbor (2000062)
+                Coord = CoordF.From(spawn.Coord.X, spawn.Coord.Y, spawn.Coord.Z), // Lith Harbor (2000062)
                 // Coord = CoordF.From(500, 500, 15000), // Tria
                 Job = job,
                 SkinColor = new SkinColor()
                 {
-                    Primary = Color.Argb(0xFF, 0xEA, 0xBF, 0xAE)
+                    Primary = Color.Argb(0xFF, 253, 210, 194)
                 },
                 CreationTime = DateTimeOffset.Now.ToUnixTimeSeconds() + Environment.TickCount,
                 Equips = new Dictionary<ItemSlot, Item> {
                     { ItemSlot.ER, Item.Ear() },
                     { ItemSlot.HR, Item.Hair() },
                     { ItemSlot.FA, Item.Face() },
-                    { ItemSlot.FD, Item.FaceDecoration() }
+                    { ItemSlot.FD, Item.FaceDecoration() },
+                    { ItemSlot.CL, Item.WeddingClothesFemale() },
+                    { ItemSlot.SH, Item.WeddingShoesFemale() },
+                    { ItemSlot.EA, Item.WeddingEarring() },
+                    { ItemSlot.CP, Item.PriestEliteHat() },
+                    { ItemSlot.GL, Item.WeddingGloves()},
                 },
                 Stats = stats,
                 Emotes = new List<int>
                 {
                     90200011, 90200004, 90200024, 90200041, 90200042,
-                90200057, 90200043, 90200022, 90200031, 90200005,
-                90200006, 90200003, 90200092, 90200077, 90200073,
-                90200023, 90200001, 90200019, 90200020, 90200021,
-                90200009, 90200027, 90200010, 90200028, 90200051,
-                90200015, 90200016, 90200055, 90200060, 90200017,
-                90200018, 90200093, 90220033, 90220012, 90220001, 90220033
                 },
-                TitleId = 10000503,
-                InsigniaId = 33,
-                Titles = new List<int> {
-                    10000569, 10000152, 10000570, 10000171, 10000196, 10000195, 10000571, 10000331, 10000190,
-                    10000458, 10000465, 10000503, 10000512, 10000513, 10000514, 10000537, 10000565, 10000602,
-                    10000603, 10000638, 10000644
-                }
+                InsigniaId = 0,
             };
-            player.Equips.Add(ItemSlot.RH, Item.TutorialBow(player));
+            player.Equips.Add(ItemSlot.RH, Item.Scepter(player));
+            player.Equips.Add(ItemSlot.LH, Item.Codex(player));
+            player.Inventory.Add(MapleServer2.Types.Item.Bow(player));
             return player;
         }
 
-        public static Player Char2(long accountId, long characterId, string name = "Char2")
+        public static Player Char2(long accountId, long characterId, string name = "priestApollo")
         {
-            Job job = Job.Archer;
+            Job job = Job.Priest;
             PlayerStats stats = new PlayerStats();
-
-            int mapId = (int) Map.Queenstown;
+            int mapId = (int) Map.Ellinia;
             MapPlayerSpawn spawn = MapEntityStorage.GetRandomPlayerSpawn(mapId);
             List<SkillTab> skillTabs = new List<SkillTab>
             {
                 new SkillTab(job)
             };
 
-            return new Player
+            Player player = new Player
             {
                 SkillTabs = skillTabs,
                 MapId = mapId,
@@ -230,7 +224,7 @@ namespace MapleServer2.Types
                 Job = job,
                 SkinColor = new SkinColor()
                 {
-                    Primary = Color.Argb(0xFF, 0xEA, 0xBF, 0xAE)
+                    Primary = Color.Argb(0xFF, 253, 210, 194)
                 },
                 CreationTime = DateTimeOffset.Now.ToUnixTimeSeconds() + Environment.TickCount,
                 Equips = new Dictionary<ItemSlot, Item> {
@@ -238,12 +232,23 @@ namespace MapleServer2.Types
                     { ItemSlot.HR, Item.HairMale() },
                     { ItemSlot.FA, Item.FaceMale() },
                     { ItemSlot.FD, Item.FaceDecorationMale() },
-                    { ItemSlot.CL, Item.CloathMale() },
-                    { ItemSlot.SH, Item.ShoesMale() },
-
+                    { ItemSlot.CL, Item.PriestEliteClothes() },
+                    { ItemSlot.SH, Item.PriestEliteShoes() },
+                    { ItemSlot.EA, Item.AlkimiEarring() },
+                    { ItemSlot.GL, Item.AlkimiGloves() },
+                    { ItemSlot.CP, Item.PriestEliteHat() },
+                    //{ ItemSlot.MT, Item.FairyCapeMale()},
+                    //{ ItemSlot.EY, Item.Glasses()},
+                },
+                Emotes = new List<int>
+                {
+                    90200011, 90200004, 90200024, 90200041, 90200042,
                 },
                 Stats = stats
             };
+            player.Equips.Add(ItemSlot.RH, Item.Scepter(player));
+            player.Equips.Add(ItemSlot.LH, Item.Codex(player));
+            return player;
         }
 
         public static Player NewCharacter(byte gender, Job job, string name, SkinColor skinColor, object equips)
@@ -274,11 +279,13 @@ namespace MapleServer2.Types
             };
         }
 
-        public static Player Priest(long accountId, long characterId, string name = "Priest")
+        public static Player Char3(long accountId, long characterId, string name = "knightDiana")
         {
-            Job job = Job.Priest;
+            Job job = Job.Knight;
             PlayerStats stats = new PlayerStats();
-            StatDistribution statPointDistribution = new StatDistribution(totalStats: 18);
+            int mapId = (int) Map.Ellinia;
+            MapPlayerSpawn spawn = MapEntityStorage.GetRandomPlayerSpawn(mapId);
+            StatDistribution statPointDistribution = new StatDistribution(totalStats: 0);
             List<SkillTab> skillTabs = new List<SkillTab>
             {
                 new SkillTab(job)
@@ -288,40 +295,697 @@ namespace MapleServer2.Types
             {
                 SkillTabs = skillTabs,
                 StatPointDistribution = statPointDistribution,
-                MapId = 2000062,
+                MapId = mapId,
                 AccountId = accountId,
                 CharacterId = characterId,
                 Name = name,
                 Gender = 1,
                 Motto = "Motto",
                 HomeName = "HomeName",
-                Coord = CoordF.From(2850, 2550, 1800), // Lith Harbor (2000062)
+                Coord = CoordF.From(spawn.Coord.X, spawn.Coord.Y, spawn.Coord.Z),
+                //Coord = CoordF.From(2850, 2550, 1800), // Lith Harbor (2000062)
                 // Coord = CoordF.From(500, 500, 15000), // Tria
                 Job = job,
                 SkinColor = new SkinColor()
                 {
-                    Primary = Color.Argb(0xFF, 0xEA, 0xBF, 0xAE)
+                    Primary = Color.Argb(0xFF, 253, 210, 194)
                 },
                 CreationTime = DateTimeOffset.Now.ToUnixTimeSeconds() + Environment.TickCount,
                 Equips = new Dictionary<ItemSlot, Item> {
                     { ItemSlot.ER, Item.Ear() },
                     { ItemSlot.HR, Item.Hair() },
                     { ItemSlot.FA, Item.Face() },
-                    { ItemSlot.FD, Item.FaceDecoration() }
+                    { ItemSlot.FD, Item.FaceDecoration() },
+                    { ItemSlot.CL, Item.WeddingClothesFemale() },
+                    { ItemSlot.SH, Item.WeddingShoesFemale() },
+                    { ItemSlot.EA, Item.WeddingEarring() },
+                    { ItemSlot.CP, Item.PriestEliteHat() },
+                    { ItemSlot.GL, Item.WeddingGloves()},
+                    //{ ItemSlot.RH, Item.GreatSwordOutfit()},
+                    //{ ItemSlot.MT, Item.FlowerCapeFemale()},
+                },
+                Emotes = new List<int>
+                {
+                    90200011, 90200004, 90200024, 90200041, 90200042,
                 },
                 Stats = stats,
                 GameOptions = new GameOptions(),
                 Mailbox = new Mailbox(),
-                TitleId = 10000503,
-                InsigniaId = 33,
-                Titles = new List<int> {
-                    10000569, 10000152, 10000570, 10000171, 10000196, 10000195, 10000571, 10000331, 10000190,
-                    10000458, 10000465, 10000503, 10000512, 10000513, 10000514, 10000537, 10000565, 10000602,
-                    10000603, 10000638, 10000644
-                },
+                InsigniaId = 0,
             };
-            player.Equips.Add(ItemSlot.RH, Item.DefaultScepter(player));
-            player.Equips.Add(ItemSlot.LH, Item.DefaultCodex(player));
+            player.Equips.Add(ItemSlot.RH, Item.LongSword(player));
+            player.Equips.Add(ItemSlot.LH, Item.Shield(player));
+            return player;
+        }
+
+        public static Player Char4(long accountId, long characterId, string name = "gunnerDiana")
+        {
+            Job job = Job.HeavyGunner;
+            PlayerStats stats = new PlayerStats();
+            int mapId = (int) Map.Ellinia;
+            MapPlayerSpawn spawn = MapEntityStorage.GetRandomPlayerSpawn(mapId);
+            StatDistribution statPointDistribution = new StatDistribution(totalStats: 0);
+            List<SkillTab> skillTabs = new List<SkillTab>
+            {
+                new SkillTab(job)
+            };
+
+            Player player = new Player
+            {
+                SkillTabs = skillTabs,
+                StatPointDistribution = statPointDistribution,
+                MapId = mapId,
+                AccountId = accountId,
+                CharacterId = characterId,
+                Name = name,
+                Gender = 1,
+                Motto = "Motto",
+                HomeName = "HomeName",
+                Coord = CoordF.From(spawn.Coord.X, spawn.Coord.Y, spawn.Coord.Z),
+                //Coord = CoordF.From(2850, 2550, 1800), // Lith Harbor (2000062)
+                // Coord = CoordF.From(500, 500, 15000), // Tria
+                Job = job,
+                SkinColor = new SkinColor()
+                {
+                    Primary = Color.Argb(0xFF, 253, 210, 194)
+                },
+                CreationTime = DateTimeOffset.Now.ToUnixTimeSeconds() + Environment.TickCount,
+                Equips = new Dictionary<ItemSlot, Item> {
+                    { ItemSlot.ER, Item.Ear() },
+                    { ItemSlot.HR, Item.Hair() },
+                    { ItemSlot.FA, Item.Face() },
+                    { ItemSlot.FD, Item.FaceDecoration() },
+                    { ItemSlot.CL, Item.WeddingClothesFemale() },
+                    { ItemSlot.SH, Item.WeddingShoesFemale() },
+                    { ItemSlot.EA, Item.WeddingEarring() },
+                    { ItemSlot.CP, Item.PriestEliteHat() },
+                    { ItemSlot.GL, Item.WeddingGloves() },
+                    //{ ItemSlot.MT, Item.MapleArmorCape() },
+                    //{ ItemSlot.RH, Item.GreatSwordOutfit()}
+                    //{ ItemSlot.MT, Item.FlowerCapeFemale()},
+                },
+                Emotes = new List<int>
+                {
+                    90200011, 90200004, 90200024, 90200041, 90200042,
+                },
+                Stats = stats,
+                GameOptions = new GameOptions(),
+                Mailbox = new Mailbox(),
+                InsigniaId = 0,
+            };
+            player.Equips.Add(ItemSlot.RH, Item.Cannon(player));
+            //player.Equips.Add(ItemSlot.LH, Item.Codex(player));
+            return player;
+        }
+
+        public static Player Char5(long accountId, long characterId, string name = "archerDiana")
+        {
+            Job job = Job.Archer;
+            PlayerStats stats = new PlayerStats();
+            int mapId = (int) Map.Ellinia;
+            MapPlayerSpawn spawn = MapEntityStorage.GetRandomPlayerSpawn(mapId);
+            StatDistribution statPointDistribution = new StatDistribution(totalStats: 0);
+            List<SkillTab> skillTabs = new List<SkillTab>
+            {
+                new SkillTab(job)
+            };
+
+            Player player = new Player
+            {
+                SkillTabs = skillTabs,
+                StatPointDistribution = statPointDistribution,
+                MapId = mapId,
+                AccountId = accountId,
+                CharacterId = characterId,
+                Name = name,
+                Gender = 1,
+                Motto = "Motto",
+                HomeName = "HomeName",
+                Coord = CoordF.From(spawn.Coord.X, spawn.Coord.Y, spawn.Coord.Z),
+                //Coord = CoordF.From(2850, 2550, 1800), // Lith Harbor (2000062)
+                // Coord = CoordF.From(500, 500, 15000), // Tria
+                Job = job,
+                SkinColor = new SkinColor()
+                {
+                    Primary = Color.Argb(0xFF, 253, 210, 194)
+                },
+                CreationTime = DateTimeOffset.Now.ToUnixTimeSeconds() + Environment.TickCount,
+                Equips = new Dictionary<ItemSlot, Item> {
+                    { ItemSlot.ER, Item.Ear() },
+                    { ItemSlot.HR, Item.Hair() },
+                    { ItemSlot.FA, Item.Face() },
+                    { ItemSlot.FD, Item.FaceDecoration() },
+                    //{ ItemSlot.PA, Item.LongSkirt() },
+                    { ItemSlot.CL, Item.WeddingClothesFemale() },
+                    { ItemSlot.SH, Item.WeddingShoesFemale() },
+                    { ItemSlot.EA, Item.WeddingEarring() },
+                    { ItemSlot.CP, Item.PriestEliteHat() },
+                    { ItemSlot.GL, Item.WeddingGloves()},
+                    //{ ItemSlot.RH, Item.GreatSwordOutfit()},
+                    //{ ItemSlot.MT, Item.FlowerCapeFemale()},
+                },
+                Emotes = new List<int>
+                {
+                    90200011, 90200004, 90200024, 90200041, 90200042,
+                },
+                Stats = stats,
+                GameOptions = new GameOptions(),
+                Mailbox = new Mailbox(),
+                InsigniaId = 0,
+            };
+            player.Equips.Add(ItemSlot.RH, Item.Bow(player));
+            //player.Equips.Add(ItemSlot.LH, Item.Codex(player));
+            return player;
+        }
+
+        public static Player Char6(long accountId, long characterId, string name = "wizardDiana")
+        {
+            Job job = Job.Wizard;
+            PlayerStats stats = new PlayerStats();
+            int mapId = (int) Map.Ellinia;
+            MapPlayerSpawn spawn = MapEntityStorage.GetRandomPlayerSpawn(mapId);
+            StatDistribution statPointDistribution = new StatDistribution(totalStats: 0);
+            List<SkillTab> skillTabs = new List<SkillTab>
+            {
+                new SkillTab(job)
+            };
+
+            Player player = new Player
+            {
+                SkillTabs = skillTabs,
+                StatPointDistribution = statPointDistribution,
+                MapId = mapId,
+                AccountId = accountId,
+                CharacterId = characterId,
+                Name = name,
+                Gender = 1,
+                Motto = "Motto",
+                HomeName = "HomeName",
+                Coord = CoordF.From(spawn.Coord.X, spawn.Coord.Y, spawn.Coord.Z),
+                //Coord = CoordF.From(2850, 2550, 1800), // Lith Harbor (2000062)
+                // Coord = CoordF.From(500, 500, 15000), // Tria
+                Job = job,
+                SkinColor = new SkinColor()
+                {
+                    Primary = Color.Argb(0xFF, 253, 210, 194)
+                },
+                CreationTime = DateTimeOffset.Now.ToUnixTimeSeconds() + Environment.TickCount,
+                Equips = new Dictionary<ItemSlot, Item> {
+                    { ItemSlot.ER, Item.Ear() },
+                    { ItemSlot.HR, Item.Hair() },
+                    { ItemSlot.FA, Item.Face() },
+                    { ItemSlot.FD, Item.FaceDecoration() },
+                    { ItemSlot.CL, Item.WeddingClothesFemale() },
+                    { ItemSlot.SH, Item.WeddingShoesFemale() },
+                    { ItemSlot.EA, Item.WeddingEarring() },
+                    { ItemSlot.CP, Item.PriestEliteHat() },
+                    { ItemSlot.GL, Item.WeddingGloves()},
+                    //{ ItemSlot.RH, Item.GreatSwordOutfit()},
+                    //{ ItemSlot.MT, Item.FlowerCapeFemale()},
+                },
+                Emotes = new List<int>
+                {
+                    90200011, 90200004, 90200024, 90200041, 90200042,
+                },
+                Stats = stats,
+                GameOptions = new GameOptions(),
+                Mailbox = new Mailbox(),
+                InsigniaId = 0,
+            };
+            player.Equips.Add(ItemSlot.RH, Item.Staff(player));
+            //player.Equips.Add(ItemSlot.LH, Item.Codex(player));
+            return player;
+        }
+
+        public static Player Char7(long accountId, long characterId, string name = "soulbinderDiana")
+        {
+            Job job = Job.SoulBinder;
+            PlayerStats stats = new PlayerStats();
+            int mapId = (int) Map.Ellinia;
+            MapPlayerSpawn spawn = MapEntityStorage.GetRandomPlayerSpawn(mapId);
+            StatDistribution statPointDistribution = new StatDistribution(totalStats: 0);
+            List<SkillTab> skillTabs = new List<SkillTab>
+            {
+                new SkillTab(job)
+            };
+
+            Player player = new Player
+            {
+                SkillTabs = skillTabs,
+                StatPointDistribution = statPointDistribution,
+                MapId = mapId,
+                AccountId = accountId,
+                CharacterId = characterId,
+                Name = name,
+                Gender = 1,
+                Motto = "Motto",
+                HomeName = "HomeName",
+                Coord = CoordF.From(spawn.Coord.X, spawn.Coord.Y, spawn.Coord.Z),
+                //Coord = CoordF.From(2850, 2550, 1800), // Lith Harbor (2000062)
+                // Coord = CoordF.From(500, 500, 15000), // Tria
+                Job = job,
+                SkinColor = new SkinColor()
+                {
+                    Primary = Color.Argb(0xFF, 253, 210, 194)
+                },
+                CreationTime = DateTimeOffset.Now.ToUnixTimeSeconds() + Environment.TickCount,
+                Equips = new Dictionary<ItemSlot, Item> {
+                    { ItemSlot.ER, Item.Ear() },
+                    { ItemSlot.HR, Item.Hair() },
+                    { ItemSlot.FA, Item.Face() },
+                    { ItemSlot.FD, Item.FaceDecoration() },
+                    { ItemSlot.CL, Item.WeddingClothesFemale() },
+                    { ItemSlot.SH, Item.WeddingShoesFemale() },
+                    { ItemSlot.EA, Item.WeddingEarring() },
+                    { ItemSlot.CP, Item.PriestEliteHat() },
+                    { ItemSlot.GL, Item.WeddingGloves()},
+                    //{ ItemSlot.RH, Item.GreatSwordOutfit()},
+                    //{ ItemSlot.MT, Item.FlowerCapeFemale()},
+                },
+                Emotes = new List<int>
+                {
+                    90200011, 90200004, 90200024, 90200041, 90200042,
+                },
+                Stats = stats,
+                GameOptions = new GameOptions(),
+                Mailbox = new Mailbox(),
+                InsigniaId = 0,
+            };
+            player.Equips.Add(ItemSlot.RH, Item.Orb(player));
+            //player.Equips.Add(ItemSlot.LH, Item.Codex(player));
+            return player;
+        }
+
+        public static Player Char8(long accountId, long characterId, string name = "berserkerDiana")
+        {
+            Job job = Job.Berserker;
+            PlayerStats stats = new PlayerStats();
+            int mapId = (int) Map.Ellinia;
+            MapPlayerSpawn spawn = MapEntityStorage.GetRandomPlayerSpawn(mapId);
+            StatDistribution statPointDistribution = new StatDistribution(totalStats: 0);
+            List<SkillTab> skillTabs = new List<SkillTab>
+            {
+                new SkillTab(job)
+            };
+
+            Player player = new Player
+            {
+                SkillTabs = skillTabs,
+                StatPointDistribution = statPointDistribution,
+                MapId = mapId,
+                AccountId = accountId,
+                CharacterId = characterId,
+                Name = name,
+                Gender = 1,
+                Motto = "Motto",
+                HomeName = "HomeName",
+                Coord = CoordF.From(spawn.Coord.X, spawn.Coord.Y, spawn.Coord.Z),
+                //Coord = CoordF.From(2850, 2550, 1800), // Lith Harbor (2000062)
+                // Coord = CoordF.From(500, 500, 15000), // Tria
+                Job = job,
+                SkinColor = new SkinColor()
+                {
+                    Primary = Color.Argb(0xFF, 253, 210, 194)
+                },
+                CreationTime = DateTimeOffset.Now.ToUnixTimeSeconds() + Environment.TickCount,
+                Equips = new Dictionary<ItemSlot, Item> {
+                    { ItemSlot.ER, Item.Ear() },
+                    { ItemSlot.HR, Item.Hair() },
+                    { ItemSlot.FA, Item.Face() },
+                    { ItemSlot.FD, Item.FaceDecoration() },
+                    { ItemSlot.CL, Item.WeddingClothesFemale() },
+                    { ItemSlot.SH, Item.WeddingShoesFemale() },
+                    { ItemSlot.EA, Item.WeddingEarring() },
+                    { ItemSlot.CP, Item.PriestEliteHat() },
+                    { ItemSlot.GL, Item.WeddingGloves()},
+                    //{ ItemSlot.RH, Item.GreatSwordOutfit()},
+                    //{ ItemSlot.MT, Item.FlowerCapeFemale()},
+                },
+                Emotes = new List<int>
+                {
+                    90200011, 90200004, 90200024, 90200041, 90200042,
+                },
+                Stats = stats,
+                GameOptions = new GameOptions(),
+                Mailbox = new Mailbox(),
+                InsigniaId = 0,
+            };
+            player.Equips.Add(ItemSlot.RH, Item.GreatSword(player));
+            //player.Equips.Add(ItemSlot.LH, Item.Codex(player));
+            return player;
+        }
+
+        public static Player Char9(long accountId, long characterId, string name = "runebladeDiana")
+        {
+            Job job = Job.Runeblade;
+            PlayerStats stats = new PlayerStats();
+            int mapId = (int) Map.Ellinia;
+            MapPlayerSpawn spawn = MapEntityStorage.GetRandomPlayerSpawn(mapId);
+            StatDistribution statPointDistribution = new StatDistribution(totalStats: 0);
+            List<SkillTab> skillTabs = new List<SkillTab>
+            {
+                new SkillTab(job)
+            };
+
+            Player player = new Player
+            {
+                SkillTabs = skillTabs,
+                StatPointDistribution = statPointDistribution,
+                MapId = mapId,
+                AccountId = accountId,
+                CharacterId = characterId,
+                Name = name,
+                Gender = 1,
+                Motto = "Motto",
+                HomeName = "HomeName",
+                Coord = CoordF.From(spawn.Coord.X, spawn.Coord.Y, spawn.Coord.Z),
+                //Coord = CoordF.From(2850, 2550, 1800), // Lith Harbor (2000062)
+                // Coord = CoordF.From(500, 500, 15000), // Tria
+                Job = job,
+                SkinColor = new SkinColor()
+                {
+                    Primary = Color.Argb(0xFF, 253, 210, 194)
+                },
+                CreationTime = DateTimeOffset.Now.ToUnixTimeSeconds() + Environment.TickCount,
+                Equips = new Dictionary<ItemSlot, Item> {
+                    { ItemSlot.ER, Item.Ear() },
+                    { ItemSlot.HR, Item.Hair() },
+                    { ItemSlot.FA, Item.Face() },
+                    { ItemSlot.FD, Item.FaceDecoration() },
+                    { ItemSlot.CL, Item.WeddingClothesFemale() },
+                    { ItemSlot.SH, Item.WeddingShoesFemale() },
+                    { ItemSlot.EA, Item.WeddingEarring() },
+                    { ItemSlot.CP, Item.PriestEliteHat() },
+                    { ItemSlot.GL, Item.WeddingGloves()},
+                    //{ ItemSlot.RH, Item.GreatSwordOutfit()},
+                    //{ ItemSlot.MT, Item.FlowerCapeFemale()},
+                },
+                Emotes = new List<int>
+                {
+                    90200011, 90200004, 90200024, 90200041, 90200042,
+                },
+                Stats = stats,
+                GameOptions = new GameOptions(),
+                Mailbox = new Mailbox(),
+                InsigniaId = 0,
+            };
+            player.Equips.Add(ItemSlot.RH, Item.Blade(player));
+            //player.Equips.Add(ItemSlot.LH, Item.Codex(player));
+            return player;
+        }
+
+        public static Player Char10(long accountId, long characterId, string name = "assassinDiana")
+        {
+            Job job = Job.Assassin;
+            PlayerStats stats = new PlayerStats();
+            int mapId = (int) Map.Ellinia;
+            MapPlayerSpawn spawn = MapEntityStorage.GetRandomPlayerSpawn(mapId);
+            StatDistribution statPointDistribution = new StatDistribution(totalStats: 0);
+            List<SkillTab> skillTabs = new List<SkillTab>
+            {
+                new SkillTab(job)
+            };
+
+            Player player = new Player
+            {
+                SkillTabs = skillTabs,
+                StatPointDistribution = statPointDistribution,
+                MapId = mapId,
+                AccountId = accountId,
+                CharacterId = characterId,
+                Name = name,
+                Gender = 1,
+                Motto = "Motto",
+                HomeName = "HomeName",
+                Coord = CoordF.From(spawn.Coord.X, spawn.Coord.Y, spawn.Coord.Z),
+                //Coord = CoordF.From(2850, 2550, 1800), // Lith Harbor (2000062)
+                // Coord = CoordF.From(500, 500, 15000), // Tria
+                Job = job,
+                SkinColor = new SkinColor()
+                {
+                    Primary = Color.Argb(0xFF, 253, 210, 194)
+                },
+                CreationTime = DateTimeOffset.Now.ToUnixTimeSeconds() + Environment.TickCount,
+                Equips = new Dictionary<ItemSlot, Item> {
+                    { ItemSlot.ER, Item.Ear() },
+                    { ItemSlot.HR, Item.Hair() },
+                    { ItemSlot.FA, Item.Face() },
+                    { ItemSlot.FD, Item.FaceDecoration() },
+                    { ItemSlot.CL, Item.WeddingClothesFemale() },
+                    { ItemSlot.SH, Item.WeddingShoesFemale() },
+                    { ItemSlot.EA, Item.WeddingEarring() },
+                    { ItemSlot.CP, Item.PriestEliteHat() },
+                    { ItemSlot.GL, Item.WeddingGloves()},
+                    //{ ItemSlot.RH, Item.GreatSwordOutfit()},
+                    //{ ItemSlot.MT, Item.FlowerCapeFemale()},
+                },
+                Emotes = new List<int>
+                {
+                    90200011, 90200004, 90200024, 90200041, 90200042,
+                },
+                Stats = stats,
+                GameOptions = new GameOptions(),
+                Mailbox = new Mailbox(),
+                InsigniaId = 0,
+            };
+            player.Equips.Add(ItemSlot.RH, Item.ThrowStar(player));
+            player.Equips.Add(ItemSlot.LH, Item.ThrowStar(player));
+            return player;
+        }
+
+        public static Player Char11(long accountId, long characterId, string name = "thiefDiana")
+        {
+            Job job = Job.Thief;
+            PlayerStats stats = new PlayerStats();
+            int mapId = (int) Map.Ellinia;
+            MapPlayerSpawn spawn = MapEntityStorage.GetRandomPlayerSpawn(mapId);
+            StatDistribution statPointDistribution = new StatDistribution(totalStats: 0);
+            List<SkillTab> skillTabs = new List<SkillTab>
+            {
+                new SkillTab(job)
+            };
+
+            Player player = new Player
+            {
+                SkillTabs = skillTabs,
+                StatPointDistribution = statPointDistribution,
+                MapId = mapId,
+                AccountId = accountId,
+                CharacterId = characterId,
+                Name = name,
+                Gender = 1,
+                Motto = "Motto",
+                HomeName = "HomeName",
+                Coord = CoordF.From(spawn.Coord.X, spawn.Coord.Y, spawn.Coord.Z),
+                //Coord = CoordF.From(2850, 2550, 1800), // Lith Harbor (2000062)
+                // Coord = CoordF.From(500, 500, 15000), // Tria
+                Job = job,
+                SkinColor = new SkinColor()
+                {
+                    Primary = Color.Argb(0xFF, 253, 210, 194)
+                },
+                CreationTime = DateTimeOffset.Now.ToUnixTimeSeconds() + Environment.TickCount,
+                Equips = new Dictionary<ItemSlot, Item> {
+                    { ItemSlot.ER, Item.Ear() },
+                    { ItemSlot.HR, Item.Hair() },
+                    { ItemSlot.FA, Item.Face() },
+                    { ItemSlot.FD, Item.FaceDecoration() },
+                    { ItemSlot.CL, Item.WeddingClothesFemale() },
+                    { ItemSlot.SH, Item.WeddingShoesFemale() },
+                    { ItemSlot.EA, Item.WeddingEarring() },
+                    { ItemSlot.CP, Item.PriestEliteHat() },
+                    { ItemSlot.GL, Item.WeddingGloves()},
+                    //{ ItemSlot.RH, Item.GreatSwordOutfit()},
+                    //{ ItemSlot.MT, Item.FlowerCapeFemale()},
+                },
+                Emotes = new List<int>
+                {
+                    90200011, 90200004, 90200024, 90200041, 90200042,
+                },
+                Stats = stats,
+                GameOptions = new GameOptions(),
+                Mailbox = new Mailbox(),
+                InsigniaId = 0,
+            };
+            player.Equips.Add(ItemSlot.RH, Item.Dagger(player));
+            player.Equips.Add(ItemSlot.LH, Item.Dagger(player));
+            return player;
+        }
+
+        public static Player Char12(long accountId, long characterId, string name = "strikerDiana")
+        {
+            Job job = Job.Striker;
+            PlayerStats stats = new PlayerStats();
+            int mapId = (int) Map.Ellinia;
+            MapPlayerSpawn spawn = MapEntityStorage.GetRandomPlayerSpawn(mapId);
+            StatDistribution statPointDistribution = new StatDistribution(totalStats: 0);
+            List<SkillTab> skillTabs = new List<SkillTab>
+            {
+                new SkillTab(job)
+            };
+
+            Player player = new Player
+            {
+                SkillTabs = skillTabs,
+                StatPointDistribution = statPointDistribution,
+                MapId = mapId,
+                AccountId = accountId,
+                CharacterId = characterId,
+                Name = name,
+                Gender = 1,
+                Motto = "Motto",
+                HomeName = "HomeName",
+                Coord = CoordF.From(spawn.Coord.X, spawn.Coord.Y, spawn.Coord.Z),
+                //Coord = CoordF.From(2850, 2550, 1800), // Lith Harbor (2000062)
+                // Coord = CoordF.From(500, 500, 15000), // Tria
+                Job = job,
+                SkinColor = new SkinColor()
+                {
+                    Primary = Color.Argb(0xFF, 253, 210, 194)
+                },
+                CreationTime = DateTimeOffset.Now.ToUnixTimeSeconds() + Environment.TickCount,
+                Equips = new Dictionary<ItemSlot, Item> {
+                    { ItemSlot.ER, Item.Ear() },
+                    { ItemSlot.HR, Item.Hair() },
+                    { ItemSlot.FA, Item.Face() },
+                    { ItemSlot.FD, Item.FaceDecoration() },
+                    { ItemSlot.CL, Item.WeddingClothesFemale() },
+                    { ItemSlot.SH, Item.WeddingShoesFemale() },
+                    { ItemSlot.EA, Item.WeddingEarring() },
+                    { ItemSlot.CP, Item.PriestEliteHat() },
+                    { ItemSlot.GL, Item.WeddingGloves()},
+                    //{ ItemSlot.RH, Item.GreatSwordOutfit()},
+                    //{ ItemSlot.MT, Item.FlowerCapeFemale()},
+                },
+                Emotes = new List<int>
+                {
+                    90200011, 90200004, 90200024, 90200041, 90200042,
+                },
+                Stats = stats,
+                GameOptions = new GameOptions(),
+                Mailbox = new Mailbox(),
+                InsigniaId = 0,
+            };
+            player.Equips.Add(ItemSlot.RH, Item.Knuckles(player));
+            //player.Equips.Add(ItemSlot.LH, Item.Codex(player));
+            return player;
+        }
+
+        public static Player Char13(long accountId, long characterId, string name = "gamemasterDiana")
+        {
+            Job job = Job.GameMaster;
+            PlayerStats stats = new PlayerStats();
+            int mapId = (int) Map.Ellinia;
+            MapPlayerSpawn spawn = MapEntityStorage.GetRandomPlayerSpawn(mapId);
+            StatDistribution statPointDistribution = new StatDistribution(totalStats: 0);
+            List<SkillTab> skillTabs = new List<SkillTab>
+            {
+                new SkillTab(job)
+            };
+
+            Player player = new Player
+            {
+                SkillTabs = skillTabs,
+                StatPointDistribution = statPointDistribution,
+                MapId = mapId,
+                AccountId = accountId,
+                CharacterId = characterId,
+                Name = name,
+                Gender = 1,
+                Motto = "Motto",
+                HomeName = "HomeName",
+                Coord = CoordF.From(spawn.Coord.X, spawn.Coord.Y, spawn.Coord.Z),
+                //Coord = CoordF.From(2850, 2550, 1800), // Lith Harbor (2000062)
+                // Coord = CoordF.From(500, 500, 15000), // Tria
+                Job = job,
+                SkinColor = new SkinColor()
+                {
+                    Primary = Color.Argb(0xFF, 253, 210, 194)
+                },
+                CreationTime = DateTimeOffset.Now.ToUnixTimeSeconds() + Environment.TickCount,
+                Equips = new Dictionary<ItemSlot, Item> {
+                    { ItemSlot.ER, Item.Ear() },
+                    { ItemSlot.HR, Item.Hair() },
+                    { ItemSlot.FA, Item.Face() },
+                    { ItemSlot.FD, Item.FaceDecoration() },
+                    { ItemSlot.CL, Item.WeddingClothesFemale() },
+                    { ItemSlot.SH, Item.WeddingShoesFemale() },
+                    { ItemSlot.EA, Item.WeddingEarring() },
+                    { ItemSlot.CP, Item.PriestEliteHat() },
+                    { ItemSlot.GL, Item.WeddingGloves()},
+                    //{ ItemSlot.RH, Item.GreatSwordOutfit()},
+                    //{ ItemSlot.MT, Item.FlowerCapeFemale()},
+                },
+                Emotes = new List<int>
+                {
+                    90200011, 90200004, 90200024, 90200041, 90200042,
+                },
+                Stats = stats,
+                GameOptions = new GameOptions(),
+                Mailbox = new Mailbox(),
+                InsigniaId = 0,
+            };
+            //player.Equips.Add(ItemSlot.RH, Item.Knuckles(player));
+            //player.Equips.Add(ItemSlot.LH, Item.Codex(player));
+            return player;
+        }
+
+        public static Player Char14(long accountId, long characterId, string name = "beginnerDiana")
+        {
+            Job job = Job.None;
+            PlayerStats stats = new PlayerStats();
+            int mapId = (int) Map.Ellinia;
+            MapPlayerSpawn spawn = MapEntityStorage.GetRandomPlayerSpawn(mapId);
+            StatDistribution statPointDistribution = new StatDistribution(totalStats: 0);
+            List<SkillTab> skillTabs = new List<SkillTab>
+            {
+                new SkillTab(job)
+            };
+
+            Player player = new Player
+            {
+                SkillTabs = skillTabs,
+                StatPointDistribution = statPointDistribution,
+                MapId = mapId,
+                AccountId = accountId,
+                CharacterId = characterId,
+                Name = name,
+                Gender = 1,
+                Motto = "Motto",
+                HomeName = "HomeName",
+                Coord = CoordF.From(spawn.Coord.X, spawn.Coord.Y, spawn.Coord.Z),
+                //Coord = CoordF.From(2850, 2550, 1800), // Lith Harbor (2000062)
+                // Coord = CoordF.From(500, 500, 15000), // Tria
+                Job = job,
+                SkinColor = new SkinColor()
+                {
+                    Primary = Color.Argb(0xFF, 253, 210, 194)
+                },
+                CreationTime = DateTimeOffset.Now.ToUnixTimeSeconds() + Environment.TickCount,
+                Equips = new Dictionary<ItemSlot, Item> {
+                    { ItemSlot.ER, Item.Ear() },
+                    { ItemSlot.HR, Item.Hair() },
+                    { ItemSlot.FA, Item.Face() },
+                    { ItemSlot.FD, Item.FaceDecoration() },
+                    { ItemSlot.CL, Item.WeddingClothesFemale() },
+                    { ItemSlot.SH, Item.WeddingShoesFemale() },
+                    { ItemSlot.EA, Item.WeddingEarring() },
+                    { ItemSlot.CP, Item.PriestEliteHat() },
+                    { ItemSlot.GL, Item.WeddingGloves()},
+                    //{ ItemSlot.RH, Item.GreatSwordOutfit()},
+                    //{ ItemSlot.MT, Item.FlowerCapeFemale()},
+                },
+                Emotes = new List<int>
+                {
+                    90200011, 90200004, 90200024, 90200041, 90200042,
+                },
+                Stats = stats,
+                GameOptions = new GameOptions(),
+                Mailbox = new Mailbox(),
+                InsigniaId = 0,
+            };
+            //player.Equips.Add(ItemSlot.RH, Item.Knuckles(player));
+            //player.Equips.Add(ItemSlot.LH, Item.Codex(player));
             return player;
         }
 
