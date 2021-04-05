@@ -187,7 +187,7 @@ namespace MapleServer2.PacketHandlers.Login
             AccountStorage.AddCharacter(newCharacter);
 
             // Send updated CHAR_MAX_COUNT
-            session.Send(CharacterListPacket.SetMax(4, 6));
+            session.Send(CharacterListPacket.SetMax(50, 50));
 
             // Send CHARACTER_LIST for new character only (append)
             session.Send(CharacterListPacket.AppendEntry(newCharacter));
