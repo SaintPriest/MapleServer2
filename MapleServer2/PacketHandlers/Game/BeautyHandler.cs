@@ -438,7 +438,20 @@ namespace MapleServer2.PacketHandlers.Game
                     CoordF frontPositionRotation = packet.Read<CoordF>();
 
                     beautyItem.HairD = new HairData(backLength, frontLength, backPositionCoord, backPositionRotation, frontPositionCoord, frontPositionRotation);
-
+                    Console.WriteLine("BackLength:" + backLength.ToString());
+                    Console.WriteLine("BackPositionCoord X:" + backPositionCoord.X.ToString());
+                    Console.WriteLine("BackPositionCoord Y:" + backPositionCoord.Y.ToString());
+                    Console.WriteLine("BackPositionCoord Z:" + backPositionCoord.Z.ToString());
+                    Console.WriteLine("BackPositionRotation X:" + backPositionRotation.X.ToString());
+                    Console.WriteLine("BackPositionRotation Y:" + backPositionRotation.Y.ToString());
+                    Console.WriteLine("BackPositionRotation Z:" + backPositionRotation.Z.ToString());
+                    Console.WriteLine("FrontLength:" + frontLength.ToString());
+                    Console.WriteLine("FrontPositionCoord X:" + frontPositionCoord.X.ToString());
+                    Console.WriteLine("FrontPositionCoord Y:" + frontPositionCoord.Y.ToString());
+                    Console.WriteLine("FrontPositionCoord Z:" + frontPositionCoord.Z.ToString());
+                    Console.WriteLine("FrontPositionRotation X:" + frontPositionRotation.X.ToString());
+                    Console.WriteLine("FrontPositionRotation Y:" + frontPositionRotation.Y.ToString());
+                    Console.WriteLine("FrontPositionRotation Z:" + frontPositionRotation.Z.ToString());
                     equippedInventory[itemSlot] = beautyItem;
 
                     session.FieldManager.BroadcastPacket(EquipmentPacket.EquipItem(session.FieldPlayer, beautyItem, itemSlot));
