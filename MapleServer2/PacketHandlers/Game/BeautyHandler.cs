@@ -606,7 +606,12 @@ namespace MapleServer2.PacketHandlers.Game
                     break;
                 case ShopCurrencyType.Item:
                     Item itemCost = session.Player.Inventory.Items.FirstOrDefault(x => x.Value.Id == requiredItemId).Value;
-                    if (itemCost.Amount < tokenCost)
+                    if (itemCost == null)
+                    {
+                        session.SendNotice("Server ERROR: An error occurred at ItemCost. Press: [ Esc ]");
+                        return false;
+                    }
+                    else if (itemCost.Amount < tokenCost)
                     {
                         return false;
                     }
