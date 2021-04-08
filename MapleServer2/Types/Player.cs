@@ -1160,6 +1160,67 @@ namespace MapleServer2.Types
             return player;
         }
 
+        public static Player Char16(long accountId, long characterId, string name = "priestDianav4")
+        {
+            Job job = Job.Priest;
+            PlayerStats stats = new PlayerStats();
+            int mapId = (int) Map.Ellinia;
+            MapPlayerSpawn spawn = MapEntityStorage.GetRandomPlayerSpawn(mapId);
+            StatDistribution statPointDistribution = new StatDistribution(totalStats: 0);
+            List<SkillTab> skillTabs = new List<SkillTab>
+            {
+                new SkillTab(job)
+            };
+
+            Player player = new Player
+            {
+                SkillTabs = skillTabs,
+                StatPointDistribution = statPointDistribution,
+                MapId = mapId,
+                AccountId = accountId,
+                CharacterId = characterId,
+                Name = name,
+                Gender = 1,
+                Motto = "Motto",
+                HomeName = "HomeName",
+                Coord = CoordF.From(spawn.Coord.X, spawn.Coord.Y, spawn.Coord.Z), // Lith Harbor (2000062)
+                // Coord = CoordF.From(500, 500, 15000), // Tria
+                Job = job,
+                SkinColor = new SkinColor()
+                {
+                    Primary = Color.Argb(0xFF, 253, 210, 194)
+                },
+                CreationTime = DateTimeOffset.Now.ToUnixTimeSeconds() + Environment.TickCount,
+                Equips = new Dictionary<ItemSlot, Item> {
+                    { ItemSlot.ER, Item.Ear() },
+                    { ItemSlot.HR, Item.Hairv4() },
+                    { ItemSlot.FA, Item.Face() },
+                    { ItemSlot.FD, Item.FaceDecoration() },
+                    { ItemSlot.CL, Item.PriestClothes() },
+                    { ItemSlot.SH, Item.PriestShoes() },
+                    { ItemSlot.EA, Item.AlkimiEarring() },
+                    { ItemSlot.CP, Item.PriestHat() },
+                    { ItemSlot.GL, Item.AlkimiGloves() },
+                },
+                Stats = stats,
+                Emotes = new List<int>
+                {
+                    90200011, 90200004, 90200024, 90200041, 90200042,
+                    90200057, 90200043, 90200022, 90200031, 90200005,
+                    90200006, 90200003, 90200092, 90200077, 90200073,
+                    90200023, 90200001, 90200019, 90200020, 90200021,
+                    90200009, 90200027, 90200010, 90200028, 90200051,
+                    90200015, 90200016, 90200055, 90200060, 90200017,
+                    90200018, 90200093, 90220033, 90220012, 90220001, 90220033
+                },
+                InsigniaId = 0,
+                Awakened = true,
+            };
+            player.Equips.Add(ItemSlot.RH, Item.Scepter(player));
+            player.Equips.Add(ItemSlot.LH, Item.Codex(player));
+            return player;
+        }
+
         public void Warp(MapPlayerSpawn spawn, int mapId)
         {
             MapId = mapId;
