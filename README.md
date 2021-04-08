@@ -22,7 +22,7 @@ All character awakened.
 
 Customize game command: blockcoord: show player current block coord, similar minecraft's show XYZ coord.
 
-Add some bugs handling.
+Add some error handling.
 
 ## Follow the project progress and setup:
 Discord: https://discord.gg/mABkFFhBuU.
