@@ -68,6 +68,9 @@ namespace MapleServer2.Tools
                 case "coord":
                     ProcessCoordCommand(session, args.Length > 1 ? args[1] : "");
                     break;
+                case "blockcoord":
+                    ProcessBlockCoordCommand(session, args.Length > 1 ? args[1] : "");
+                    break;
                 case "battleoff":
                     session.Send(UserBattlePacket.UserBattle(session.FieldPlayer, false));
                     break;
@@ -80,7 +83,42 @@ namespace MapleServer2.Tools
                     break;
             }
         }
+        private static void ProcessBlockCoordCommand(GameSession session, string command)
+        {
+            if (command == "")
+            {
+                float x = session.FieldPlayer.Coord.X / Convert.ToUInt16(166.67), y = session.FieldPlayer.Coord.Y / Convert.ToUInt16(166.67), z = session.FieldPlayer.Coord.Z / Convert.ToUInt16(166.67);
+                session.SendNotice("Coord X=" + x.ToString("#0") + "  Y=" + y.ToString("#0") + "  Z=" + z.ToString("#0"));
+            }
+            else
+            {
+                try
+                {
+                    string[] coords = command.Replace(" ", "").Split(",");
+                    if (!float.TryParse(coords[0], out float x))
+                    {
+                        return;
+                    }
+                    if (!float.TryParse(coords[1], out float y))
+                    {
+                        return;
+                    }
+                    if (!float.TryParse(coords[2], out float z))
+                    {
+                        return;
+                    }
+                    session.Player.Coord = CoordF.From(x * Convert.ToUInt16(166.67) + 5, y * Convert.ToUInt16(166.67) + 5, z * Convert.ToUInt16(166.67));
+                    session.Send(FieldPacket.RequestEnter(session.FieldPlayer));
+                }
+                catch
+                {
+                    session.SendNotice("Syntax ERROR: Corrent syntax is: blockcoord: X,Y,Z");
+                    return;
+                }
+            }
 
+        }
+        // Syntax: coord: -1200,1200,4800
         private static void ProcessCoordCommand(GameSession session, string command)
         {
             if (command == "")
@@ -89,22 +127,29 @@ namespace MapleServer2.Tools
             }
             else
             {
-                string[] coords = command.Replace(" ", "").Split(",");
-                if (!float.TryParse(coords[0], out float x))
+                try
                 {
+                    string[] coords = command.Replace(" ", "").Split(",");
+                    if (!float.TryParse(coords[0], out float x))
+                    {
+                        return;
+                    }
+                    if (!float.TryParse(coords[1], out float y))
+                    {
+                        return;
+                    }
+                    if (!float.TryParse(coords[2], out float z))
+                    {
+                        return;
+                    }
+                    session.Player.Coord = CoordF.From(x, y, z);
+                    session.Send(FieldPacket.RequestEnter(session.FieldPlayer));
+                }
+                catch
+                {
+                    session.SendNotice("Syntax ERROR: Corrent syntax is: coord: X,Y,Z");
                     return;
                 }
-                if (!float.TryParse(coords[1], out float y))
-                {
-                    return;
-                }
-                if (!float.TryParse(coords[2], out float z))
-                {
-                    return;
-                }
-
-                session.Player.Coord = CoordF.From(x, y, z);
-                session.Send(FieldPacket.RequestEnter(session.FieldPlayer));
             }
         }
 
