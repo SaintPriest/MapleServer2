@@ -32,11 +32,14 @@ namespace MapleServer2.Data
             long defaultCharId13 = 13;
             long defaultCharId14 = 14;
             long defaultCharId15 = 15;
+            long defaultCharId16 = 16;
 
             AccountCharacters.Add(DEFAULT_ACCOUNT_ID, new List<long>
             { defaultCharId1, defaultCharId2, defaultCharId3, defaultCharId4, defaultCharId5,
                defaultCharId6, defaultCharId7, defaultCharId8, defaultCharId9, defaultCharId10,
-               defaultCharId11, defaultCharId12, defaultCharId13, defaultCharId14, defaultCharId15 });
+               defaultCharId11, defaultCharId12, defaultCharId13, defaultCharId14, defaultCharId15,
+               defaultCharId16
+            });
 
             Characters.Add(defaultCharId1, Player.Char1(DEFAULT_ACCOUNT_ID, defaultCharId1));
             Characters.Add(defaultCharId2, Player.Char2(DEFAULT_ACCOUNT_ID, defaultCharId2));
@@ -53,6 +56,7 @@ namespace MapleServer2.Data
             Characters.Add(defaultCharId13, Player.Char13(DEFAULT_ACCOUNT_ID, defaultCharId13));
             Characters.Add(defaultCharId14, Player.Char14(DEFAULT_ACCOUNT_ID, defaultCharId14));
             Characters.Add(defaultCharId15, Player.Char15(DEFAULT_ACCOUNT_ID, defaultCharId15));
+            Characters.Add(defaultCharId16, Player.Char16(DEFAULT_ACCOUNT_ID, defaultCharId16));
         }
 
         // Retrieves a list of character ids for an account
