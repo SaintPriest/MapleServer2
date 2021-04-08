@@ -154,7 +154,7 @@ namespace MapleServer2.Types
 
         public static Item Hair()
         {
-            return new Item(10200238) // 10200085 10200148 10200238
+            return new Item(10200238) // 10200085 10200148 10200238 10200011
             {
                 Uid = 2867972925711604442,
                 CreationTime = 1565575851,
@@ -163,8 +163,15 @@ namespace MapleServer2.Types
                     Maple2Storage.Types.Color.Argb(0xFF, 0x4C, 0x85, 0xDB),
                     Maple2Storage.Types.Color.Argb(0xFF, 64, 104, 54),
                     15
-                ),
-                HairD = new HairData(1.0f, 1.0f, new CoordF(), new CoordF(), new CoordF(), new CoordF()),
+                ), // 10200238
+                //Color = EquipColor.Custom(
+                //    Maple2Storage.Types.Color.Argb(0xFF, 198, 198, 193),
+                //    Maple2Storage.Types.Color.Argb(0xFF, 0x4C, 0x85, 0xDB),
+                //    Maple2Storage.Types.Color.Argb(0xFF, 149, 149, 143),
+                //    15
+                //), // 10200011 10200085 10200148
+                //HairD = new HairData(1.0f, 1.0f, new CoordF(), new CoordF(), new CoordF(), new CoordF()), // 10200238
+                HairD = new HairData(1.0f, 1.0f, CoordF.From((float) 38.359235, (float) -15.343262, (float) -25.796207), CoordF.From((float) 21.872501, (float) -77.55839, (float) 3.081891), CoordF.From((float) 38.359235, (float) -15.722893, (float) 25.415237), CoordF.From((float) 157.2916, (float) -77.55905, (float) -3.0907118)), // 10200011
                 AppearanceFlag = 2,
             };
         }
