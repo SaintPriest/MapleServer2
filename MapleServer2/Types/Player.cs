@@ -191,12 +191,12 @@ namespace MapleServer2.Types
                 Emotes = new List<int>
                 {
                     90200011, 90200004, 90200024, 90200041, 90200042,
-                90200057, 90200043, 90200022, 90200031, 90200005,
-                90200006, 90200003, 90200092, 90200077, 90200073,
-                90200023, 90200001, 90200019, 90200020, 90200021,
-                90200009, 90200027, 90200010, 90200028, 90200051,
-                90200015, 90200016, 90200055, 90200060, 90200017,
-                90200018, 90200093, 90220033, 90220012, 90220001, 90220033
+                    90200057, 90200043, 90200022, 90200031, 90200005,
+                    90200006, 90200003, 90200092, 90200077, 90200073,
+                    90200023, 90200001, 90200019, 90200020, 90200021,
+                    90200009, 90200027, 90200010, 90200028, 90200051,
+                    90200015, 90200016, 90200055, 90200060, 90200017,
+                    90200018, 90200093, 90220033, 90220012, 90220001, 90220033
                 },
                 InsigniaId = 0,
                 Awakened = true,
@@ -269,8 +269,6 @@ namespace MapleServer2.Types
         public static Player NewCharacter(byte gender, Job job, string name, SkinColor skinColor, object equips)
         {
             PlayerStats stats = new PlayerStats();
-            int mapId = (int) Map.Ellinia;
-            MapPlayerSpawn spawn = MapEntityStorage.GetRandomPlayerSpawn(mapId);
             StatDistribution statPointDistribution = new StatDistribution(totalStats: 0);
             List<SkillTab> skillTabs = new List<SkillTab>
             {
@@ -1099,6 +1097,66 @@ namespace MapleServer2.Types
             };
             //player.Equips.Add(ItemSlot.RH, Item.Knuckles(player));
             //player.Equips.Add(ItemSlot.LH, Item.Codex(player));
+            return player;
+        }
+
+        public static Player Char15(long accountId, long characterId, string name = "MEGA10")
+        {
+            Job job = Job.Knight;
+            PlayerStats stats = new PlayerStats();
+            int mapId = (int) Map.Ellinia;
+            MapPlayerSpawn spawn = MapEntityStorage.GetRandomPlayerSpawn(mapId);
+            List<SkillTab> skillTabs = new List<SkillTab>
+            {
+                new SkillTab(job)
+            };
+
+            Player player = new Player
+            {
+                SkillTabs = skillTabs,
+                MapId = mapId,
+                AccountId = accountId,
+                CharacterId = characterId,
+                Name = name,
+                Gender = 0,
+                Motto = "Motto",
+                HomeName = "HomeName",
+                Coord = CoordF.From(spawn.Coord.X, spawn.Coord.Y, spawn.Coord.Z),
+                Job = job,
+                SkinColor = new SkinColor()
+                {
+                    Primary = Color.Argb(0xFF, 252, 225, 214)
+                },
+                CreationTime = DateTimeOffset.Now.ToUnixTimeSeconds() + Environment.TickCount,
+                Equips = new Dictionary<ItemSlot, Item> {
+                    { ItemSlot.ER, Item.EarMale() },
+                    { ItemSlot.HR, Item.HairMEGA10() },
+                    { ItemSlot.FA, Item.FaceMEGA10() },
+                    { ItemSlot.FD, Item.FaceDecorationMale() },
+                    { ItemSlot.CL, Item.PriestClothes() },
+                    { ItemSlot.SH, Item.PriestShoes() },
+                    { ItemSlot.EA, Item.AlkimiEarring() },
+                    { ItemSlot.GL, Item.AlkimiGloves() },
+                    { ItemSlot.CP, Item.PriestHat() },
+                    //{ ItemSlot.MT, Item.FairyCapeMale()},
+                    { ItemSlot.EY, Item.Glasses()},
+                },
+                Emotes = new List<int>
+                {
+                    90200011, 90200004, 90200024, 90200041, 90200042,
+                90200057, 90200043, 90200022, 90200031, 90200005,
+                90200006, 90200003, 90200092, 90200077, 90200073,
+                90200023, 90200001, 90200019, 90200020, 90200021,
+                90200009, 90200027, 90200010, 90200028, 90200051,
+                90200015, 90200016, 90200055, 90200060, 90200017,
+                90200018, 90200093, 90220033, 90220012, 90220001, 90220033
+                },
+                Stats = stats,
+                InsigniaId = 0,
+                Awakened = true,
+            };
+            player.Equips.Add(ItemSlot.RH, Item.LongSword(player));
+            player.Equips.Add(ItemSlot.LH, Item.Shield(player));
             return player;
         }
 
