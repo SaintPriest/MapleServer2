@@ -298,12 +298,12 @@ namespace MapleServer2.Types
                 Uid = 2867972925711604442,
                 CreationTime = 1565575851,
                 Color = EquipColor.Custom(MixedColor.Custom(
-                    Maple2Storage.Types.Color.Argb(0xFF, 0x4C, 0x69, 0xB5),
-                    Maple2Storage.Types.Color.Argb(0xFF, 0x4C, 0x85, 0xDB),
-                    Maple2Storage.Types.Color.Argb(0xFF, 0x48, 0x5E, 0xA8)),
+                    Maple2Storage.Types.Color.Argb(255, 198, 198, 193),
+                    Maple2Storage.Types.Color.Argb(255, 76, 133, 219),
+                    Maple2Storage.Types.Color.Argb(255, 149, 149, 143)),
                     10, 4
                 ),
-                HairD = new HairData(0.3f, 0.3f, new CoordF(), new CoordF(), new CoordF(), new CoordF()),
+                HairD = new HairData(1.0f, 1.0f, new CoordF(), new CoordF(), new CoordF(), new CoordF()),
             };
         }
 
@@ -319,18 +319,19 @@ namespace MapleServer2.Types
 
         public static Item FaceMale()
         {
-            return new Item(10300051)
+            return new Item(10300035)
             {
                 Uid = 2754959794416496483,
                 CreationTime = 1558494660,
                 Color = EquipColor.Custom(MixedColor.Custom(
-                    Maple2Storage.Types.Color.Argb(0xFF, 0x7E, 0xF3, 0xF8),
-                    Maple2Storage.Types.Color.Argb(0xFF, 0xF7, 0xE3, 0xE3),
-                    Maple2Storage.Types.Color.Argb(0xFF, 0x14, 0x07, 0x02)),
-                    10, 0
+                    Maple2Storage.Types.Color.Argb(255, 84, 127, 8),
+                    Maple2Storage.Types.Color.Argb(255, 0xF7, 0xE3, 0xE3),
+                    Maple2Storage.Types.Color.Argb(255, 8, 15, 0)),
+                10, 0
                 ),
             };
         }
+
         public static Item FaceDecorationMale()
         {
             return new Item(10400002)
