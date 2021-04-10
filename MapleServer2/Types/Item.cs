@@ -43,6 +43,7 @@ namespace MapleServer2.Types
         public bool IsLocked;
         public long UnlockTime;
         public short RemainingGlamorForges;
+        public int GachaDismantleId;
         public int Enchants;
         // EnchantExp (10000 = 100%) for Peachy
         public int EnchantExp;
@@ -54,6 +55,8 @@ namespace MapleServer2.Types
         // For friendship badges
         public long PairedCharacterId;
         public string PairedCharacterName;
+        public int PetSkinBadgeId;
+        public byte[] TransparencyBadgeBools = new byte[10];
 
         public Player Owner;
 
@@ -61,8 +64,9 @@ namespace MapleServer2.Types
 
         public HairData HairD;
 
+        public HatData HatD;
+
         public byte[] FaceDecorationD;
-        public byte AppearanceFlag;
 
         public MusicScore Score;
 
@@ -84,6 +88,7 @@ namespace MapleServer2.Types
             IsTemplate = ItemMetadataStorage.GetIsTemplate(id);
             IsCustomScore = ItemMetadataStorage.GetIsCustomScore(id);
             Gender = ItemMetadataStorage.GetGender(id);
+            RemainingGlamorForges = ItemExtractionMetadataStorage.GetExtractionCount(id);
             PlayCount = ItemMetadataStorage.GetPlayCount(id);
             FileName = ItemMetadataStorage.GetFileName(id);
             SkillId = ItemMetadataStorage.GetSkillID(id);
@@ -96,6 +101,7 @@ namespace MapleServer2.Types
             Amount = 1;
             Score = new MusicScore();
             Stats = new ItemStats(id, Rarity, Level);
+            Color = ItemMetadataStorage.GetEquipColor(id);
             CanRepackage = true; // If false, item becomes untradable
         }
 
@@ -126,6 +132,7 @@ namespace MapleServer2.Types
             IsLocked = other.IsLocked;
             UnlockTime = other.UnlockTime;
             RemainingGlamorForges = other.RemainingGlamorForges;
+            GachaDismantleId = other.GachaDismantleId;
             Enchants = other.Enchants;
             EnchantExp = other.EnchantExp;
             CanRepackage = other.CanRepackage;
@@ -134,10 +141,11 @@ namespace MapleServer2.Types
             RemainingTrades = other.RemainingTrades;
             PairedCharacterId = other.PairedCharacterId;
             PairedCharacterName = other.PairedCharacterName;
+            PetSkinBadgeId = other.PetSkinBadgeId;
             Owner = other.Owner;
             Color = other.Color;
             HairD = other.HairD;
-            AppearanceFlag = other.AppearanceFlag;
+            HatD = other.HatD;
             Score = new MusicScore();
             Stats = new ItemStats(other.Stats);
         }
@@ -395,7 +403,6 @@ namespace MapleServer2.Types
                     Maple2Storage.Types.Color.Argb(0xFF, 89, 153, 165),
                     0x13
                 ),
-                AppearanceFlag = 0x5,
                 TransferFlag = TransferFlag.Binds | TransferFlag.Splitable,
             };
         }
@@ -474,7 +481,6 @@ namespace MapleServer2.Types
                     Maple2Storage.Types.Color.Argb(0xFF, 64, 104, 54),
                     0x13
                 ),
-                AppearanceFlag = 0x5,
                 TransferFlag = TransferFlag.Binds | TransferFlag.Splitable,
             };
         }
@@ -550,7 +556,6 @@ namespace MapleServer2.Types
                     Maple2Storage.Types.Color.Argb(0xFF, 89, 153, 165),
                     0x13
                 ),
-                AppearanceFlag = 0x5,
                 TransferFlag = TransferFlag.Binds | TransferFlag.Splitable,
             };
         }
@@ -605,7 +610,6 @@ namespace MapleServer2.Types
                     Maple2Storage.Types.Color.Argb(0xFF, 8, 15, 0),
                     0
                 ),
-                AppearanceFlag = 3,
             };
         }
         public static Item FaceDecorationMale()
