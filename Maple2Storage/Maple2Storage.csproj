@@ -1,0 +1,19 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net5.0</TargetFramework>
+        <AssemblyName>Maple2Storage</AssemblyName>
+        <RootNamespace>Maple2Storage</RootNamespace>
+        <LangVersion>9</LangVersion>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <PackageReference Include="protobuf-net" Version="3.0.73" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="Properties\" />
+      <Folder Include="Resources\" />
+    </ItemGroup>
+
+</Project>
