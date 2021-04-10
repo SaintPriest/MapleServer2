@@ -1,6 +1,35 @@
-# MapleServer2
-This is an open source MapleStory2 server emulation project created in C#. It is being developed completely for educational purposes only. This software is being provided "as-is", completely for free. As a result, we, nor anybody who chooses to contribute, are not responsible for any damages or other liability as a result of this software.
+# MapleServer2-Customized-edit
+MapleStory 2 Server emulator by AlanMorel, customized edit coding.
 
-This software is licensed under the GNU GPL. Because of this, every user is free to use this software and choose how they want to use it, and assume all liability and risks themselves for that choice. Please read the license if you are unsure about your rights.
+May not very instant update.
 
-Join the [community discord](https://discord.gg/mABkFFhBuU) if you are interested in contributing to this project or would like assistance getting set up.
+All the progress was follow by author.
+
+Tested can run with Gms2 and Jms2
+
+## Customized details:
+Characters are set to my own's characters.
+
+Add some outfit and equipment items to suitable my own's characters.
+
+Character limit has been set to 50.
+
+Customized GameEventBar.
+
+Mesos and Merets are set to 2x10^10.
+
+All character awakened.
+
+Customize game command: blockcoord: show player current block coord, similar minecraft's show XYZ coord.
+
+Add some error handling.
+
+## Follow the project progress and setup:
+Discord: https://discord.gg/mABkFFhBuU.
+
+## Follow me on discord:
+My discord server: https://discord.gg/E96qZNA.
+
+My discord ID: SaintPriest#4610.
+
+Also report bugs please message me to fix.
