@@ -176,6 +176,23 @@ namespace MapleServer2.Types
             };
         }
 
+        public static Item Hairv4()
+        {
+            return new Item(10200085) // 10200085 10200148 10200238 10200011
+            {
+                Uid = 2867972925711604442,
+                CreationTime = 1565575851,
+                Color = EquipColor.Custom(
+                    Maple2Storage.Types.Color.Argb(0xFF, 198, 198, 193),
+                    Maple2Storage.Types.Color.Argb(0xFF, 0x4C, 0x85, 0xDB),
+                    Maple2Storage.Types.Color.Argb(0xFF, 149, 149, 143),
+                    15
+                ), // 10200011 10200085 10200148
+                HairD = new HairData(1.0f, 0.5f, new CoordF(), new CoordF(), new CoordF(), new CoordF()), // 10200238
+                AppearanceFlag = 2,
+            };
+        }
+
         public static Item Face()
         {
             return new Item(10300036)
@@ -570,6 +587,23 @@ namespace MapleServer2.Types
                 AppearanceFlag = 2,
             };
         }
+
+        public static Item HairMEGA10()
+        {
+            return new Item(10200003)
+            {
+                Uid = 2867972925711604442,
+                CreationTime = 1565575851,
+                Color = EquipColor.Custom(
+                    Maple2Storage.Types.Color.Argb(0xFF, 249, 137, 77),
+                    Maple2Storage.Types.Color.Argb(0xFF, 0x4C, 0x85, 0xDB),
+                    Maple2Storage.Types.Color.Argb(0xFF, 178, 105, 57),
+                    0
+                ),
+                AppearanceFlag = 2,
+            };
+        }
+
         public static Item EarMale()
         {
             return new Item(10500001)
@@ -608,6 +642,23 @@ namespace MapleServer2.Types
                 AppearanceFlag = 3,
             };
         }
+
+        public static Item FaceMEGA10()
+        {
+            return new Item(10300035)
+            {
+                Uid = 2754959794416496483,
+                CreationTime = 1558494660,
+                Color = EquipColor.Custom(
+                    Maple2Storage.Types.Color.Argb(0xFF, 165, 165, 165),
+                    Maple2Storage.Types.Color.Argb(0xFF, 0xF7, 0xE3, 0xE3),
+                    Maple2Storage.Types.Color.Argb(0xFF, 5, 4, 4),
+                    0
+                ),
+                AppearanceFlag = 3,
+            };
+        }
+
         public static Item FaceDecorationMale()
         {
             return new Item(10400000)
@@ -814,7 +865,7 @@ namespace MapleServer2.Types
             };
         }
 
-        public static Item WeddingGloves()
+        public static Item WeddingGlovesFemale()
         {
             return new Item(11610014)
             {
@@ -829,7 +880,22 @@ namespace MapleServer2.Types
             };
         }
 
-        public static Item WeddingEarring()
+        public static Item WeddingGlovesMale()
+        {
+            return new Item(11610013)
+            {
+                Uid = 2867972925711604442,
+                CreationTime = 1565575851,
+                Color = EquipColor.Custom(
+                    Maple2Storage.Types.Color.Argb(0xFF, 230, 230, 230),
+                    Maple2Storage.Types.Color.Argb(0xFF, 0x4C, 0x85, 0xDB),
+                    Maple2Storage.Types.Color.Argb(0xFF, 150, 150, 150),
+                    4
+                 ),
+            };
+        }
+
+        public static Item WeddingEarringFemale()
         {
             return new Item(11250124)
             {
@@ -843,6 +909,22 @@ namespace MapleServer2.Types
                  ),
             };
         }
+
+        public static Item WeddingEarringMale()
+        {
+            return new Item(11250123)
+            {
+                Uid = 2867972925711604442,
+                CreationTime = 1565575851,
+                Color = EquipColor.Custom(
+                    Maple2Storage.Types.Color.Argb(0xFF, 230, 230, 230),
+                    Maple2Storage.Types.Color.Argb(0xFF, 0x4C, 0x85, 0xDB),
+                    Maple2Storage.Types.Color.Argb(0xFF, 150, 150, 150),
+                    4
+                 ),
+            };
+        }
+
         public static Item PriestEliteHat()
         {
             return new Item(11361388)
@@ -882,6 +964,21 @@ namespace MapleServer2.Types
                     Maple2Storage.Types.Color.Argb(0xFF, 230, 230, 230),
                     Maple2Storage.Types.Color.Argb(0xFF, 0xF7, 0xE3, 0xE3),
                     Maple2Storage.Types.Color.Argb(0xFF, 150, 150, 150),
+                    4
+                )
+            };
+        }
+
+        public static Item WeddingShoesMale()
+        {
+            return new Item(11710027)
+            {
+                Uid = 2754959794416496484,
+                CreationTime = 1558494660,
+                Color = EquipColor.Custom(
+                    Maple2Storage.Types.Color.Argb(0xFF, 63, 59, 51),
+                    Maple2Storage.Types.Color.Argb(0xFF, 0xF7, 0xE3, 0xE3),
+                    Maple2Storage.Types.Color.Argb(0xFF, 20, 18, 15),
                     4
                 )
             };
