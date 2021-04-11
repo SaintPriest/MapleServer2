@@ -169,9 +169,9 @@ namespace MapleServer2.Types
                 Uid = 2867972925711604442,
                 CreationTime = 1565575851,
                 Color = EquipColor.Custom(MixedColor.Custom(
-                    Maple2Storage.Types.Color.Argb(0xFF, 0x7E, 0xCC, 0xF7),
-                    Maple2Storage.Types.Color.Argb(0xFF, 0x4C, 0x85, 0xDB),
-                    Maple2Storage.Types.Color.Argb(0xFF, 0x48, 0x5E, 0xA8)
+                    Maple2Storage.Types.Color.Argb(255, 126, 204, 247),
+                    Maple2Storage.Types.Color.Argb(255, 76, 133, 219),
+                    Maple2Storage.Types.Color.Argb(255, 72, 94, 168)
                     ),
                     15, 2
                 ),
@@ -186,9 +186,9 @@ namespace MapleServer2.Types
                 Uid = 2754959794416496483,
                 CreationTime = 1558494660,
                 Color = EquipColor.Custom(MixedColor.Custom(
-                    Maple2Storage.Types.Color.Argb(0xFF, 0xB5, 0x24, 0x29),
-                    Maple2Storage.Types.Color.Argb(0xFF, 0xF7, 0xE3, 0xE3),
-                    Maple2Storage.Types.Color.Argb(0xFF, 0x14, 0x07, 0x02)
+                    Maple2Storage.Types.Color.Argb(255, 181, 36, 41),
+                    Maple2Storage.Types.Color.Argb(255, 247, 227, 227),
+                    Maple2Storage.Types.Color.Argb(255, 20, 7, 2)
                     ),
                     0, 3
                 ),
@@ -229,11 +229,11 @@ namespace MapleServer2.Types
                 CreationTime = DateTimeOffset.UtcNow.ToUnixTimeSeconds(),
                 Owner = owner,
                 Color = EquipColor.Custom(MixedColor.Custom(
-                    Maple2Storage.Types.Color.Argb(0xFF, 0xBC, 0xBC, 0xB3),
-                    Maple2Storage.Types.Color.Argb(0xFF, 0xC3, 0xDA, 0x3D),
-                    Maple2Storage.Types.Color.Argb(0xFF, 0xB0, 0xB4, 0xBA)
+                    Maple2Storage.Types.Color.Argb(255, 188, 188, 179),
+                    Maple2Storage.Types.Color.Argb(255, 195, 218, 61),
+                    Maple2Storage.Types.Color.Argb(255, 176, 180, 186)
                     ),
-                    10, 0x13
+                    10, 19
                 ),
                 TransferFlag = TransferFlag.Binds | TransferFlag.Splitable,
             };
@@ -264,10 +264,10 @@ namespace MapleServer2.Types
                 CreationTime = DateTimeOffset.UtcNow.ToUnixTimeSeconds(),
                 Owner = owner,
                 Color = EquipColor.Custom(MixedColor.Custom(
-                    Maple2Storage.Types.Color.Argb(0xFF, 0xBC, 0xBC, 0xB3),
-                    Maple2Storage.Types.Color.Argb(0xFF, 0xC3, 0xDA, 0x3D),
-                    Maple2Storage.Types.Color.Argb(0xFF, 0xB0, 0xB4, 0xBA)),
-                    10, 0x13
+                    Maple2Storage.Types.Color.Argb(255, 188, 188, 179),
+                    Maple2Storage.Types.Color.Argb(255, 195, 218, 61),
+                    Maple2Storage.Types.Color.Argb(255, 176, 180, 186)),
+                    10, 19
                 ),
                 TransferFlag = TransferFlag.Binds | TransferFlag.Splitable,
             };
@@ -282,10 +282,10 @@ namespace MapleServer2.Types
                 CreationTime = DateTimeOffset.UtcNow.ToUnixTimeSeconds(),
                 Owner = owner,
                 Color = EquipColor.Custom(MixedColor.Custom(
-                    Maple2Storage.Types.Color.Argb(0xFF, 0xBC, 0xBC, 0xB3),
-                    Maple2Storage.Types.Color.Argb(0xFF, 0xC3, 0xDA, 0x3D),
-                    Maple2Storage.Types.Color.Argb(0xFF, 0xB0, 0xB4, 0xBA)),
-                    10, 0x13
+                    Maple2Storage.Types.Color.Argb(255, 188, 188, 179),
+                    Maple2Storage.Types.Color.Argb(255, 195, 218, 61),
+                    Maple2Storage.Types.Color.Argb(255, 176, 180, 186)),
+                    10, 19
                 ),
                 TransferFlag = TransferFlag.Binds | TransferFlag.Splitable,
             };
@@ -325,7 +325,7 @@ namespace MapleServer2.Types
                 CreationTime = 1558494660,
                 Color = EquipColor.Custom(MixedColor.Custom(
                     Maple2Storage.Types.Color.Argb(255, 84, 127, 8),
-                    Maple2Storage.Types.Color.Argb(255, 0xF7, 0xE3, 0xE3),
+                    Maple2Storage.Types.Color.Argb(255, 247, 227, 227),
                     Maple2Storage.Types.Color.Argb(255, 8, 15, 0)),
                 10, 0
                 ),
@@ -349,9 +349,9 @@ namespace MapleServer2.Types
                 Uid = 2754959794416496484,
                 CreationTime = 1558494660,
                 Color = EquipColor.Custom(MixedColor.Custom(
-                    Maple2Storage.Types.Color.Argb(0xFF, 0x4C, 0x69, 0xB5),
-                    Maple2Storage.Types.Color.Argb(0xFF, 0x4C, 0x85, 0xDB),
-                    Maple2Storage.Types.Color.Argb(0xFF, 0x48, 0x5E, 0xA8)),
+                    Maple2Storage.Types.Color.Argb(255, 76, 105, 181),
+                    Maple2Storage.Types.Color.Argb(255, 76, 133, 219),
+                    Maple2Storage.Types.Color.Argb(255, 72, 94, 168)),
                     10, 4
                 ),
             };
@@ -364,9 +364,9 @@ namespace MapleServer2.Types
                 Uid = 2754959794416496484,
                 CreationTime = 1558494660,
                 Color = EquipColor.Custom(MixedColor.Custom(
-                    Maple2Storage.Types.Color.Argb(0xFF, 0x4C, 0x69, 0xB5),
-                    Maple2Storage.Types.Color.Argb(0xFF, 0x4C, 0x85, 0xDB),
-                    Maple2Storage.Types.Color.Argb(0xFF, 0x48, 0x5E, 0xA8)),
+                    Maple2Storage.Types.Color.Argb(255, 76, 105, 181),
+                    Maple2Storage.Types.Color.Argb(255, 76, 133, 219),
+                    Maple2Storage.Types.Color.Argb(255, 72, 94, 168)),
                     10, 4
                 ),
             };
@@ -485,7 +485,7 @@ namespace MapleServer2.Types
                 CreationTime = 1558494660,
                 Color = EquipColor.Custom(MixedColor.Custom(
                     Maple2Storage.Types.Color.Argb(255, 84, 127, 8),
-                    Maple2Storage.Types.Color.Argb(255, 0xF7, 0xE3, 0xE3),
+                    Maple2Storage.Types.Color.Argb(255, 247, 227, 227),
                     Maple2Storage.Types.Color.Argb(255, 8, 15, 0)
                     ),
                 10, 0
@@ -500,9 +500,9 @@ namespace MapleServer2.Types
                 Uid = 2754959794416496483,
                 CreationTime = 1558494660,
                 Color = EquipColor.Custom(MixedColor.Custom(
-                    Maple2Storage.Types.Color.Argb(0xFF, 165, 165, 165),
-                    Maple2Storage.Types.Color.Argb(0xFF, 0xF7, 0xE3, 0xE3),
-                    Maple2Storage.Types.Color.Argb(0xFF, 5, 4, 4)
+                    Maple2Storage.Types.Color.Argb(255, 165, 165, 165),
+                    Maple2Storage.Types.Color.Argb(255, 247, 227, 227),
+                    Maple2Storage.Types.Color.Argb(255, 5, 4, 4)
                     ),
                 10, 0
                 ),
@@ -742,9 +742,9 @@ namespace MapleServer2.Types
                 CreationTime = DateTimeOffset.UtcNow.ToUnixTimeSeconds(),
                 Owner = owner,
                 Color = EquipColor.Custom(MixedColor.Custom(
-                    Maple2Storage.Types.Color.Argb(0xFF, 194, 209, 96),
+                    Maple2Storage.Types.Color.Argb(255, 194, 209, 96),
                     Maple2Storage.Types.Color.Argb(255, 195, 218, 61),
-                    Maple2Storage.Types.Color.Argb(0xFF, 64, 104, 54)
+                    Maple2Storage.Types.Color.Argb(255, 64, 104, 54)
                     ),
                 10, 19
                 ),
@@ -796,9 +796,9 @@ namespace MapleServer2.Types
                 Uid = 2867972925711604442,
                 CreationTime = 1565575851,
                 Color = EquipColor.Custom(MixedColor.Custom(
-                    Maple2Storage.Types.Color.Argb(0xFF, 194, 209, 96),
-                    Maple2Storage.Types.Color.Argb(0xFF, 0x4C, 0x85, 0xDB),
-                    Maple2Storage.Types.Color.Argb(0xFF, 64, 104, 54)
+                    Maple2Storage.Types.Color.Argb(255, 194, 209, 96),
+                    Maple2Storage.Types.Color.Argb(255, 76, 133, 219),
+                    Maple2Storage.Types.Color.Argb(255, 64, 104, 54)
                     ),
                 10, 4
                 ),
@@ -860,9 +860,9 @@ namespace MapleServer2.Types
                 Uid = 2867972925711604442,
                 CreationTime = 1565575851,
                 Color = EquipColor.Custom(MixedColor.Custom(
-                    Maple2Storage.Types.Color.Argb(0xFF, 194, 209, 96),
+                    Maple2Storage.Types.Color.Argb(255, 194, 209, 96),
                     Maple2Storage.Types.Color.Argb(255, 76, 133, 219),
-                    Maple2Storage.Types.Color.Argb(0xFF, 64, 104, 54)
+                    Maple2Storage.Types.Color.Argb(255, 64, 104, 54)
                     ),
                 10, 4
                 ),
@@ -1444,6 +1444,7 @@ namespace MapleServer2.Types
             {
                 Uid = 2867972925711604442,
                 CreationTime = 1565575851,
+                RemainingGlamorForges = 2,
                 Color = EquipColor.Custom(MixedColor.Custom(
                     Maple2Storage.Types.Color.Argb(255, 194, 209, 96),
                     Maple2Storage.Types.Color.Argb(255, 76, 133, 219),
@@ -1460,6 +1461,7 @@ namespace MapleServer2.Types
             {
                 Uid = 2867972925711604442,
                 CreationTime = 1565575851,
+                RemainingGlamorForges = 2,
                 Color = EquipColor.Custom(MixedColor.Custom(
                     Maple2Storage.Types.Color.Argb(255, 119, 147, 68),
                     Maple2Storage.Types.Color.Argb(255, 76, 133, 219),
@@ -1476,6 +1478,7 @@ namespace MapleServer2.Types
             {
                 Uid = 2754959794416496484,
                 CreationTime = 1558494660,
+                RemainingGlamorForges = 2,
                 Color = EquipColor.Custom(MixedColor.Custom(
                     Maple2Storage.Types.Color.Argb(255, 194, 209, 96),
                     Maple2Storage.Types.Color.Argb(255, 76, 133, 219),
@@ -1790,9 +1793,9 @@ namespace MapleServer2.Types
                 Uid = 2754959794416496484,
                 CreationTime = 1558494660,
                 Color = EquipColor.Custom(MixedColor.Custom(
-                    Maple2Storage.Types.Color.Argb(255, 255, 168, 203),
-                    Maple2Storage.Types.Color.Argb(255, 247, 227, 227),
-                    Maple2Storage.Types.Color.Argb(255, 205, 86, 106)
+                    Maple2Storage.Types.Color.Argb(255, 230, 230, 230),
+                    Maple2Storage.Types.Color.Argb(255, 76, 133, 219),
+                    Maple2Storage.Types.Color.Argb(255, 150, 150, 150)
                     ),
                 10, 4
                 ),
@@ -1806,9 +1809,9 @@ namespace MapleServer2.Types
                 Uid = 2754959794416496484,
                 CreationTime = 1558494660,
                 Color = EquipColor.Custom(MixedColor.Custom(
-                    Maple2Storage.Types.Color.Argb(255, 255, 168, 203),
-                    Maple2Storage.Types.Color.Argb(255, 247, 227, 227),
-                    Maple2Storage.Types.Color.Argb(255, 205, 86, 106)
+                    Maple2Storage.Types.Color.Argb(255, 230, 230, 230),
+                    Maple2Storage.Types.Color.Argb(255, 76, 133, 219),
+                    Maple2Storage.Types.Color.Argb(255, 150, 150, 150)
                     ),
                 10, 4
                 ),
