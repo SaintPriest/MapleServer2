@@ -56,7 +56,42 @@ namespace MapleServer2.Types
 
         public List<ChatSticker> ChatSticker = new List<ChatSticker>() { };
         public List<int> FavoriteStickers = new List<int> { };
-        public List<int> Emotes = new List<int> { 0 };
+        public List<int> Emotes = new List<int>
+        {
+                90200011, 90200004, 90200024, 90200041, 90200042,
+                90200001, 90200002, 90200003, 90200005, 90200006,
+                90200007, 90200008, 90200009, 90200010,90200012,
+                90200013, 90200014, 90200015, 90200016, 90200017,
+                90200018, 90200019, 90200020, 90200021, 90200022,
+                90200023, 90200025, 90200026, 90200027, 90200028,
+                90200029, 90200030, 90200037, 90200038, 90200039,
+                90200040, 90200043, 90200044, 90200045,90200046,
+                90200047, 90200048, 90200049, 90200050,90200051,
+                90200052, 90200053, 90200054, 90200055,90200056,
+                90200057, 90200058, 90200059, 90200060,90200061,
+                90200062, 90200063, 90200064, 90200065,90200066,
+                90200067, 90200068, 90200069, 90200070,90200071,
+                90200072, 90200073, 90200074, 90200075,90200076,
+                90200077, 90200078, 90200079, 90200080,90200081,
+                90200082, 90200083, 90200084, 90200085,90200086,
+                90200087, 90200088, 90200089, 90200090,90200091,
+                90200092, 90200093, 90200094, 90200095,90200096,
+                90200097, 90200098, 90200099, 90200100,90200101,
+                90200102, 90200103, 90200104, 90200105,90200106,
+                90200107, 90200108, 90200109, 90200110,90200111,
+                90200112, 90200113, 90200114, 90200115, 90200116,
+                90200117, 90200118, 90200119, 90200120,90200121,
+                90200122, 90200123, 90200124, 90200125,90200126,
+                90200127, 90200128, 90200129, 90200130,90200131,
+                90200132, 90200133, 90200134, 90200135, 90200136,
+                90200137, 90200138, 90200139, 90200140, 90200141,
+                90200142, 90200143, 90200144, 90200145,
+                90220001, 90220002, 90220003, 90220004, 90220005,
+                90220006, 90220007, 90220008, 90220009, 90220010,
+                90220011, 90220012, 90220013, 90220014, 90220015,
+                90220016, 90220017, 90220018, 90220019, 90220020,
+                90220021, 90220022, 90220023,
+        };
         public NpcTalk NpcTalk;
 
         public CoordF Coord;
@@ -199,16 +234,6 @@ namespace MapleServer2.Types
                     { ItemSlot.GL, Item.WeddingGlovesFemale() },
                 },
                 Stats = stats,
-                Emotes = new List<int>
-                {
-                    90200011, 90200004, 90200024, 90200041, 90200042,
-                    90200057, 90200043, 90200022, 90200031, 90200005,
-                    90200006, 90200003, 90200092, 90200077, 90200073,
-                    90200023, 90200001, 90200019, 90200020, 90200021,
-                    90200009, 90200027, 90200010, 90200028, 90200051,
-                    90200015, 90200016, 90200055, 90200060, 90200017,
-                    90200018, 90200093, 90220033, 90220012, 90220001, 90220033
-                },
                 InsigniaId = 0,
                 Awakened = true,
             };
@@ -250,23 +275,14 @@ namespace MapleServer2.Types
                     { ItemSlot.HR, Item.HairMale() },
                     { ItemSlot.FA, Item.FaceMale() },
                     { ItemSlot.FD, Item.FaceDecorationMale() },
-                    { ItemSlot.CL, Item.PriestEliteClothes() },
-                    { ItemSlot.SH, Item.PriestEliteShoes() },
+                    { ItemSlot.CL, Item.MagicStoneShirt() },
+                    { ItemSlot.PA, Item.MaleSkirt() },
+                    { ItemSlot.SH, Item.MagicStoneShoes() },
                     { ItemSlot.EA, Item.AlkimiEarring() },
                     { ItemSlot.GL, Item.AlkimiGloves() },
                     { ItemSlot.CP, Item.PriestEliteHat() },
                     //{ ItemSlot.MT, Item.FairyCapeMale()},
                     //{ ItemSlot.EY, Item.Glasses()},
-                },
-                Emotes = new List<int>
-                {
-                    90200011, 90200004, 90200024, 90200041, 90200042,
-                90200057, 90200043, 90200022, 90200031, 90200005,
-                90200006, 90200003, 90200092, 90200077, 90200073,
-                90200023, 90200001, 90200019, 90200020, 90200021,
-                90200009, 90200027, 90200010, 90200028, 90200051,
-                90200015, 90200016, 90200055, 90200060, 90200017,
-                90200018, 90200093, 90220033, 90220012, 90220001, 90220033
                 },
                 Stats = stats,
                 InsigniaId = 0,
@@ -303,16 +319,6 @@ namespace MapleServer2.Types
                 Motto = "Motto",
                 HomeName = "HomeName",
                 Coord = CoordF.From(-675, 525, 600), // Intro map (52000065)
-                Emotes = new List<int>
-                {
-                    90200011, 90200004, 90200024, 90200041, 90200042,
-                90200057, 90200043, 90200022, 90200031, 90200005,
-                90200006, 90200003, 90200092, 90200077, 90200073,
-                90200023, 90200001, 90200019, 90200020, 90200021,
-                90200009, 90200027, 90200010, 90200028, 90200051,
-                90200015, 90200016, 90200055, 90200060, 90200017,
-                90200018, 90200093, 90220033, 90220012, 90220001, 90220033
-                },
             };
             return player;
         }
@@ -361,16 +367,6 @@ namespace MapleServer2.Types
                     { ItemSlot.GL, Item.WeddingGlovesFemale()},
                     //{ ItemSlot.RH, Item.GreatSwordOutfit()},
                     //{ ItemSlot.MT, Item.FlowerCapeFemale()},
-                },
-                Emotes = new List<int>
-                {
-                    90200011, 90200004, 90200024, 90200041, 90200042,
-                90200057, 90200043, 90200022, 90200031, 90200005,
-                90200006, 90200003, 90200092, 90200077, 90200073,
-                90200023, 90200001, 90200019, 90200020, 90200021,
-                90200009, 90200027, 90200010, 90200028, 90200051,
-                90200015, 90200016, 90200055, 90200060, 90200017,
-                90200018, 90200093, 90220033, 90220012, 90220001, 90220033
                 },
                 Stats = stats,
                 GameOptions = new GameOptions(),
@@ -429,16 +425,6 @@ namespace MapleServer2.Types
                     //{ ItemSlot.RH, Item.GreatSwordOutfit()}
                     //{ ItemSlot.MT, Item.FlowerCapeFemale()},
                 },
-                Emotes = new List<int>
-                {
-                    90200011, 90200004, 90200024, 90200041, 90200042,
-                90200057, 90200043, 90200022, 90200031, 90200005,
-                90200006, 90200003, 90200092, 90200077, 90200073,
-                90200023, 90200001, 90200019, 90200020, 90200021,
-                90200009, 90200027, 90200010, 90200028, 90200051,
-                90200015, 90200016, 90200055, 90200060, 90200017,
-                90200018, 90200093, 90220033, 90220012, 90220001, 90220033
-                },
                 Stats = stats,
                 GameOptions = new GameOptions(),
                 Mailbox = new Mailbox(),
@@ -496,16 +482,6 @@ namespace MapleServer2.Types
                     //{ ItemSlot.RH, Item.GreatSwordOutfit()},
                     //{ ItemSlot.MT, Item.FlowerCapeFemale()},
                 },
-                Emotes = new List<int>
-                {
-                    90200011, 90200004, 90200024, 90200041, 90200042,
-                90200057, 90200043, 90200022, 90200031, 90200005,
-                90200006, 90200003, 90200092, 90200077, 90200073,
-                90200023, 90200001, 90200019, 90200020, 90200021,
-                90200009, 90200027, 90200010, 90200028, 90200051,
-                90200015, 90200016, 90200055, 90200060, 90200017,
-                90200018, 90200093, 90220033, 90220012, 90220001, 90220033
-                },
                 Stats = stats,
                 GameOptions = new GameOptions(),
                 Mailbox = new Mailbox(),
@@ -561,16 +537,6 @@ namespace MapleServer2.Types
                     { ItemSlot.GL, Item.WeddingGlovesFemale()},
                     //{ ItemSlot.RH, Item.GreatSwordOutfit()},
                     //{ ItemSlot.MT, Item.FlowerCapeFemale()},
-                },
-                Emotes = new List<int>
-                {
-                    90200011, 90200004, 90200024, 90200041, 90200042,
-                90200057, 90200043, 90200022, 90200031, 90200005,
-                90200006, 90200003, 90200092, 90200077, 90200073,
-                90200023, 90200001, 90200019, 90200020, 90200021,
-                90200009, 90200027, 90200010, 90200028, 90200051,
-                90200015, 90200016, 90200055, 90200060, 90200017,
-                90200018, 90200093, 90220033, 90220012, 90220001, 90220033
                 },
                 Stats = stats,
                 GameOptions = new GameOptions(),
@@ -628,16 +594,6 @@ namespace MapleServer2.Types
                     //{ ItemSlot.RH, Item.GreatSwordOutfit()},
                     //{ ItemSlot.MT, Item.FlowerCapeFemale()},
                 },
-                Emotes = new List<int>
-                {
-                    90200011, 90200004, 90200024, 90200041, 90200042,
-                90200057, 90200043, 90200022, 90200031, 90200005,
-                90200006, 90200003, 90200092, 90200077, 90200073,
-                90200023, 90200001, 90200019, 90200020, 90200021,
-                90200009, 90200027, 90200010, 90200028, 90200051,
-                90200015, 90200016, 90200055, 90200060, 90200017,
-                90200018, 90200093, 90220033, 90220012, 90220001, 90220033
-                },
                 Stats = stats,
                 GameOptions = new GameOptions(),
                 Mailbox = new Mailbox(),
@@ -693,16 +649,6 @@ namespace MapleServer2.Types
                     { ItemSlot.GL, Item.WeddingGlovesFemale()},
                     //{ ItemSlot.RH, Item.GreatSwordOutfit()},
                     //{ ItemSlot.MT, Item.FlowerCapeFemale()},
-                },
-                Emotes = new List<int>
-                {
-                    90200011, 90200004, 90200024, 90200041, 90200042,
-                90200057, 90200043, 90200022, 90200031, 90200005,
-                90200006, 90200003, 90200092, 90200077, 90200073,
-                90200023, 90200001, 90200019, 90200020, 90200021,
-                90200009, 90200027, 90200010, 90200028, 90200051,
-                90200015, 90200016, 90200055, 90200060, 90200017,
-                90200018, 90200093, 90220033, 90220012, 90220001, 90220033
                 },
                 Stats = stats,
                 GameOptions = new GameOptions(),
@@ -760,16 +706,6 @@ namespace MapleServer2.Types
                     //{ ItemSlot.RH, Item.GreatSwordOutfit()},
                     //{ ItemSlot.MT, Item.FlowerCapeFemale()},
                 },
-                Emotes = new List<int>
-                {
-                    90200011, 90200004, 90200024, 90200041, 90200042,
-                90200057, 90200043, 90200022, 90200031, 90200005,
-                90200006, 90200003, 90200092, 90200077, 90200073,
-                90200023, 90200001, 90200019, 90200020, 90200021,
-                90200009, 90200027, 90200010, 90200028, 90200051,
-                90200015, 90200016, 90200055, 90200060, 90200017,
-                90200018, 90200093, 90220033, 90220012, 90220001, 90220033
-                },
                 Stats = stats,
                 GameOptions = new GameOptions(),
                 Mailbox = new Mailbox(),
@@ -825,16 +761,6 @@ namespace MapleServer2.Types
                     { ItemSlot.GL, Item.WeddingGlovesFemale()},
                     //{ ItemSlot.RH, Item.GreatSwordOutfit()},
                     //{ ItemSlot.MT, Item.FlowerCapeFemale()},
-                },
-                Emotes = new List<int>
-                {
-                    90200011, 90200004, 90200024, 90200041, 90200042,
-                90200057, 90200043, 90200022, 90200031, 90200005,
-                90200006, 90200003, 90200092, 90200077, 90200073,
-                90200023, 90200001, 90200019, 90200020, 90200021,
-                90200009, 90200027, 90200010, 90200028, 90200051,
-                90200015, 90200016, 90200055, 90200060, 90200017,
-                90200018, 90200093, 90220033, 90220012, 90220001, 90220033
                 },
                 Stats = stats,
                 GameOptions = new GameOptions(),
@@ -892,16 +818,6 @@ namespace MapleServer2.Types
                     //{ ItemSlot.RH, Item.GreatSwordOutfit()},
                     //{ ItemSlot.MT, Item.FlowerCapeFemale()},
                 },
-                Emotes = new List<int>
-                {
-                    90200011, 90200004, 90200024, 90200041, 90200042,
-                90200057, 90200043, 90200022, 90200031, 90200005,
-                90200006, 90200003, 90200092, 90200077, 90200073,
-                90200023, 90200001, 90200019, 90200020, 90200021,
-                90200009, 90200027, 90200010, 90200028, 90200051,
-                90200015, 90200016, 90200055, 90200060, 90200017,
-                90200018, 90200093, 90220033, 90220012, 90220001, 90220033
-                },
                 Stats = stats,
                 GameOptions = new GameOptions(),
                 Mailbox = new Mailbox(),
@@ -957,16 +873,6 @@ namespace MapleServer2.Types
                     { ItemSlot.GL, Item.WeddingGlovesFemale()},
                     //{ ItemSlot.RH, Item.GreatSwordOutfit()},
                     //{ ItemSlot.MT, Item.FlowerCapeFemale()},
-                },
-                Emotes = new List<int>
-                {
-                    90200011, 90200004, 90200024, 90200041, 90200042,
-                90200057, 90200043, 90200022, 90200031, 90200005,
-                90200006, 90200003, 90200092, 90200077, 90200073,
-                90200023, 90200001, 90200019, 90200020, 90200021,
-                90200009, 90200027, 90200010, 90200028, 90200051,
-                90200015, 90200016, 90200055, 90200060, 90200017,
-                90200018, 90200093, 90220033, 90220012, 90220001, 90220033
                 },
                 Stats = stats,
                 GameOptions = new GameOptions(),
@@ -1024,16 +930,6 @@ namespace MapleServer2.Types
                     //{ ItemSlot.RH, Item.GreatSwordOutfit()},
                     //{ ItemSlot.MT, Item.FlowerCapeFemale()},
                 },
-                Emotes = new List<int>
-                {
-                    90200011, 90200004, 90200024, 90200041, 90200042,
-                90200057, 90200043, 90200022, 90200031, 90200005,
-                90200006, 90200003, 90200092, 90200077, 90200073,
-                90200023, 90200001, 90200019, 90200020, 90200021,
-                90200009, 90200027, 90200010, 90200028, 90200051,
-                90200015, 90200016, 90200055, 90200060, 90200017,
-                90200018, 90200093, 90220033, 90220012, 90220001, 90220033
-                },
                 Stats = stats,
                 GameOptions = new GameOptions(),
                 Mailbox = new Mailbox(),
@@ -1090,16 +986,6 @@ namespace MapleServer2.Types
                     //{ ItemSlot.RH, Item.GreatSwordOutfit()},
                     //{ ItemSlot.MT, Item.FlowerCapeFemale()},
                 },
-                Emotes = new List<int>
-                {
-                    90200011, 90200004, 90200024, 90200041, 90200042,
-                90200057, 90200043, 90200022, 90200031, 90200005,
-                90200006, 90200003, 90200092, 90200077, 90200073,
-                90200023, 90200001, 90200019, 90200020, 90200021,
-                90200009, 90200027, 90200010, 90200028, 90200051,
-                90200015, 90200016, 90200055, 90200060, 90200017,
-                90200018, 90200093, 90220033, 90220012, 90220001, 90220033
-                },
                 Stats = stats,
                 GameOptions = new GameOptions(),
                 Mailbox = new Mailbox(),
@@ -1152,16 +1038,6 @@ namespace MapleServer2.Types
                     //{ ItemSlot.MT, Item.FairyCapeMale()},
                     { ItemSlot.EY, Item.Glasses()},
                 },
-                Emotes = new List<int>
-                {
-                    90200011, 90200004, 90200024, 90200041, 90200042,
-                90200057, 90200043, 90200022, 90200031, 90200005,
-                90200006, 90200003, 90200092, 90200077, 90200073,
-                90200023, 90200001, 90200019, 90200020, 90200021,
-                90200009, 90200027, 90200010, 90200028, 90200051,
-                90200015, 90200016, 90200055, 90200060, 90200017,
-                90200018, 90200093, 90220033, 90220012, 90220001, 90220033
-                },
                 Stats = stats,
                 InsigniaId = 0,
                 Awakened = true,
@@ -1207,23 +1083,115 @@ namespace MapleServer2.Types
                     { ItemSlot.HR, Item.HairFemalev4() },
                     { ItemSlot.FA, Item.FaceFemale() },
                     { ItemSlot.FD, Item.FaceDecorationFemale() },
-                    { ItemSlot.CL, Item.WeddingClothesFemale() },
-                    { ItemSlot.SH, Item.WeddingShoesFemale() },
-                    { ItemSlot.EA, Item.WeddingEarringFemale() },
+                    { ItemSlot.CL, Item.PriestClothes() },
+                    { ItemSlot.SH, Item.PriestShoes() },
+                    { ItemSlot.EA, Item.AlkimiEarring() },
                     { ItemSlot.CP, Item.PriestHat() },
-                    { ItemSlot.GL, Item.WeddingGlovesFemale() },
+                    { ItemSlot.GL, Item.AlkimiGloves() },
                 },
                 Stats = stats,
-                Emotes = new List<int>
+                InsigniaId = 0,
+                Awakened = true,
+            };
+            player.Equips.Add(ItemSlot.RH, Item.Scepter(player));
+            player.Equips.Add(ItemSlot.LH, Item.Codex(player));
+            return player;
+        }
+
+        public static Player Char17(long accountId, long characterId, string name = "priestDianav3")
+        {
+            Job job = Job.Priest;
+            PlayerStats stats = new PlayerStats();
+            int mapId = (int) Map.Ellinia;
+            MapPlayerSpawn spawn = MapEntityStorage.GetRandomPlayerSpawn(mapId);
+            StatDistribution statPointDistribution = new StatDistribution(totalStats: 0);
+            List<SkillTab> skillTabs = new List<SkillTab>
+            {
+                new SkillTab(job)
+            };
+
+            Player player = new Player
+            {
+                SkillTabs = skillTabs,
+                StatPointDistribution = statPointDistribution,
+                MapId = mapId,
+                AccountId = accountId,
+                CharacterId = characterId,
+                Name = name,
+                Gender = 1,
+                Motto = "Motto",
+                HomeName = "HomeName",
+                Coord = CoordF.From(spawn.Coord.X, spawn.Coord.Y, spawn.Coord.Z), // Lith Harbor (2000062)
+                // Coord = CoordF.From(500, 500, 15000), // Tria
+                Job = job,
+                SkinColor = new SkinColor()
                 {
-                    90200011, 90200004, 90200024, 90200041, 90200042,
-                    90200057, 90200043, 90200022, 90200031, 90200005,
-                    90200006, 90200003, 90200092, 90200077, 90200073,
-                    90200023, 90200001, 90200019, 90200020, 90200021,
-                    90200009, 90200027, 90200010, 90200028, 90200051,
-                    90200015, 90200016, 90200055, 90200060, 90200017,
-                    90200018, 90200093, 90220033, 90220012, 90220001, 90220033
+                    Primary = Color.Argb(255, 253, 210, 194)
                 },
+                CreationTime = DateTimeOffset.Now.ToUnixTimeSeconds() + Environment.TickCount,
+                Equips = new Dictionary<ItemSlot, Item> {
+                    { ItemSlot.ER, Item.EarFemale() },
+                    { ItemSlot.HR, Item.HairFemalev3() },
+                    { ItemSlot.FA, Item.FaceFemale() },
+                    { ItemSlot.FD, Item.FaceDecorationFemale() },
+                    { ItemSlot.CL, Item.PriestEliteClothes() },
+                    { ItemSlot.SH, Item.PriestEliteShoes() },
+                    { ItemSlot.EA, Item.AlkimiEarring() },
+                    { ItemSlot.CP, Item.PriestEliteHat() },
+                    { ItemSlot.GL, Item.AlkimiGloves() },
+                },
+                Stats = stats,
+                InsigniaId = 0,
+                Awakened = true,
+            };
+            player.Equips.Add(ItemSlot.RH, Item.Scepter(player));
+            player.Equips.Add(ItemSlot.LH, Item.Codex(player));
+            return player;
+        }
+
+        public static Player Char18(long accountId, long characterId, string name = "priestDianav4.1")
+        {
+            Job job = Job.Priest;
+            PlayerStats stats = new PlayerStats();
+            int mapId = (int) Map.Ellinia;
+            MapPlayerSpawn spawn = MapEntityStorage.GetRandomPlayerSpawn(mapId);
+            StatDistribution statPointDistribution = new StatDistribution(totalStats: 0);
+            List<SkillTab> skillTabs = new List<SkillTab>
+            {
+                new SkillTab(job)
+            };
+
+            Player player = new Player
+            {
+                SkillTabs = skillTabs,
+                StatPointDistribution = statPointDistribution,
+                MapId = mapId,
+                AccountId = accountId,
+                CharacterId = characterId,
+                Name = name,
+                Gender = 1,
+                Motto = "Motto",
+                HomeName = "HomeName",
+                Coord = CoordF.From(spawn.Coord.X, spawn.Coord.Y, spawn.Coord.Z), // Lith Harbor (2000062)
+                // Coord = CoordF.From(500, 500, 15000), // Tria
+                Job = job,
+                SkinColor = new SkinColor()
+                {
+                    Primary = Color.Argb(255, 253, 210, 194)
+                },
+                CreationTime = DateTimeOffset.Now.ToUnixTimeSeconds() + Environment.TickCount,
+                Equips = new Dictionary<ItemSlot, Item> {
+                    { ItemSlot.ER, Item.EarFemale() },
+                    { ItemSlot.HR, Item.HairFemalev4() },
+                    { ItemSlot.FA, Item.FaceFemale() },
+                    { ItemSlot.FD, Item.FaceDecorationFemale() },
+                    { ItemSlot.CL, Item.PerionClothFemale() },
+                    { ItemSlot.SH, Item.PerionShoesFemale() },
+                    { ItemSlot.EA, Item.PerionEarring() },
+                    { ItemSlot.CP, Item.PriestEliteHat() },
+                    { ItemSlot.GL, Item.PerionGlovesFemale() },
+                },
+                Stats = stats,
                 InsigniaId = 0,
                 Awakened = true,
             };
