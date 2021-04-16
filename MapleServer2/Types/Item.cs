@@ -410,6 +410,23 @@ namespace MapleServer2.Types
             };
         }
 
+        public static Item HairFemalev3()
+        {
+            return new Item(10200085)
+            {
+                Uid = 2867972925711604442,
+                CreationTime = 1565575851,
+                Color = EquipColor.Custom(MixedColor.Custom(
+                    Maple2Storage.Types.Color.Argb(255, 249, 137, 77),
+                    Maple2Storage.Types.Color.Argb(255, 76, 133, 219),
+                    Maple2Storage.Types.Color.Argb(255, 147, 60, 20)
+                    ),
+                15, 2
+                ),
+                HairD = new HairData(1.0f, 0.5f, new CoordF(), new CoordF(), new CoordF(), new CoordF()), // 10200238
+            };
+        }
+
         public static Item HairFemalev4()
         {
             return new Item(10200085)
@@ -1077,9 +1094,41 @@ namespace MapleServer2.Types
             };
         }
 
+        public static Item FlowerHatMale()
+        {
+            return new Item(11301105)
+            {
+                Uid = 2867972925711604442,
+                CreationTime = 1565575851,
+                Color = EquipColor.Custom(MixedColor.Custom(
+                    Maple2Storage.Types.Color.Argb(255, 76, 105, 181),
+                    Maple2Storage.Types.Color.Argb(255, 76, 133, 219),
+                    Maple2Storage.Types.Color.Argb(255, 23, 40, 79)
+                    ),
+                10, 4
+                ),
+            };
+        }
+
         public static Item FlowerEarringFemale()
         {
             return new Item(11250086)
+            {
+                Uid = 2867972925711604442,
+                CreationTime = 1565575851,
+                Color = EquipColor.Custom(MixedColor.Custom(
+                    Maple2Storage.Types.Color.Argb(255, 76, 105, 181),
+                    Maple2Storage.Types.Color.Argb(255, 76, 133, 219),
+                    Maple2Storage.Types.Color.Argb(255, 23, 40, 79)
+                    ),
+                10, 4
+                ),
+            };
+        }
+
+        public static Item FlowerEarringMale()
+        {
+            return new Item(11250085)
             {
                 Uid = 2867972925711604442,
                 CreationTime = 1565575851,
@@ -1109,9 +1158,41 @@ namespace MapleServer2.Types
             };
         }
 
+        public static Item FlowerGlovesMale()
+        {
+            return new Item(11601017)
+            {
+                Uid = 2867972925711604442,
+                CreationTime = 1565575851,
+                Color = EquipColor.Custom(MixedColor.Custom(
+                    Maple2Storage.Types.Color.Argb(255, 76, 105, 181),
+                    Maple2Storage.Types.Color.Argb(255, 76, 133, 219),
+                    Maple2Storage.Types.Color.Argb(255, 23, 40, 79)
+                    ),
+                10, 4
+                ),
+            };
+        }
+
         public static Item FlowerClothFemale()
         {
             return new Item(12200506)
+            {
+                Uid = 2867972925711604442,
+                CreationTime = 1565575851,
+                Color = EquipColor.Custom(MixedColor.Custom(
+                    Maple2Storage.Types.Color.Argb(255, 76, 105, 181),
+                    Maple2Storage.Types.Color.Argb(255, 76, 133, 219),
+                    Maple2Storage.Types.Color.Argb(255, 23, 40, 79)
+                    ),
+                10, 4
+                ),
+            };
+        }
+
+        public static Item FlowerClothMale()
+        {
+            return new Item(12200505)
             {
                 Uid = 2867972925711604442,
                 CreationTime = 1565575851,
@@ -1141,12 +1222,101 @@ namespace MapleServer2.Types
             };
         }
 
+        public static Item FlowerShoesMale()
+        {
+            return new Item(11701092)
+            {
+                Uid = 2867972925711604442,
+                CreationTime = 1565575851,
+                Color = EquipColor.Custom(MixedColor.Custom(
+                    Maple2Storage.Types.Color.Argb(255, 76, 105, 181),
+                    Maple2Storage.Types.Color.Argb(255, 76, 133, 219),
+                    Maple2Storage.Types.Color.Argb(255, 23, 40, 79)
+                    ),
+                10, 4
+                ),
+            };
+        }
+
         public static Item Glasses()
         {
             return new Item(11120401)
             {
                 Uid = 2867972925711604442,
                 CreationTime = 1565575851,
+            };
+        }
+
+        public static Item SlikenHanbokHat()
+        {
+            return new Item(11300312)
+            {
+                Uid = 2867972925711604442,
+                CreationTime = 1565575851,
+            };
+        }
+
+        public static Item SlikenHanbokClothFemale()
+        {
+            return new Item(12200203)
+            {
+                Uid = 2867972925711604442,
+                CreationTime = 1565575851,
+                Color = EquipColor.Custom(MixedColor.Custom(
+                    Maple2Storage.Types.Color.Argb(255, 194, 209, 96),
+                    Maple2Storage.Types.Color.Argb(255, 76, 133, 219),
+                    Maple2Storage.Types.Color.Argb(255, 64, 104, 54)
+                    ),
+                10, 4
+                ),
+            };
+        }
+
+        public static Item SlikenHanbokGlovesFemale()
+        {
+            return new Item(11600240)
+            {
+                Uid = 2867972925711604442,
+                CreationTime = 1565575851,
+                Color = EquipColor.Custom(MixedColor.Custom(
+                    Maple2Storage.Types.Color.Argb(255, 194, 209, 96),
+                    Maple2Storage.Types.Color.Argb(255, 76, 133, 219),
+                    Maple2Storage.Types.Color.Argb(255, 64, 104, 54)
+                    ),
+                10, 4
+                ),
+            };
+        }
+
+        public static Item SlikenHanbokShoesFemale()
+        {
+            return new Item(11700274)
+            {
+                Uid = 2867972925711604442,
+                CreationTime = 1565575851,
+                Color = EquipColor.Custom(MixedColor.Custom(
+                    Maple2Storage.Types.Color.Argb(255, 63, 59, 51),
+                    Maple2Storage.Types.Color.Argb(255, 76, 133, 219),
+                    Maple2Storage.Types.Color.Argb(255, 20, 18, 15)
+                    ),
+                10, 4
+                ),
+            };
+        }
+
+        public static Item ShortSkirt()
+        {
+            return new Item(11500251)
+            {
+                Uid = 2867972925711604442,
+                CreationTime = 1565575851,
+                Color = EquipColor.Custom(MixedColor.Custom(
+                    Maple2Storage.Types.Color.Argb(255, 133, 81, 165),
+                    Maple2Storage.Types.Color.Argb(255, 76, 133, 219),
+                    Maple2Storage.Types.Color.Argb(255, 53, 42, 71)
+                    ),
+                10, 4
+                ),
             };
         }
 
@@ -1168,7 +1338,7 @@ namespace MapleServer2.Types
 
         public static Item MaleSkirt()
         {
-            return new Item(12200208)
+            return new Item(11500081)
             {
                 Uid = 2867972925711604442,
                 CreationTime = 1565575851,
@@ -1176,6 +1346,70 @@ namespace MapleServer2.Types
                     Maple2Storage.Types.Color.Argb(255, 230, 230, 230),
                     Maple2Storage.Types.Color.Argb(255, 76, 133, 219),
                     Maple2Storage.Types.Color.Argb(255, 150, 150, 150)
+                    ),
+                10, 4
+                ),
+            };
+        }
+
+        public static Item MagicStoneHat()
+        {
+            return new Item(11301053)
+            {
+                Uid = 2867972925711604442,
+                CreationTime = 1565575851,
+                Color = EquipColor.Custom(MixedColor.Custom(
+                    Maple2Storage.Types.Color.Argb(255, 133, 81, 165),
+                    Maple2Storage.Types.Color.Argb(255, 76, 133, 219),
+                    Maple2Storage.Types.Color.Argb(255, 53, 42, 71)
+                    ),
+                10, 4
+                ),
+            };
+        }
+
+        public static Item MagicStoneShirt()
+        {
+            return new Item(11400901)
+            {
+                Uid = 2867972925711604442,
+                CreationTime = 1565575851,
+                Color = EquipColor.Custom(MixedColor.Custom(
+                    Maple2Storage.Types.Color.Argb(255, 133, 81, 165),
+                    Maple2Storage.Types.Color.Argb(255, 76, 133, 219),
+                    Maple2Storage.Types.Color.Argb(255, 53, 42, 71)
+                    ),
+                10, 4
+                ),
+            };
+        }
+
+        public static Item MagicStonePants()
+        {
+            return new Item(11500805)
+            {
+                Uid = 2867972925711604442,
+                CreationTime = 1565575851,
+                Color = EquipColor.Custom(MixedColor.Custom(
+                    Maple2Storage.Types.Color.Argb(255, 133, 81, 165),
+                    Maple2Storage.Types.Color.Argb(255, 76, 133, 219),
+                    Maple2Storage.Types.Color.Argb(255, 53, 42, 71)
+                    ),
+                10, 4
+                ),
+            };
+        }
+
+        public static Item MagicStoneShoes()
+        {
+            return new Item(11701047)
+            {
+                Uid = 2867972925711604442,
+                CreationTime = 1565575851,
+                Color = EquipColor.Custom(MixedColor.Custom(
+                    Maple2Storage.Types.Color.Argb(255, 133, 81, 165),
+                    Maple2Storage.Types.Color.Argb(255, 76, 133, 219),
+                    Maple2Storage.Types.Color.Argb(255, 53, 42, 71)
                     ),
                 10, 4
                 ),
@@ -1489,19 +1723,37 @@ namespace MapleServer2.Types
             };
         }
 
-        public static Item Shirt()
+        public static Item PriestDefaultClothFemale()
         {
-            return new Item(11400901)
+            return new Item(12200397)
             {
-                Uid = 2867972925711604442,
-                CreationTime = 1565575851,
+                Uid = 2754959794416496484,
+                CreationTime = 1558494660,
+                RemainingGlamorForges = 2,
                 Color = EquipColor.Custom(MixedColor.Custom(
-                    Maple2Storage.Types.Color.Argb(255, 133, 81, 165),
+                    Maple2Storage.Types.Color.Argb(255, 147, 226, 242),
                     Maple2Storage.Types.Color.Argb(255, 76, 133, 219),
-                    Maple2Storage.Types.Color.Argb(255, 53, 42, 71)
+                    Maple2Storage.Types.Color.Argb(255, 89, 153, 165)
                     ),
-                10, 4
-                ),
+                 10, 4
+                 ),
+            };
+        }
+
+        public static Item PriestDefaultShoesFemale()
+        {
+            return new Item(11700847)
+            {
+                Uid = 2754959794416496484,
+                CreationTime = 1558494660,
+                RemainingGlamorForges = 2,
+                Color = EquipColor.Custom(MixedColor.Custom(
+                    Maple2Storage.Types.Color.Argb(255, 147, 226, 242),
+                    Maple2Storage.Types.Color.Argb(255, 76, 133, 219),
+                    Maple2Storage.Types.Color.Argb(255, 89, 153, 165)
+                    ),
+                 10, 4
+                 ),
             };
         }
 

@@ -90,7 +90,8 @@ namespace MapleServer2.Types
                 90220006, 90220007, 90220008, 90220009, 90220010,
                 90220011, 90220012, 90220013, 90220014, 90220015,
                 90220016, 90220017, 90220018, 90220019, 90220020,
-                90220021, 90220022, 90220023,
+                90220021, 90220022, 90220023, 90220024, 90220025,
+                90220026,90220027, 90220028, 90220029
         };
         public NpcTalk NpcTalk;
 
@@ -1149,7 +1150,58 @@ namespace MapleServer2.Types
             return player;
         }
 
-        public static Player Char18(long accountId, long characterId, string name = "priestDianav4.1")
+        public static Player Char18(long accountId, long characterId, string name = "priestDianav3.1")
+        {
+            Job job = Job.Priest;
+            PlayerStats stats = new PlayerStats();
+            int mapId = (int) Map.Ellinia;
+            MapPlayerSpawn spawn = MapEntityStorage.GetRandomPlayerSpawn(mapId);
+            StatDistribution statPointDistribution = new StatDistribution(totalStats: 0);
+            List<SkillTab> skillTabs = new List<SkillTab>
+            {
+                new SkillTab(job)
+            };
+
+            Player player = new Player
+            {
+                SkillTabs = skillTabs,
+                StatPointDistribution = statPointDistribution,
+                MapId = mapId,
+                AccountId = accountId,
+                CharacterId = characterId,
+                Name = name,
+                Gender = 1,
+                Motto = "Motto",
+                HomeName = "HomeName",
+                Coord = CoordF.From(spawn.Coord.X, spawn.Coord.Y, spawn.Coord.Z), // Lith Harbor (2000062)
+                // Coord = CoordF.From(500, 500, 15000), // Tria
+                Job = job,
+                SkinColor = new SkinColor()
+                {
+                    Primary = Color.Argb(255, 253, 210, 194)
+                },
+                CreationTime = DateTimeOffset.Now.ToUnixTimeSeconds() + Environment.TickCount,
+                Equips = new Dictionary<ItemSlot, Item> {
+                    { ItemSlot.ER, Item.EarFemale() },
+                    { ItemSlot.HR, Item.HairFemalev4() },
+                    { ItemSlot.FA, Item.FaceFemale() },
+                    { ItemSlot.FD, Item.FaceDecorationFemale() },
+                    { ItemSlot.CL, Item.FairyClothFemale() },
+                    { ItemSlot.SH, Item.FairyShoesFemale() },
+                    { ItemSlot.EA, Item.FairyEarringFemale() },
+                    { ItemSlot.CP, Item.PriestEliteHat() },
+                    { ItemSlot.GL, Item.FairyGlovesFemale() },
+                },
+                Stats = stats,
+                InsigniaId = 0,
+                Awakened = true,
+            };
+            player.Equips.Add(ItemSlot.RH, Item.Scepter(player));
+            player.Equips.Add(ItemSlot.LH, Item.Codex(player));
+            return player;
+        }
+
+        public static Player Char19(long accountId, long characterId, string name = "priestDianav4.1")
         {
             Job job = Job.Priest;
             PlayerStats stats = new PlayerStats();
@@ -1190,6 +1242,159 @@ namespace MapleServer2.Types
                     { ItemSlot.EA, Item.PerionEarring() },
                     { ItemSlot.CP, Item.PriestEliteHat() },
                     { ItemSlot.GL, Item.PerionGlovesFemale() },
+                },
+                Stats = stats,
+                InsigniaId = 0,
+                Awakened = true,
+            };
+            player.Equips.Add(ItemSlot.RH, Item.Scepter(player));
+            player.Equips.Add(ItemSlot.LH, Item.Codex(player));
+            return player;
+        }
+
+        public static Player Char20(long accountId, long characterId, string name = "priestDianav4.2")
+        {
+            Job job = Job.Priest;
+            PlayerStats stats = new PlayerStats();
+            int mapId = (int) Map.Ellinia;
+            MapPlayerSpawn spawn = MapEntityStorage.GetRandomPlayerSpawn(mapId);
+            StatDistribution statPointDistribution = new StatDistribution(totalStats: 0);
+            List<SkillTab> skillTabs = new List<SkillTab>
+            {
+                new SkillTab(job)
+            };
+
+            Player player = new Player
+            {
+                SkillTabs = skillTabs,
+                StatPointDistribution = statPointDistribution,
+                MapId = mapId,
+                AccountId = accountId,
+                CharacterId = characterId,
+                Name = name,
+                Gender = 1,
+                Motto = "Motto",
+                HomeName = "HomeName",
+                Coord = CoordF.From(spawn.Coord.X, spawn.Coord.Y, spawn.Coord.Z), // Lith Harbor (2000062)
+                // Coord = CoordF.From(500, 500, 15000), // Tria
+                Job = job,
+                SkinColor = new SkinColor()
+                {
+                    Primary = Color.Argb(255, 253, 210, 194)
+                },
+                CreationTime = DateTimeOffset.Now.ToUnixTimeSeconds() + Environment.TickCount,
+                Equips = new Dictionary<ItemSlot, Item> {
+                    { ItemSlot.ER, Item.EarFemale() },
+                    { ItemSlot.HR, Item.HairFemalev4() },
+                    { ItemSlot.FA, Item.FaceFemale() },
+                    { ItemSlot.FD, Item.FaceDecorationFemale() },
+                    { ItemSlot.CL, Item.WeddingClothesFemale() },
+                    { ItemSlot.SH, Item.WeddingShoesFemale() },
+                    { ItemSlot.EA, Item.WeddingEarringFemale() },
+                    { ItemSlot.CP, Item.PriestEliteHat() },
+                    { ItemSlot.GL, Item.WeddingGlovesFemale() },
+                },
+                Stats = stats,
+                InsigniaId = 0,
+                Awakened = true,
+            };
+            player.Equips.Add(ItemSlot.RH, Item.Scepter(player));
+            player.Equips.Add(ItemSlot.LH, Item.Codex(player));
+            return player;
+        }
+
+        public static Player Char21(long accountId, long characterId, string name = "priestDianav5.1")
+        {
+            Job job = Job.Priest;
+            PlayerStats stats = new PlayerStats();
+            int mapId = (int) Map.Ellinia;
+            MapPlayerSpawn spawn = MapEntityStorage.GetRandomPlayerSpawn(mapId);
+            StatDistribution statPointDistribution = new StatDistribution(totalStats: 0);
+            List<SkillTab> skillTabs = new List<SkillTab>
+            {
+                new SkillTab(job)
+            };
+
+            Player player = new Player
+            {
+                SkillTabs = skillTabs,
+                StatPointDistribution = statPointDistribution,
+                MapId = mapId,
+                AccountId = accountId,
+                CharacterId = characterId,
+                Name = name,
+                Gender = 1,
+                Motto = "Motto",
+                HomeName = "HomeName",
+                Coord = CoordF.From(spawn.Coord.X, spawn.Coord.Y, spawn.Coord.Z), // Lith Harbor (2000062)
+                // Coord = CoordF.From(500, 500, 15000), // Tria
+                Job = job,
+                SkinColor = new SkinColor()
+                {
+                    Primary = Color.Argb(255, 253, 210, 194)
+                },
+                CreationTime = DateTimeOffset.Now.ToUnixTimeSeconds() + Environment.TickCount,
+                Equips = new Dictionary<ItemSlot, Item> {
+                    { ItemSlot.ER, Item.EarFemale() },
+                    { ItemSlot.HR, Item.HairFemale() },
+                    { ItemSlot.FA, Item.FaceFemale() },
+                    { ItemSlot.FD, Item.FaceDecorationFemale() },
+                    { ItemSlot.CL, Item.SlikenHanbokClothFemale() },
+                    { ItemSlot.SH, Item.SlikenHanbokShoesFemale() },
+                    { ItemSlot.EA, Item.AlkimiEarring() },
+                    { ItemSlot.CP, Item.PriestEliteHat() },
+                    { ItemSlot.GL, Item.SlikenHanbokGlovesFemale() },
+                },
+                Stats = stats,
+                InsigniaId = 0,
+                Awakened = true,
+            };
+            player.Equips.Add(ItemSlot.RH, Item.Scepter(player));
+            player.Equips.Add(ItemSlot.LH, Item.Codex(player));
+            return player;
+        }
+
+        public static Player Char22(long accountId, long characterId, string name = "priestDianav2")
+        {
+            Job job = Job.Priest;
+            PlayerStats stats = new PlayerStats();
+            int mapId = (int) Map.Ellinia;
+            MapPlayerSpawn spawn = MapEntityStorage.GetRandomPlayerSpawn(mapId);
+            StatDistribution statPointDistribution = new StatDistribution(totalStats: 0);
+            List<SkillTab> skillTabs = new List<SkillTab>
+            {
+                new SkillTab(job)
+            };
+
+            Player player = new Player
+            {
+                SkillTabs = skillTabs,
+                StatPointDistribution = statPointDistribution,
+                MapId = mapId,
+                AccountId = accountId,
+                CharacterId = characterId,
+                Name = name,
+                Gender = 1,
+                Motto = "Motto",
+                HomeName = "HomeName",
+                Coord = CoordF.From(spawn.Coord.X, spawn.Coord.Y, spawn.Coord.Z), // Lith Harbor (2000062)
+                // Coord = CoordF.From(500, 500, 15000), // Tria
+                Job = job,
+                SkinColor = new SkinColor()
+                {
+                    Primary = Color.Argb(255, 253, 210, 194)
+                },
+                CreationTime = DateTimeOffset.Now.ToUnixTimeSeconds() + Environment.TickCount,
+                Equips = new Dictionary<ItemSlot, Item> {
+                    { ItemSlot.ER, Item.EarFemale() },
+                    { ItemSlot.HR, Item.HairFemalev3() },
+                    { ItemSlot.FA, Item.FaceFemale() },
+                    { ItemSlot.FD, Item.FaceDecorationFemale() },
+                    { ItemSlot.CL, Item.PriestDefaultClothFemale() },
+                    { ItemSlot.SH, Item.PriestDefaultShoesFemale() },
+                    { ItemSlot.EA, Item.AlkimiEarring() },
+                    { ItemSlot.CP, Item.PriestEliteHat() },
+                    { ItemSlot.GL, Item.AlkimiGloves() },
                 },
                 Stats = stats,
                 InsigniaId = 0,

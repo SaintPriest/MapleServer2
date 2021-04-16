@@ -21,12 +21,12 @@ namespace MapleServer2.Types
             Meret = new Currency(player, CurrencyType.Meret, 20000000000);
             GameMeret = new Currency(player, CurrencyType.GameMeret, 0);
             EventMeret = new Currency(player, CurrencyType.EventMeret, 0);
-            ValorToken = new Currency(player, CurrencyType.ValorToken, 2000);
-            Treva = new Currency(player, CurrencyType.Treva, 2000);
+            ValorToken = new Currency(player, CurrencyType.ValorToken, 30000);
+            Treva = new Currency(player, CurrencyType.Treva, 75000);
             Rue = new Currency(player, CurrencyType.Rue, 2000);
-            HaviFruit = new Currency(player, CurrencyType.HaviFruit, 2000);
-            MesoToken = new Currency(player, CurrencyType.MesoToken, 2000);
-            Bank = new Currency(player, CurrencyType.Bank, 2000);
+            HaviFruit = new Currency(player, CurrencyType.HaviFruit, 35000);
+            MesoToken = new Currency(player, CurrencyType.MesoToken, 100000);
+            Bank = new Currency(player, CurrencyType.Bank, 20000000000);
         }
 
         public bool RemoveMerets(long amount)
