@@ -103,7 +103,7 @@ namespace MapleServer2.Types
         // Appearance
         public SkinColor SkinColor;
 
-        public string GuildName = "";
+        public string GuildName = "Asian_Square";
         public string ProfileUrl = ""; // profile/e2/5a/2755104031905685000/637207943431921205.png
         public string Motto = "";
 
@@ -214,7 +214,6 @@ namespace MapleServer2.Types
                 CharacterId = characterId,
                 Name = name,
                 Gender = 1,
-                Motto = "Motto",
                 HomeName = "HomeName",
                 Coord = CoordF.From(spawn.Coord.X, spawn.Coord.Y, spawn.Coord.Z), // Lith Harbor (2000062)
                 // Coord = CoordF.From(500, 500, 15000), // Tria
@@ -263,7 +262,6 @@ namespace MapleServer2.Types
                 CharacterId = characterId,
                 Name = name,
                 Gender = 0,
-                Motto = "Motto",
                 HomeName = "HomeName",
                 Coord = CoordF.From(spawn.Coord.X, spawn.Coord.Y, spawn.Coord.Z),
                 Job = job,
@@ -318,7 +316,6 @@ namespace MapleServer2.Types
                 Stats = stats,
                 SkinColor = skinColor,
                 Equips = (Dictionary<ItemSlot, Item>) equips,
-                Motto = "Motto",
                 HomeName = "HomeName",
                 Coord = CoordF.From(-675, 525, 600), // Intro map (52000065)
             };
@@ -346,7 +343,6 @@ namespace MapleServer2.Types
                 CharacterId = characterId,
                 Name = name,
                 Gender = 1,
-                Motto = "Motto",
                 HomeName = "HomeName",
                 Coord = CoordF.From(spawn.Coord.X, spawn.Coord.Y, spawn.Coord.Z),
                 //Coord = CoordF.From(2850, 2550, 1800), // Lith Harbor (2000062)
@@ -402,7 +398,6 @@ namespace MapleServer2.Types
                 CharacterId = characterId,
                 Name = name,
                 Gender = 1,
-                Motto = "Motto",
                 HomeName = "HomeName",
                 Coord = CoordF.From(spawn.Coord.X, spawn.Coord.Y, spawn.Coord.Z),
                 //Coord = CoordF.From(2850, 2550, 1800), // Lith Harbor (2000062)
@@ -459,7 +454,6 @@ namespace MapleServer2.Types
                 CharacterId = characterId,
                 Name = name,
                 Gender = 1,
-                Motto = "Motto",
                 HomeName = "HomeName",
                 Coord = CoordF.From(spawn.Coord.X, spawn.Coord.Y, spawn.Coord.Z),
                 //Coord = CoordF.From(2850, 2550, 1800), // Lith Harbor (2000062)
@@ -516,7 +510,6 @@ namespace MapleServer2.Types
                 CharacterId = characterId,
                 Name = name,
                 Gender = 1,
-                Motto = "Motto",
                 HomeName = "HomeName",
                 Coord = CoordF.From(spawn.Coord.X, spawn.Coord.Y, spawn.Coord.Z),
                 //Coord = CoordF.From(2850, 2550, 1800), // Lith Harbor (2000062)
@@ -572,7 +565,6 @@ namespace MapleServer2.Types
                 CharacterId = characterId,
                 Name = name,
                 Gender = 1,
-                Motto = "Motto",
                 HomeName = "HomeName",
                 Coord = CoordF.From(spawn.Coord.X, spawn.Coord.Y, spawn.Coord.Z),
                 //Coord = CoordF.From(2850, 2550, 1800), // Lith Harbor (2000062)
@@ -628,7 +620,6 @@ namespace MapleServer2.Types
                 CharacterId = characterId,
                 Name = name,
                 Gender = 1,
-                Motto = "Motto",
                 HomeName = "HomeName",
                 Coord = CoordF.From(spawn.Coord.X, spawn.Coord.Y, spawn.Coord.Z),
                 //Coord = CoordF.From(2850, 2550, 1800), // Lith Harbor (2000062)
@@ -684,7 +675,6 @@ namespace MapleServer2.Types
                 CharacterId = characterId,
                 Name = name,
                 Gender = 1,
-                Motto = "Motto",
                 HomeName = "HomeName",
                 Coord = CoordF.From(spawn.Coord.X, spawn.Coord.Y, spawn.Coord.Z),
                 //Coord = CoordF.From(2850, 2550, 1800), // Lith Harbor (2000062)
@@ -740,7 +730,6 @@ namespace MapleServer2.Types
                 CharacterId = characterId,
                 Name = name,
                 Gender = 1,
-                Motto = "Motto",
                 HomeName = "HomeName",
                 Coord = CoordF.From(spawn.Coord.X, spawn.Coord.Y, spawn.Coord.Z),
                 //Coord = CoordF.From(2850, 2550, 1800), // Lith Harbor (2000062)
@@ -796,7 +785,6 @@ namespace MapleServer2.Types
                 CharacterId = characterId,
                 Name = name,
                 Gender = 1,
-                Motto = "Motto",
                 HomeName = "HomeName",
                 Coord = CoordF.From(spawn.Coord.X, spawn.Coord.Y, spawn.Coord.Z),
                 //Coord = CoordF.From(2850, 2550, 1800), // Lith Harbor (2000062)
@@ -852,7 +840,6 @@ namespace MapleServer2.Types
                 CharacterId = characterId,
                 Name = name,
                 Gender = 1,
-                Motto = "Motto",
                 HomeName = "HomeName",
                 Coord = CoordF.From(spawn.Coord.X, spawn.Coord.Y, spawn.Coord.Z),
                 //Coord = CoordF.From(2850, 2550, 1800), // Lith Harbor (2000062)
@@ -908,7 +895,6 @@ namespace MapleServer2.Types
                 CharacterId = characterId,
                 Name = name,
                 Gender = 1,
-                Motto = "Motto",
                 HomeName = "HomeName",
                 Coord = CoordF.From(spawn.Coord.X, spawn.Coord.Y, spawn.Coord.Z),
                 //Coord = CoordF.From(2850, 2550, 1800), // Lith Harbor (2000062)
@@ -964,7 +950,6 @@ namespace MapleServer2.Types
                 CharacterId = characterId,
                 Name = name,
                 Gender = 1,
-                Motto = "Motto",
                 HomeName = "HomeName",
                 Coord = CoordF.From(spawn.Coord.X, spawn.Coord.Y, spawn.Coord.Z),
                 //Coord = CoordF.From(2850, 2550, 1800), // Lith Harbor (2000062)
@@ -1018,7 +1003,6 @@ namespace MapleServer2.Types
                 CharacterId = characterId,
                 Name = name,
                 Gender = 0,
-                Motto = "Motto",
                 HomeName = "HomeName",
                 Coord = CoordF.From(spawn.Coord.X, spawn.Coord.Y, spawn.Coord.Z),
                 Job = job,
@@ -1038,7 +1022,7 @@ namespace MapleServer2.Types
                     { ItemSlot.GL, Item.WeddingGlovesMale() },
                     { ItemSlot.CP, Item.PriestHat() },
                     //{ ItemSlot.MT, Item.FairyCapeMale()},
-                    { ItemSlot.EY, Item.Glasses()},
+                    { ItemSlot.EY, Item.GlassesMale()},
                 },
                 Stats = stats,
                 InsigniaId = 0,
@@ -1070,7 +1054,6 @@ namespace MapleServer2.Types
                 CharacterId = characterId,
                 Name = name,
                 Gender = 1,
-                Motto = "Motto",
                 HomeName = "HomeName",
                 Coord = CoordF.From(spawn.Coord.X, spawn.Coord.Y, spawn.Coord.Z), // Lith Harbor (2000062)
                 // Coord = CoordF.From(500, 500, 15000), // Tria
@@ -1121,7 +1104,6 @@ namespace MapleServer2.Types
                 CharacterId = characterId,
                 Name = name,
                 Gender = 1,
-                Motto = "Motto",
                 HomeName = "HomeName",
                 Coord = CoordF.From(spawn.Coord.X, spawn.Coord.Y, spawn.Coord.Z), // Lith Harbor (2000062)
                 // Coord = CoordF.From(500, 500, 15000), // Tria
@@ -1172,7 +1154,6 @@ namespace MapleServer2.Types
                 CharacterId = characterId,
                 Name = name,
                 Gender = 1,
-                Motto = "Motto",
                 HomeName = "HomeName",
                 Coord = CoordF.From(spawn.Coord.X, spawn.Coord.Y, spawn.Coord.Z), // Lith Harbor (2000062)
                 // Coord = CoordF.From(500, 500, 15000), // Tria
@@ -1184,13 +1165,13 @@ namespace MapleServer2.Types
                 CreationTime = DateTimeOffset.Now.ToUnixTimeSeconds() + Environment.TickCount,
                 Equips = new Dictionary<ItemSlot, Item> {
                     { ItemSlot.ER, Item.EarFemale() },
-                    { ItemSlot.HR, Item.HairFemalev4() },
+                    { ItemSlot.HR, Item.HairFemale() },
                     { ItemSlot.FA, Item.FaceFemale() },
                     { ItemSlot.FD, Item.FaceDecorationFemale() },
                     { ItemSlot.CL, Item.FairyClothFemale() },
                     { ItemSlot.SH, Item.FairyShoesFemale() },
                     { ItemSlot.EA, Item.FairyEarringFemale() },
-                    { ItemSlot.CP, Item.PriestEliteHat() },
+                   // { ItemSlot.CP, Item.PriestEliteHat() },
                     { ItemSlot.GL, Item.FairyGlovesFemale() },
                 },
                 Stats = stats,
@@ -1223,7 +1204,6 @@ namespace MapleServer2.Types
                 CharacterId = characterId,
                 Name = name,
                 Gender = 1,
-                Motto = "Motto",
                 HomeName = "HomeName",
                 Coord = CoordF.From(spawn.Coord.X, spawn.Coord.Y, spawn.Coord.Z), // Lith Harbor (2000062)
                 // Coord = CoordF.From(500, 500, 15000), // Tria
@@ -1235,13 +1215,13 @@ namespace MapleServer2.Types
                 CreationTime = DateTimeOffset.Now.ToUnixTimeSeconds() + Environment.TickCount,
                 Equips = new Dictionary<ItemSlot, Item> {
                     { ItemSlot.ER, Item.EarFemale() },
-                    { ItemSlot.HR, Item.HairFemalev4() },
+                    { ItemSlot.HR, Item.HairFemale() },
                     { ItemSlot.FA, Item.FaceFemale() },
                     { ItemSlot.FD, Item.FaceDecorationFemale() },
                     { ItemSlot.CL, Item.PerionClothFemale() },
                     { ItemSlot.SH, Item.PerionShoesFemale() },
                     { ItemSlot.EA, Item.PerionEarring() },
-                    { ItemSlot.CP, Item.PriestEliteHat() },
+                    //{ ItemSlot.CP, Item.PriestEliteHat() },
                     { ItemSlot.GL, Item.PerionGlovesFemale() },
                 },
                 Stats = stats,
@@ -1274,7 +1254,6 @@ namespace MapleServer2.Types
                 CharacterId = characterId,
                 Name = name,
                 Gender = 1,
-                Motto = "Motto",
                 HomeName = "HomeName",
                 Coord = CoordF.From(spawn.Coord.X, spawn.Coord.Y, spawn.Coord.Z), // Lith Harbor (2000062)
                 // Coord = CoordF.From(500, 500, 15000), // Tria
@@ -1325,7 +1304,6 @@ namespace MapleServer2.Types
                 CharacterId = characterId,
                 Name = name,
                 Gender = 1,
-                Motto = "Motto",
                 HomeName = "HomeName",
                 Coord = CoordF.From(spawn.Coord.X, spawn.Coord.Y, spawn.Coord.Z), // Lith Harbor (2000062)
                 // Coord = CoordF.From(500, 500, 15000), // Tria
@@ -1343,7 +1321,7 @@ namespace MapleServer2.Types
                     { ItemSlot.CL, Item.SlikenHanbokClothFemale() },
                     { ItemSlot.SH, Item.SlikenHanbokShoesFemale() },
                     { ItemSlot.EA, Item.AlkimiEarring() },
-                    { ItemSlot.CP, Item.PriestEliteHat() },
+                    //{ ItemSlot.CP, Item.PriestEliteHat() },
                     { ItemSlot.GL, Item.SlikenHanbokGlovesFemale() },
                 },
                 Stats = stats,
@@ -1376,7 +1354,6 @@ namespace MapleServer2.Types
                 CharacterId = characterId,
                 Name = name,
                 Gender = 1,
-                Motto = "Motto",
                 HomeName = "HomeName",
                 Coord = CoordF.From(spawn.Coord.X, spawn.Coord.Y, spawn.Coord.Z), // Lith Harbor (2000062)
                 // Coord = CoordF.From(500, 500, 15000), // Tria
@@ -1396,6 +1373,110 @@ namespace MapleServer2.Types
                     { ItemSlot.EA, Item.AlkimiEarring() },
                     { ItemSlot.CP, Item.PriestEliteHat() },
                     { ItemSlot.GL, Item.AlkimiGloves() },
+                },
+                Stats = stats,
+                InsigniaId = 0,
+                Awakened = true,
+            };
+            player.Equips.Add(ItemSlot.RH, Item.Scepter(player));
+            player.Equips.Add(ItemSlot.LH, Item.Codex(player));
+            return player;
+        }
+
+        public static Player Char23(long accountId, long characterId, string name = "PureWhiteDiana")
+        {
+            Job job = Job.HeavyGunner;
+            PlayerStats stats = new PlayerStats();
+            int mapId = (int) Map.Ellinia;
+            MapPlayerSpawn spawn = MapEntityStorage.GetRandomPlayerSpawn(mapId);
+            StatDistribution statPointDistribution = new StatDistribution(totalStats: 0);
+            List<SkillTab> skillTabs = new List<SkillTab>
+            {
+                new SkillTab(job)
+            };
+
+            Player player = new Player
+            {
+                SkillTabs = skillTabs,
+                StatPointDistribution = statPointDistribution,
+                MapId = mapId,
+                AccountId = accountId,
+                CharacterId = characterId,
+                Name = name,
+                Gender = 1,
+                HomeName = "HomeName",
+                Coord = CoordF.From(spawn.Coord.X, spawn.Coord.Y, spawn.Coord.Z), // Lith Harbor (2000062)
+                // Coord = CoordF.From(500, 500, 15000), // Tria
+                Job = job,
+                SkinColor = new SkinColor()
+                {
+                    Primary = Color.Argb(255, 250, 234, 225),
+                    Secondary = Color.Argb(255, 250, 234, 225)
+                },
+                CreationTime = DateTimeOffset.Now.ToUnixTimeSeconds() + Environment.TickCount,
+                Equips = new Dictionary<ItemSlot, Item> {
+                    { ItemSlot.ER, Item.EarFemale() },
+                    { ItemSlot.HR, Item.HairFemalePureWhite() },
+                    { ItemSlot.FA, Item.FaceFemalePureWhite() },
+                    { ItemSlot.FD, Item.FaceDecorationFemale() },
+                    { ItemSlot.CL, Item.WeddingClothesFemalePureWhite() },
+                    { ItemSlot.SH, Item.WeddingShoesFemalePureWhite() },
+                    { ItemSlot.EA, Item.WeddingEarringFemalePureWhite() },
+                    { ItemSlot.EY, Item.GlassesFemale()},
+                    //{ ItemSlot.CP, Item.PriestEliteHat() },
+                    //{ ItemSlot.GL, Item.AlkimiGloves() },
+                },
+                Stats = stats,
+                InsigniaId = 0,
+                Awakened = true,
+            };
+            player.Equips.Add(ItemSlot.RH, Item.Cannon(player));
+            //player.Equips.Add(ItemSlot.LH, Item.Codex(player));
+            return player;
+        }
+
+        public static Player Char24(long accountId, long characterId, string name = "priestPWDiana")
+        {
+            Job job = Job.Priest;
+            PlayerStats stats = new PlayerStats();
+            int mapId = (int) Map.Ellinia;
+            MapPlayerSpawn spawn = MapEntityStorage.GetRandomPlayerSpawn(mapId);
+            StatDistribution statPointDistribution = new StatDistribution(totalStats: 0);
+            List<SkillTab> skillTabs = new List<SkillTab>
+            {
+                new SkillTab(job)
+            };
+
+            Player player = new Player
+            {
+                SkillTabs = skillTabs,
+                StatPointDistribution = statPointDistribution,
+                MapId = mapId,
+                AccountId = accountId,
+                CharacterId = characterId,
+                Name = name,
+                Gender = 1,
+                HomeName = "HomeName",
+                Coord = CoordF.From(spawn.Coord.X, spawn.Coord.Y, spawn.Coord.Z), // Lith Harbor (2000062)
+                // Coord = CoordF.From(500, 500, 15000), // Tria
+                Job = job,
+                SkinColor = new SkinColor()
+                {
+                    Primary = Color.Argb(255, 250, 234, 225),
+                    Secondary = Color.Argb(255, 250, 234, 225)
+                },
+                CreationTime = DateTimeOffset.Now.ToUnixTimeSeconds() + Environment.TickCount,
+                Equips = new Dictionary<ItemSlot, Item> {
+                    { ItemSlot.ER, Item.EarFemale() },
+                    { ItemSlot.HR, Item.HairFemalePureWhite() },
+                    { ItemSlot.FA, Item.FaceFemalePureWhite() },
+                    { ItemSlot.FD, Item.FaceDecorationFemale() },
+                    { ItemSlot.CL, Item.WeddingClothesFemalePureWhite() },
+                    { ItemSlot.SH, Item.WeddingShoesFemalePureWhite() },
+                    { ItemSlot.EA, Item.WeddingEarringFemalePureWhite() },
+                    //{ ItemSlot.EY, Item.GlassesFemale()},
+                    //{ ItemSlot.CP, Item.PriestEliteHat() },
+                    //{ ItemSlot.GL, Item.AlkimiGloves() },
                 },
                 Stats = stats,
                 InsigniaId = 0,
