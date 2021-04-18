@@ -39,7 +39,7 @@ namespace Maple2Storage.Types
     public struct SkinColor
     {
         public Color Primary { get; set; }
-        public Color Secondary { get; private set; }
+        public Color Secondary { get; set; }
 
         public static SkinColor Argb(Color color)
         {
