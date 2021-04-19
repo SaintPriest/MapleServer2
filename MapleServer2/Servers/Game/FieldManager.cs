@@ -11,6 +11,7 @@ using MaplePacketLib2.Tools;
 using MapleServer2.Data.Static;
 using MapleServer2.Enums;
 using MapleServer2.Packets;
+using MapleServer2.Tools;
 using MapleServer2.Triggers;
 using MapleServer2.Types;
 using NLog;
@@ -94,14 +95,14 @@ namespace MapleServer2.Servers.Game
                 AddPortal(fieldPortal);
             }
 
-            // Load default InteractActors
-            List<IFieldObject<InteractActor>> actors = new List<IFieldObject<InteractActor>> { };
-            foreach (MapInteractActor actor in MapEntityStorage.GetInteractActors(mapId))
+            // Load default InteractObjects
+            List<IFieldObject<InteractObject>> actors = new List<IFieldObject<InteractObject>> { };
+            foreach (MapInteractObject interactObject in MapEntityStorage.GetInteractObject(mapId))
             {
                 // TODO: Group these fieldActors by their correct packet type. 
-                actors.Add(RequestFieldObject(new InteractActor(actor.Uuid, actor.Name, actor.Type) { }));
+                actors.Add(RequestFieldObject(new InteractObject(interactObject.Uuid, interactObject.Name, interactObject.Type) { }));
             }
-            AddInteractActor(actors);
+            AddInteractObject(actors);
 
             string mapName = MapMetadataStorage.GetMetadata(mapId).Name;
             Triggers = TriggerLoader.GetTriggers(mapName).Select(initializer =>
@@ -110,6 +111,19 @@ namespace MapleServer2.Servers.Game
                 TriggerState startState = initializer.Invoke(context);
                 return new TriggerScript(context, startState);
             }).ToArray();
+
+            if (MapEntityStorage.HasHealingSpot(MapId))
+            {
+                List<CoordS> healingSpots = MapEntityStorage.GetHealingSpot(MapId);
+                if (State.HealingSpots.IsEmpty)
+                {
+                    foreach (CoordS coord in healingSpots)
+                    {
+                        int objectId = GuidGenerator.Int();
+                        State.AddHealingSpot(RequestFieldObject(new HealingSpot(objectId, coord)));
+                    }
+                }
+            }
         }
 
         // Gets a list of packets to update the state of all field objects for client.
@@ -181,9 +195,9 @@ namespace MapleServer2.Servers.Game
                 sender.Send(FieldPacket.AddMob(existingMob));
                 sender.Send(FieldObjectPacket.LoadMob(existingMob));
             }
-            if (State.InteractActors.Values.Count > 0)
+            if (State.InteractObjects.Values.Count > 0)
             {
-                sender.Send(InteractActorPacket.AddInteractActors(State.InteractActors.Values));
+                sender.Send(InteractObjectPacket.AddInteractObjects(State.InteractObjects.Values));
             }
             if (State.Cubes.Values.Count > 0)
             {
@@ -193,16 +207,22 @@ namespace MapleServer2.Servers.Game
             {
                 sender.Send(GuideObjectPacket.Add(guide));
             }
-            if (MapEntityStorage.HasHealingSpot(MapId))
+
+            foreach (IFieldObject<HealingSpot> healingSpot in State.HealingSpots.Values)
             {
-                if (HealingSpotThread == null || HealingSpotThread.IsCompleted)
-                {
-                    HealingSpotThread = StartHealingSpot(sender, player);
-                }
-                sender.Send(RegionSkillPacket.Send(player, MapEntityStorage.GetHealingSpot(MapId), new SkillCast(70000018, 1, 0, 1)));
+                sender.Send(RegionSkillPacket.Send(healingSpot.ObjectId, healingSpot.Value.Coord, new SkillCast(70000018, 1, 0, 1)));
             }
 
             State.AddPlayer(player);
+
+            if (!State.HealingSpots.IsEmpty)
+            {
+                if (HealingSpotThread == null)
+                {
+                    HealingSpotThread = StartHealingSpot();
+                }
+            }
+
             // Broadcast new player to all players in map
             Broadcast(session =>
             {
@@ -282,18 +302,18 @@ namespace MapleServer2.Servers.Game
             BroadcastPacket(FieldPacket.AddPortal(portal));
         }
 
-        public void AddInteractActor(ICollection<IFieldObject<Types.InteractActor>> actors)
+        public void AddInteractObject(ICollection<IFieldObject<InteractObject>> objects)
         {
-            foreach (IFieldObject<InteractActor> actor in actors)
+            foreach (IFieldObject<InteractObject> interactObject in objects)
             {
-                State.AddInteractActor(actor);
+                State.AddInteractObject(interactObject);
             }
 
-            if (actors.Count > 0)
+            if (objects.Count > 0)
             {
                 Broadcast(session =>
                 {
-                    session.Send(InteractActorPacket.AddInteractActors(actors));
+                    session.Send(InteractObjectPacket.AddInteractObjects(objects));
                 });
             }
         }
@@ -341,9 +361,10 @@ namespace MapleServer2.Servers.Game
                 return false;
             }
 
-            if (mob.Value.OriginSpawn.Value.Mobs.Remove(mob) && mob.Value.OriginSpawn.Value.Mobs.Count == 0)
+            IFieldObject<MobSpawn> originSpawn = mob.Value.OriginSpawn;
+            if (originSpawn != null && originSpawn.Value.Mobs.Remove(mob) && originSpawn.Value.Mobs.Count == 0)
             {
-                StartSpawnTimer(mob.Value.OriginSpawn);
+                StartSpawnTimer(originSpawn);
             }
 
             Broadcast(session =>
@@ -413,23 +434,29 @@ namespace MapleServer2.Servers.Game
             }
         }
 
-        private Task StartHealingSpot(GameSession session, IFieldObject<Player> player)
+        private Task StartHealingSpot()
         {
-            int healAmount = 30;
-            Status status = new Status(new SkillCast(70000018, 1, 0, 1), player.ObjectId, player.ObjectId, 1, healAmount);
-
             return Task.Run(async () =>
             {
                 while (!State.Players.IsEmpty)
                 {
-                    CoordS healingCoord = MapEntityStorage.GetHealingSpot(MapId);
-
-                    if ((healingCoord - player.Coord.ToShort()).Length() < Block.BLOCK_SIZE * 2 && healingCoord.Z == player.Coord.ToShort().Z - 1) // 3x3x1 area
+                    foreach (IFieldObject<HealingSpot> healingSpot in State.HealingSpots.Values)
                     {
-                        session.Send(BuffPacket.SendBuff(0, status));
-                        session.Send(SkillDamagePacket.ApplyHeal(player, status));
-                        session.Player.Stats.Increase(PlayerStatId.Hp, healAmount);
-                        session.Send(StatPacket.UpdateStats(player, PlayerStatId.Hp));
+                        CoordS healingCoord = healingSpot.Value.Coord;
+                        foreach (IFieldObject<Player> player in State.Players.Values)
+                        {
+                            if ((healingCoord - player.Coord.ToShort()).Length() < Block.BLOCK_SIZE * 2 && healingCoord.Z == player.Coord.ToShort().Z - 1) // 3x3x1 area
+                            {
+                                int healAmount = (int) (player.Value.Stats[PlayerStatId.Hp].Max * 0.03);
+                                Status status = new Status(new SkillCast(70000018, 1, 0, 1), owner: player.ObjectId, source: healingSpot.ObjectId, duration: 100, stacks: 1);
+
+                                player.Value.Session.Send(BuffPacket.SendBuff(0, status));
+                                BroadcastPacket(SkillDamagePacket.ApplyHeal(status, healAmount));
+
+                                player.Value.Session.Player.Stats.Increase(PlayerStatId.Hp, healAmount);
+                                player.Value.Session.Send(StatPacket.UpdateStats(player, PlayerStatId.Hp));
+                            }
+                        }
                     }
 
                     await Task.Delay(1000);

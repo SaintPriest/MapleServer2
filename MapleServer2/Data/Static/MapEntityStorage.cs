@@ -15,9 +15,9 @@ namespace MapleServer2.Data.Static
         private static readonly Dictionary<int, List<MapPlayerSpawn>> playerSpawns = new Dictionary<int, List<MapPlayerSpawn>>();
         private static readonly Dictionary<int, List<MapMobSpawn>> mobSpawns = new Dictionary<int, List<MapMobSpawn>>();
         private static readonly Dictionary<int, List<MapObject>> objects = new Dictionary<int, List<MapObject>>();
-        private static readonly Dictionary<int, List<MapInteractActor>> interactActors = new Dictionary<int, List<MapInteractActor>>();
+        private static readonly Dictionary<int, List<MapInteractObject>> interactObject = new Dictionary<int, List<MapInteractObject>>();
         private static readonly Dictionary<int, CoordS[]> boundingBox = new Dictionary<int, CoordS[]>();
-        private static readonly Dictionary<int, CoordS> healthSpot = new Dictionary<int, CoordS>();
+        private static readonly Dictionary<int, List<CoordS>> healthSpot = new Dictionary<int, List<CoordS>>();
 
         static MapEntityStorage()
         {
@@ -29,7 +29,7 @@ namespace MapleServer2.Data.Static
                 portals.Add(entity.MapId, entity.Portals);
                 playerSpawns.Add(entity.MapId, entity.PlayerSpawns);
                 mobSpawns.Add(entity.MapId, entity.MobSpawns);
-                interactActors.Add(entity.MapId, entity.InteractActors);
+                interactObject.Add(entity.MapId, entity.InteractObjects);
                 objects.Add(entity.MapId, entity.Objects);
                 boundingBox.Add(entity.MapId, new CoordS[] { entity.BoundingBox0, entity.BoundingBox1 });
                 healthSpot.Add(entity.MapId, entity.HealingSpot);
@@ -61,9 +61,9 @@ namespace MapleServer2.Data.Static
             return objects.GetValueOrDefault(mapId);
         }
 
-        public static IEnumerable<MapInteractActor> GetInteractActors(int mapId)
+        public static IEnumerable<MapInteractObject> GetInteractObject(int mapId)
         {
-            return interactActors.GetValueOrDefault(mapId);
+            return interactObject.GetValueOrDefault(mapId);
         }
 
         public static MapPlayerSpawn GetRandomPlayerSpawn(int mapId)
@@ -91,10 +91,10 @@ namespace MapleServer2.Data.Static
 
         public static bool HasHealingSpot(int mapId)
         {
-            return !healthSpot.GetValueOrDefault(mapId).Equals(CoordS.From(0, 0, 0));
+            return healthSpot.GetValueOrDefault(mapId).Count != 0;
         }
 
-        public static CoordS GetHealingSpot(int mapId)
+        public static List<CoordS> GetHealingSpot(int mapId)
         {
             return healthSpot.GetValueOrDefault(mapId);
         }

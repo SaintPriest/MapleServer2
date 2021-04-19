@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Maple2Storage.Types;
 using Maple2Storage.Types.Metadata;
 using MapleServer2.Data.Static;
@@ -17,6 +18,9 @@ namespace MapleServer2.Tools
             string[] args = command.ToLower().Split(" ", 2);
             switch (args[0])
             {
+                case "completequest":
+                    ProcessQuestCommand(session, args.Length > 1 ? args[1] : "");
+                    break;
                 case "status":
                     ProcessStatusCommand(session, args.Length > 1 ? args[1] : "");
                     break;
