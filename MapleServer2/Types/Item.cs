@@ -2241,9 +2241,9 @@ namespace MapleServer2.Types
                 Uid = 2754959794416496484,
                 CreationTime = 1558494660,
                 Color = EquipColor.Custom(MixedColor.Custom(
-                    Maple2Storage.Types.Color.Argb(255, 255, 168, 203),
-                    Maple2Storage.Types.Color.Argb(255, 247, 227, 227),
-                    Maple2Storage.Types.Color.Argb(255, 180, 165, 248)
+                    Maple2Storage.Types.Color.Argb(255, 244, 189, 88),
+                    Maple2Storage.Types.Color.Argb(0, 0, 0, 0),
+                    Maple2Storage.Types.Color.Argb(255, 211, 127, 228)
                     ),
                 10, 4
                 ),

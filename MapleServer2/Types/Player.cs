@@ -191,6 +191,19 @@ namespace MapleServer2.Types
             Timestamps = new TimeInfo(DateTimeOffset.UtcNow.ToUnixTimeSeconds());
         }
 
+        public Player(long accountId, long characterId, string name, byte gender, Job job)
+        {
+            AccountId = accountId;
+            CharacterId = characterId;
+            Name = name;
+            Gender = gender;
+            Job = job;
+            GameOptions = new GameOptions();
+            Wallet = new Wallet(this);
+            Levels = new Levels(this, playerLevel: 1, exp: 0, restExp: 0, prestigeLevel: 1, prestigeExp: 0, new List<MasteryExp>());
+            Timestamps = new TimeInfo(DateTimeOffset.UtcNow.ToUnixTimeSeconds());
+        }
+
         public static Player Char1(long accountId, long characterId, string name = "priestDiana")
         {
             Job job = Job.Priest;
@@ -218,7 +231,8 @@ namespace MapleServer2.Types
                 Job = job,
                 SkinColor = new SkinColor()
                 {
-                    Primary = Color.Argb(255, 253, 210, 194)
+                    Primary = Color.Argb(255, 253, 210, 194),
+                    Secondary = Color.Argb(255, 253, 210, 194)
                 },
                 CreationTime = DateTimeOffset.Now.ToUnixTimeSeconds() + Environment.TickCount,
                 Equips = new Dictionary<ItemSlot, Item> {
@@ -265,7 +279,8 @@ namespace MapleServer2.Types
                 Job = job,
                 SkinColor = new SkinColor()
                 {
-                    Primary = Color.Argb(255, 253, 210, 194)
+                    Primary = Color.Argb(255, 253, 210, 194),
+                    Secondary = Color.Argb(255, 253, 210, 194)
                 },
                 CreationTime = DateTimeOffset.Now.ToUnixTimeSeconds() + Environment.TickCount,
                 Equips = new Dictionary<ItemSlot, Item> {
@@ -288,35 +303,6 @@ namespace MapleServer2.Types
             };
             player.Equips.Add(ItemSlot.RH, Item.Scepter(player));
             player.Equips.Add(ItemSlot.LH, Item.Codex(player));
-            return player;
-        }
-
-        public static Player NewCharacter(byte gender, Job job, string name, SkinColor skinColor, object equips)
-        {
-            PlayerStats stats = new PlayerStats();
-            StatDistribution statPointDistribution = new StatDistribution(totalStats: 0);
-            List<SkillTab> skillTabs = new List<SkillTab>
-            {
-                new SkillTab(job)
-            };
-
-            Player player = new Player
-            {
-                SkillTabs = skillTabs,
-                StatPointDistribution = statPointDistribution,
-                AccountId = AccountStorage.DEFAULT_ACCOUNT_ID,
-                CharacterId = GuidGenerator.Long(),
-                CreationTime = DateTimeOffset.UtcNow.ToUnixTimeSeconds() + AccountStorage.TickCount,
-                Name = name,
-                Gender = gender,
-                Job = job,
-                MapId = 52000065,
-                Stats = stats,
-                SkinColor = skinColor,
-                Equips = (Dictionary<ItemSlot, Item>) equips,
-                HomeName = "HomeName",
-                Coord = CoordF.From(-675, 525, 600), // Intro map (52000065)
-            };
             return player;
         }
 
@@ -348,7 +334,8 @@ namespace MapleServer2.Types
                 Job = job,
                 SkinColor = new SkinColor()
                 {
-                    Primary = Color.Argb(255, 253, 210, 194)
+                    Primary = Color.Argb(255, 253, 210, 194),
+                    Secondary = Color.Argb(255, 253, 210, 194)
                 },
                 CreationTime = DateTimeOffset.Now.ToUnixTimeSeconds() + Environment.TickCount,
                 Equips = new Dictionary<ItemSlot, Item> {
@@ -403,7 +390,8 @@ namespace MapleServer2.Types
                 Job = job,
                 SkinColor = new SkinColor()
                 {
-                    Primary = Color.Argb(255, 253, 210, 194)
+                    Primary = Color.Argb(255, 253, 210, 194),
+                    Secondary = Color.Argb(255, 253, 210, 194)
                 },
                 CreationTime = DateTimeOffset.Now.ToUnixTimeSeconds() + Environment.TickCount,
                 Equips = new Dictionary<ItemSlot, Item> {
@@ -459,7 +447,8 @@ namespace MapleServer2.Types
                 Job = job,
                 SkinColor = new SkinColor()
                 {
-                    Primary = Color.Argb(255, 253, 210, 194)
+                    Primary = Color.Argb(255, 253, 210, 194),
+                    Secondary = Color.Argb(255, 253, 210, 194)
                 },
                 CreationTime = DateTimeOffset.Now.ToUnixTimeSeconds() + Environment.TickCount,
                 Equips = new Dictionary<ItemSlot, Item> {
@@ -515,7 +504,8 @@ namespace MapleServer2.Types
                 Job = job,
                 SkinColor = new SkinColor()
                 {
-                    Primary = Color.Argb(255, 253, 210, 194)
+                    Primary = Color.Argb(255, 253, 210, 194),
+                    Secondary = Color.Argb(255, 253, 210, 194)
                 },
                 CreationTime = DateTimeOffset.Now.ToUnixTimeSeconds() + Environment.TickCount,
                 Equips = new Dictionary<ItemSlot, Item> {
@@ -570,7 +560,8 @@ namespace MapleServer2.Types
                 Job = job,
                 SkinColor = new SkinColor()
                 {
-                    Primary = Color.Argb(255, 253, 210, 194)
+                    Primary = Color.Argb(255, 253, 210, 194),
+                    Secondary = Color.Argb(255, 253, 210, 194)
                 },
                 CreationTime = DateTimeOffset.Now.ToUnixTimeSeconds() + Environment.TickCount,
                 Equips = new Dictionary<ItemSlot, Item> {
@@ -625,7 +616,8 @@ namespace MapleServer2.Types
                 Job = job,
                 SkinColor = new SkinColor()
                 {
-                    Primary = Color.Argb(255, 253, 210, 194)
+                    Primary = Color.Argb(255, 253, 210, 194),
+                    Secondary = Color.Argb(255, 253, 210, 194)
                 },
                 CreationTime = DateTimeOffset.Now.ToUnixTimeSeconds() + Environment.TickCount,
                 Equips = new Dictionary<ItemSlot, Item> {
@@ -680,7 +672,8 @@ namespace MapleServer2.Types
                 Job = job,
                 SkinColor = new SkinColor()
                 {
-                    Primary = Color.Argb(255, 253, 210, 194)
+                    Primary = Color.Argb(255, 253, 210, 194),
+                    Secondary = Color.Argb(255, 253, 210, 194)
                 },
                 CreationTime = DateTimeOffset.Now.ToUnixTimeSeconds() + Environment.TickCount,
                 Equips = new Dictionary<ItemSlot, Item> {
@@ -735,7 +728,8 @@ namespace MapleServer2.Types
                 Job = job,
                 SkinColor = new SkinColor()
                 {
-                    Primary = Color.Argb(255, 253, 210, 194)
+                    Primary = Color.Argb(255, 253, 210, 194),
+                    Secondary = Color.Argb(255, 253, 210, 194)
                 },
                 CreationTime = DateTimeOffset.Now.ToUnixTimeSeconds() + Environment.TickCount,
                 Equips = new Dictionary<ItemSlot, Item> {
@@ -790,7 +784,8 @@ namespace MapleServer2.Types
                 Job = job,
                 SkinColor = new SkinColor()
                 {
-                    Primary = Color.Argb(255, 253, 210, 194)
+                    Primary = Color.Argb(255, 253, 210, 194),
+                    Secondary = Color.Argb(255, 253, 210, 194)
                 },
                 CreationTime = DateTimeOffset.Now.ToUnixTimeSeconds() + Environment.TickCount,
                 Equips = new Dictionary<ItemSlot, Item> {
@@ -845,7 +840,8 @@ namespace MapleServer2.Types
                 Job = job,
                 SkinColor = new SkinColor()
                 {
-                    Primary = Color.Argb(255, 253, 210, 194)
+                    Primary = Color.Argb(255, 253, 210, 194),
+                    Secondary = Color.Argb(255, 253, 210, 194)
                 },
                 CreationTime = DateTimeOffset.Now.ToUnixTimeSeconds() + Environment.TickCount,
                 Equips = new Dictionary<ItemSlot, Item> {
@@ -900,7 +896,8 @@ namespace MapleServer2.Types
                 Job = job,
                 SkinColor = new SkinColor()
                 {
-                    Primary = Color.Argb(255, 253, 210, 194)
+                    Primary = Color.Argb(255, 253, 210, 194),
+                    Secondary = Color.Argb(255, 253, 210, 194)
                 },
                 CreationTime = DateTimeOffset.Now.ToUnixTimeSeconds() + Environment.TickCount,
                 Equips = new Dictionary<ItemSlot, Item> {
@@ -955,7 +952,8 @@ namespace MapleServer2.Types
                 Job = job,
                 SkinColor = new SkinColor()
                 {
-                    Primary = Color.Argb(255, 253, 210, 194)
+                    Primary = Color.Argb(255, 253, 210, 194),
+                    Secondary = Color.Argb(255, 253, 210, 194)
                 },
                 CreationTime = DateTimeOffset.Now.ToUnixTimeSeconds() + Environment.TickCount,
                 Equips = new Dictionary<ItemSlot, Item> {
@@ -1006,7 +1004,8 @@ namespace MapleServer2.Types
                 Job = job,
                 SkinColor = new SkinColor()
                 {
-                    Primary = Color.Argb(255, 252, 225, 214)
+                    Primary = Color.Argb(255, 252, 225, 214),
+                    Secondary = Color.Argb(255, 253, 210, 194)
                 },
                 CreationTime = DateTimeOffset.Now.ToUnixTimeSeconds() + Environment.TickCount,
                 Equips = new Dictionary<ItemSlot, Item> {
@@ -1058,7 +1057,8 @@ namespace MapleServer2.Types
                 Job = job,
                 SkinColor = new SkinColor()
                 {
-                    Primary = Color.Argb(255, 253, 210, 194)
+                    Primary = Color.Argb(255, 253, 210, 194),
+                    Secondary = Color.Argb(255, 253, 210, 194)
                 },
                 CreationTime = DateTimeOffset.Now.ToUnixTimeSeconds() + Environment.TickCount,
                 Equips = new Dictionary<ItemSlot, Item> {
@@ -1108,7 +1108,8 @@ namespace MapleServer2.Types
                 Job = job,
                 SkinColor = new SkinColor()
                 {
-                    Primary = Color.Argb(255, 253, 210, 194)
+                    Primary = Color.Argb(255, 253, 210, 194),
+                    Secondary = Color.Argb(255, 253, 210, 194)
                 },
                 CreationTime = DateTimeOffset.Now.ToUnixTimeSeconds() + Environment.TickCount,
                 Equips = new Dictionary<ItemSlot, Item> {
@@ -1158,7 +1159,8 @@ namespace MapleServer2.Types
                 Job = job,
                 SkinColor = new SkinColor()
                 {
-                    Primary = Color.Argb(255, 253, 210, 194)
+                    Primary = Color.Argb(255, 253, 210, 194),
+                    Secondary = Color.Argb(255, 253, 210, 194)
                 },
                 CreationTime = DateTimeOffset.Now.ToUnixTimeSeconds() + Environment.TickCount,
                 Equips = new Dictionary<ItemSlot, Item> {
@@ -1208,7 +1210,8 @@ namespace MapleServer2.Types
                 Job = job,
                 SkinColor = new SkinColor()
                 {
-                    Primary = Color.Argb(255, 253, 210, 194)
+                    Primary = Color.Argb(255, 253, 210, 194),
+                    Secondary = Color.Argb(255, 253, 210, 194)
                 },
                 CreationTime = DateTimeOffset.Now.ToUnixTimeSeconds() + Environment.TickCount,
                 Equips = new Dictionary<ItemSlot, Item> {
@@ -1258,7 +1261,8 @@ namespace MapleServer2.Types
                 Job = job,
                 SkinColor = new SkinColor()
                 {
-                    Primary = Color.Argb(255, 253, 210, 194)
+                    Primary = Color.Argb(255, 253, 210, 194),
+                    Secondary = Color.Argb(255, 253, 210, 194)
                 },
                 CreationTime = DateTimeOffset.Now.ToUnixTimeSeconds() + Environment.TickCount,
                 Equips = new Dictionary<ItemSlot, Item> {
@@ -1308,7 +1312,8 @@ namespace MapleServer2.Types
                 Job = job,
                 SkinColor = new SkinColor()
                 {
-                    Primary = Color.Argb(255, 253, 210, 194)
+                    Primary = Color.Argb(255, 253, 210, 194),
+                    Secondary = Color.Argb(255, 253, 210, 194)
                 },
                 CreationTime = DateTimeOffset.Now.ToUnixTimeSeconds() + Environment.TickCount,
                 Equips = new Dictionary<ItemSlot, Item> {
@@ -1358,7 +1363,8 @@ namespace MapleServer2.Types
                 Job = job,
                 SkinColor = new SkinColor()
                 {
-                    Primary = Color.Argb(255, 253, 210, 194)
+                    Primary = Color.Argb(255, 253, 210, 194),
+                    Secondary = Color.Argb(255, 253, 210, 194)
                 },
                 CreationTime = DateTimeOffset.Now.ToUnixTimeSeconds() + Environment.TickCount,
                 Equips = new Dictionary<ItemSlot, Item> {
@@ -1420,7 +1426,7 @@ namespace MapleServer2.Types
                     { ItemSlot.CL, Item.WeddingClothesFemalePureWhite() },
                     { ItemSlot.SH, Item.WeddingShoesFemalePureWhite() },
                     { ItemSlot.EA, Item.WeddingEarringFemalePureWhite() },
-                    { ItemSlot.EY, Item.GlassesFemale()},
+                    //{ ItemSlot.EY, Item.GlassesFemale()},
                     //{ ItemSlot.CP, Item.PriestEliteHat() },
                     //{ ItemSlot.GL, Item.AlkimiGloves() },
                 },

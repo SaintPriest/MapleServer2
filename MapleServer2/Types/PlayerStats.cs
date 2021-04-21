@@ -106,8 +106,8 @@ namespace MapleServer2.Types
                 { PlayerStatId.Dex, new PlayerStat(9) },
                 { PlayerStatId.Int, new PlayerStat(9) },
                 { PlayerStatId.Luk, new PlayerStat(9) },
-                { PlayerStatId.Hp, new PlayerStat(500, 500, 0) },         // Max = 0 on login
-                { PlayerStatId.HpRegen, new PlayerStat(10) },
+                { PlayerStatId.Hp, new PlayerStat(100, 100, 0) },         // Max = 0 on login
+                { PlayerStatId.HpRegen, new PlayerStat(1) },
                 { PlayerStatId.HpRegenTime, new PlayerStat(3000) },
                 { PlayerStatId.Spirit, new PlayerStat(100, 100, 0) },     // Max = 0 on login
                 { PlayerStatId.SpRegen, new PlayerStat(1) },
