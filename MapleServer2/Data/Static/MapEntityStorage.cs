@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using Maple2Storage.Types;
 using Maple2Storage.Types.Metadata;
 using MapleServer2.Constants;
@@ -87,6 +88,12 @@ namespace MapleServer2.Data.Static
         public static CoordS[] GetBoundingBox(int mapId)
         {
             return boundingBox.GetValueOrDefault(mapId);
+        }
+
+        public static bool HasSafePortal(int mapId)
+        {
+            List<MapPortal> items = portals.GetValueOrDefault(mapId).Where(x => x.TargetPortalId != 0).ToList();
+            return items.Count != 0;
         }
 
         public static bool HasHealingSpot(int mapId)
