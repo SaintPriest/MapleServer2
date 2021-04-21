@@ -20,9 +20,11 @@ Mesos and Merets are set to 2x10^10.
 
 All character awakened.
 
-Customize game command: blockcoord: show player current block coord, similar minecraft's show XYZ coord.
+Customize game command: blockcoord: show player current block coord, similar minecraft's show XYZ coord(have difference).
 
 Add some error handling.
+
+Show beauty color, coords in console window
 
 ## Follow the project progress and setup:
 Discord: https://discord.gg/mABkFFhBuU.
