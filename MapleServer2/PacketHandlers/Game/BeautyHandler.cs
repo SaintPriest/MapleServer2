@@ -151,7 +151,7 @@ namespace MapleServer2.PacketHandlers.Game
                     return;
                 }
             }
-
+            Console.WriteLine(equipColor.Color);
             ModifyBeauty(session, packet, beautyItem);
         }
 
@@ -180,6 +180,7 @@ namespace MapleServer2.PacketHandlers.Game
             }
 
             beautyItem.Color = equipColor;
+            Console.WriteLine(equipColor.Color);
             ModifyBeauty(session, packet, beautyItem);
         }
 
@@ -197,6 +198,7 @@ namespace MapleServer2.PacketHandlers.Game
             }
 
             session.Player.SkinColor = skinColor;
+            Console.WriteLine(skinColor);
             session.FieldManager.BroadcastPacket(SkinColorPacket.Update(session.FieldPlayer, skinColor));
         }
         private static void HandleRandomHair(GameSession session, PacketReader packet)
@@ -406,6 +408,7 @@ namespace MapleServer2.PacketHandlers.Game
                 }
 
                 item.Color = equipColor[i];
+                Console.WriteLine(item.Color);
                 session.FieldManager.BroadcastPacket(ItemExtraDataPacket.Update(session.FieldPlayer, item));
             }
         }
