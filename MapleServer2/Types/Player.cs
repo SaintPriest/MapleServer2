@@ -1440,7 +1440,7 @@ namespace MapleServer2.Types
             return player;
         }
 
-        public static Player Char24(long accountId, long characterId, string name = "priestPWDiana")
+        public static Player Char24(long accountId, long characterId, string name = "priestDianav6")
         {
             Job job = Job.Priest;
             PlayerStats stats = new PlayerStats();
