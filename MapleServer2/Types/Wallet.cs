@@ -4,6 +4,7 @@ namespace MapleServer2.Types
 {
     public class Wallet
     {
+        public readonly long Id;
         public Currency Meso { get; private set; }
         public Currency Meret { get; private set; }
         public Currency GameMeret { get; private set; }
@@ -15,18 +16,22 @@ namespace MapleServer2.Types
         public Currency MesoToken { get; private set; }
         public Currency Bank { get; private set; }
 
-        public Wallet(Player player)
+        public Wallet() { }
+
+        public Wallet(Player player, long meso, long meret, long gameMeret, long eventMeret, long valorToken, long treva,
+                    long rue, long haviFruit, long mesoToken, long bank, long id = 0)
         {
-            Meso = new Currency(player, CurrencyType.Meso, 20000000000);
-            Meret = new Currency(player, CurrencyType.Meret, 20000000000);
-            GameMeret = new Currency(player, CurrencyType.GameMeret, 0);
-            EventMeret = new Currency(player, CurrencyType.EventMeret, 0);
-            ValorToken = new Currency(player, CurrencyType.ValorToken, 30000);
-            Treva = new Currency(player, CurrencyType.Treva, 75000);
-            Rue = new Currency(player, CurrencyType.Rue, 2000);
-            HaviFruit = new Currency(player, CurrencyType.HaviFruit, 35000);
-            MesoToken = new Currency(player, CurrencyType.MesoToken, 100000);
-            Bank = new Currency(player, CurrencyType.Bank, 20000000000);
+            Meso = new Currency(player, CurrencyType.Meso, meso);
+            Meret = new Currency(player, CurrencyType.Meret, meret);
+            GameMeret = new Currency(player, CurrencyType.GameMeret, gameMeret);
+            EventMeret = new Currency(player, CurrencyType.EventMeret, eventMeret);
+            ValorToken = new Currency(player, CurrencyType.ValorToken, valorToken);
+            Treva = new Currency(player, CurrencyType.Treva, treva);
+            Rue = new Currency(player, CurrencyType.Rue, rue);
+            HaviFruit = new Currency(player, CurrencyType.HaviFruit, haviFruit);
+            MesoToken = new Currency(player, CurrencyType.MesoToken, mesoToken);
+            Bank = new Currency(player, CurrencyType.Bank, bank);
+            Id = id;
         }
 
         public bool RemoveMerets(long amount)
