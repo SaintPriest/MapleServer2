@@ -1388,7 +1388,7 @@ namespace MapleServer2.Types
             return player;
         }
 
-        public static Player Char23(long accountId, long characterId, string name = "PureWhiteDiana")
+        public static Player Char23(long accountId, long characterId, string name = "MapleDiana")
         {
             Job job = Job.HeavyGunner;
             PlayerStats stats = new PlayerStats();
@@ -1415,20 +1415,20 @@ namespace MapleServer2.Types
                 Job = job,
                 SkinColor = new SkinColor()
                 {
-                    Primary = Color.Argb(255, 250, 234, 225),
-                    Secondary = Color.Argb(255, 250, 234, 225)
+                    Primary = Color.Argb(255, 253, 210, 194),
+                    Secondary = Color.Argb(255, 253, 210, 194)
                 },
                 CreationTime = DateTimeOffset.Now.ToUnixTimeSeconds() + Environment.TickCount,
                 Equips = new Dictionary<ItemSlot, Item> {
                     { ItemSlot.ER, Item.EarFemale() },
-                    { ItemSlot.HR, Item.HairFemalePureWhite() },
-                    { ItemSlot.FA, Item.FaceFemalePureWhite() },
+                    { ItemSlot.HR, Item.HairFemaleElliniaForest() },
+                    { ItemSlot.FA, Item.FaceFemale() },
                     { ItemSlot.FD, Item.FaceDecorationFemale() },
                     { ItemSlot.CL, Item.WeddingClothesFemalePureWhite() },
                     { ItemSlot.SH, Item.WeddingShoesFemalePureWhite() },
                     { ItemSlot.EA, Item.WeddingEarringFemalePureWhite() },
                     //{ ItemSlot.EY, Item.GlassesFemale()},
-                    //{ ItemSlot.CP, Item.PriestEliteHat() },
+                    { ItemSlot.CP, Item.PriestEliteHat() },
                     //{ ItemSlot.GL, Item.AlkimiGloves() },
                 },
                 Stats = stats,

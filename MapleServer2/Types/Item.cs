@@ -426,6 +426,23 @@ namespace MapleServer2.Types
             };
         }
 
+        public static Item HairFemaleElliniaForest()
+        {
+            return new Item(10200238)
+            {
+                Uid = 2867972925711604442,
+                CreationTime = 1565575851,
+                Color = EquipColor.Custom(MixedColor.Custom(
+                    Maple2Storage.Types.Color.Argb(255, 65, 145, 82),
+                    Maple2Storage.Types.Color.Argb(255, 76, 133, 219),
+                    Maple2Storage.Types.Color.Argb(255, 28, 50, 44)
+                    ),
+                15, 2
+                ),
+                HairD = new HairData(1.0f, 1.0f, new CoordF(), new CoordF(), new CoordF(), new CoordF()),
+            };
+        }
+
         public static Item HairFemalePureWhite()
         {
             return new Item(10200238)
@@ -523,6 +540,20 @@ namespace MapleServer2.Types
                     ),
                  0, 3
                  ),
+            };
+        }
+
+        public static Item FaceFemaleElliniaForest()
+        {
+            return new Item(10300036)
+            {
+                Color = EquipColor.Custom(MixedColor.Custom(
+                    Maple2Storage.Types.Color.Argb(255, 65, 145, 82),
+                    Maple2Storage.Types.Color.Argb(255, 76, 133, 219),
+                    Maple2Storage.Types.Color.Argb(255, 18, 40, 34)
+                    ),
+                0, 3
+                ),
             };
         }
 
@@ -1751,9 +1782,9 @@ namespace MapleServer2.Types
                 CreationTime = 1565575851,
                 RemainingGlamorForges = 2,
                 Color = EquipColor.Custom(MixedColor.Custom(
-                    Maple2Storage.Types.Color.Argb(255, 194, 209, 96),
+                    Maple2Storage.Types.Color.Argb(255, 65, 145, 82),
                     Maple2Storage.Types.Color.Argb(255, 76, 133, 219),
-                    Maple2Storage.Types.Color.Argb(255, 64, 104, 54)
+                    Maple2Storage.Types.Color.Argb(255, 28, 50, 44)
                     ),
                 10, 4
                 ),
