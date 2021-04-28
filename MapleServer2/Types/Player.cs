@@ -95,9 +95,6 @@ namespace MapleServer2.Types
                 90220021, 90220022, 90220023, 90220024, 90220025,
                 90220026,90220027, 90220028, 90220029
         };
-        public List<ChatSticker> ChatSticker;
-        public List<int> FavoriteStickers;
-        public List<int> Emotes;
 
         public NpcTalk NpcTalk;
 

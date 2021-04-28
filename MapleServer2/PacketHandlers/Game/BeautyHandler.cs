@@ -464,7 +464,7 @@ namespace MapleServer2.PacketHandlers.Game
                     CoordF frontPositionCoord = packet.Read<CoordF>();
                     CoordF frontPositionRotation = packet.Read<CoordF>();
 
-                    beautyItem.HairD = new HairData(backLength, frontLength, backPositionCoord, backPositionRotation, frontPositionCoord, frontPositionRotation);
+                    beautyItem.HairData = new HairData(backLength, frontLength, backPositionCoord, backPositionRotation, frontPositionCoord, frontPositionRotation);
                     Console.WriteLine("BackLength:" + backLength.ToString());
                     Console.WriteLine("BackPositionCoord X:" + backPositionCoord.X.ToString());
                     Console.WriteLine("BackPositionCoord Y:" + backPositionCoord.Y.ToString());
