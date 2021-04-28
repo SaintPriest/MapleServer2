@@ -36,6 +36,6 @@ My discord ID: SaintPriest#4610.
 
 Also report bugs please message me to fix.
 
-##Notice:
+## Notice:
 This version require install MariaDB or MySQL driver to create account database(.env).
 
