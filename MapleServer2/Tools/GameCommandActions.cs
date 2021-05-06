@@ -20,6 +20,9 @@ namespace MapleServer2.Tools
             string[] args = command.ToLower().Split(" ", 2);
             switch (args[0])
             {
+                case "completequest":
+                    ProcessQuestCommand(session, args.Length > 1 ? args[1] : "");
+                    break;
                 case "status":
                     ProcessStatusCommand(session, args.Length > 1 ? args[1] : "");
                     break;
@@ -68,11 +71,11 @@ namespace MapleServer2.Tools
                 case "map":
                     ProcessMapCommand(session, args.Length > 1 ? args[1] : "");
                     break;
-                case "blockcoord":
-                    ProcessBlockCoordCommand(session, args.Length > 1 ? args[1] : "");
-                    break;
                 case "coord":
                     ProcessCoordCommand(session, args.Length > 1 ? args[1] : "");
+                    break;
+                case "blockcoord":
+                    ProcessBlockCoordCommand(session, args.Length > 1 ? args[1] : "");
                     break;
                 case "battleoff":
                     session.Send(UserBattlePacket.UserBattle(session.FieldPlayer, false));
@@ -128,6 +131,88 @@ namespace MapleServer2.Tools
             }
         }
 
+        private static void ProcessGuildExp(GameSession session, string command)
+        {
+            Guild guild = GameServer.GuildManager.GetGuildById(session.Player.Guild.Id);
+            if (guild == null)
+            {
+                return;
+            }
+
+            if (!int.TryParse(command, out int guildExp))
+            {
+                return;
+            }
+
+            guild.Exp = guildExp;
+            guild.BroadcastPacketGuild(GuildPacket.UpdateGuildExp(guild.Exp));
+            GuildPropertyMetadata data = GuildPropertyMetadataStorage.GetMetadata(guild.Exp);
+            DatabaseManager.Update(guild);
+        }
+
+        private static void ProcessGuildFunds(GameSession session, string command)
+        {
+            Guild guild = GameServer.GuildManager.GetGuildById(session.Player.Guild.Id);
+            if (guild == null)
+            {
+                return;
+            }
+
+            if (!int.TryParse(command, out int guildFunds))
+            {
+                return;
+            }
+
+            guild.Funds = guildFunds;
+            guild.BroadcastPacketGuild(GuildPacket.UpdateGuildFunds(guild.Funds));
+            DatabaseManager.Update(guild);
+        }
+        private static void ProcessQuestCommand(GameSession session, string command)
+        {
+            if (command == "")
+            {
+                session.SendNotice("Type a quest id.");
+                return;
+            }
+            if (!int.TryParse(command, out int questId))
+            {
+                return;
+            }
+            QuestStatus questStatus = session.Player.QuestList.FirstOrDefault(x => x.Basic.Id == questId);
+            if (questStatus == null)
+            {
+                return;
+            }
+
+            questStatus.Completed = true;
+            questStatus.CompleteTimestamp = DateTimeOffset.Now.ToUnixTimeSeconds();
+
+            session.Player.Levels.GainExp(questStatus.Reward.Exp);
+            session.Player.Wallet.Meso.Modify(questStatus.Reward.Money);
+
+            foreach (QuestRewardItem reward in questStatus.RewardItems)
+            {
+                Item newItem = new Item(reward.Code)
+                {
+                    Amount = reward.Count,
+                    Rarity = reward.Rank
+                };
+                if (newItem.RecommendJobs.Contains(session.Player.Job) || newItem.RecommendJobs.Contains(0))
+                {
+                    InventoryController.Add(session, newItem, true);
+                }
+            }
+
+            session.Send(QuestPacket.CompleteQuest(questId, true));
+
+            // Add next quest
+            IEnumerable<KeyValuePair<int, QuestMetadata>> questList = QuestMetadataStorage.GetAllQuests().Where(x => x.Value.Require.RequiredQuests.Contains(questId));
+            foreach (KeyValuePair<int, QuestMetadata> kvp in questList)
+            {
+                session.Player.QuestList.Add(new QuestStatus(kvp.Value));
+            }
+        }
+
         private static void ProcessCoordCommand(GameSession session, string command)
         {
             if (command == "")
@@ -162,6 +247,7 @@ namespace MapleServer2.Tools
             }
         }
 
+        // Example: "item id:20000027"
         private static void ProcessItemCommand(GameSession session, string command)
         {
             Dictionary<string, string> config = command.ToMap();
