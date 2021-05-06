@@ -8,23 +8,26 @@ All the progress was follow by author.
 Tested can run with Gms2 and Jms2
 
 ## Customized details:
-Characters are set to my own's characters.
-
-Add some outfit and equipment items to suitable my own's characters.
 
 Character limit has been set to 50.
 
 Customized GameEventBar.
-
-Mesos and Merets are set to 2x10^10.
-
-All character awakened.
 
 Customize game command: blockcoord: show player current block coord, similar minecraft's show XYZ coord(have difference).
 
 Add some error handling.
 
 Show beauty color, coords in console window
+
+## These customize edit is work in progress:(I will upload database files)
+
+Characters are set to my own's characters.
+
+Add some outfit and equipment items to suitable my own's characters.
+
+Mesos and Merets are set to 2x10^10.
+
+All character awakened.
 
 ## Follow the project progress and setup:
 Discord: https://discord.gg/mABkFFhBuU.
@@ -35,3 +38,8 @@ My discord server: https://discord.gg/E96qZNA.
 My discord ID: SaintPriest#4610.
 
 Also report bugs please message me to fix.
+
+## Notice:
+Require install MariaDB to run
+
+Database files please put them in C:\Program Files\MariaDB 10.5\data\maple2db
