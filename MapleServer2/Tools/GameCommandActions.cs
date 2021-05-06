@@ -4,6 +4,7 @@ using System.Linq;
 using Maple2Storage.Types;
 using Maple2Storage.Types.Metadata;
 using MapleServer2.Data.Static;
+using MapleServer2.Database;
 using MapleServer2.Enums;
 using MapleServer2.Packets;
 using MapleServer2.Servers.Game;
@@ -15,6 +16,7 @@ namespace MapleServer2.Tools
     {
         public static void Process(GameSession session, string command)
         {
+            command = command[1..];
             string[] args = command.ToLower().Split(" ", 2);
             switch (args[0])
             {
@@ -74,6 +76,12 @@ namespace MapleServer2.Tools
                     break;
                 case "battleoff":
                     session.Send(UserBattlePacket.UserBattle(session.FieldPlayer, false));
+                    break;
+                case "setguildexp":
+                    ProcessGuildExp(session, args[1]);
+                    break;
+                case "setguildfunds":
+                    ProcessGuildFunds(session, args[1]);
                     break;
                 case "notice":
                     if (args.Length <= 1)
