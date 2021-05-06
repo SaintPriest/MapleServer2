@@ -35,7 +35,7 @@ namespace MapleServer2.PacketHandlers.Login
 
             List<Player> characters = DatabaseManager.GetAccountCharacters(session.AccountId);
 
-            session.Send(CharacterListPacket.SetMax(4, 6));
+            session.Send(CharacterListPacket.SetMax(50, 50));
             session.Send(CharacterListPacket.StartList());
             // Send each character data
             session.Send(CharacterListPacket.AddEntries(characters));
