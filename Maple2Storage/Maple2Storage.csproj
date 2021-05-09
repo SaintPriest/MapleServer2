@@ -13,7 +13,7 @@
 
     <ItemGroup>
       <Folder Include="Properties\" />
-      <Folder Include="Resources\" />
+      <Folder Include="Resources" />
     </ItemGroup>
 
 </Project>

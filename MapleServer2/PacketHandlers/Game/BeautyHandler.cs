@@ -488,7 +488,7 @@ namespace MapleServer2.PacketHandlers.Game
                     Console.WriteLine("FrontPositionRotation Y:" + frontPositionRotation.Y.ToString());
                     Console.WriteLine("FrontPositionRotation Z:" + frontPositionRotation.Z.ToString());
                     cosmetics[itemSlot] = beautyItem;
-
+                    
                     session.FieldManager.BroadcastPacket(EquipmentPacket.EquipItem(session.FieldPlayer, beautyItem, itemSlot));
                     break;
                 case ItemSlot.FA:

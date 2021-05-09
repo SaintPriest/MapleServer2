@@ -160,8 +160,8 @@ namespace MapleServer2.Types
         private Task HpRegenThread;
         private Task SpRegenThread;
         private Task StaRegenThread;
-        private readonly Task OnlineDurationThread;
-        private readonly TimeInfo Timestamps;
+        private Task OnlineDurationThread;
+        private TimeInfo Timestamps;
         public Dictionary<int, PlayerStat> GatheringCount = new Dictionary<int, PlayerStat>();
 
         public List<int> UnlockedTaxis;
