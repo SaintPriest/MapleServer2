@@ -19,7 +19,7 @@ Add some error handling.
 
 Show beauty color, coords in console window
 
-## These customize edit is work in progress:(I will upload database files)
+## These customize edit is temporarity cancelled because databases require wipe when every update:
 
 Characters are set to my own's characters.
 
