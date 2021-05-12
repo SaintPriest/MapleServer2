@@ -5,7 +5,7 @@ May not very instant update.
 
 All the progress was follow by author.
 
-Tested can run with Gms2 and Jms2
+Tested can run with Gms2
 
 ## Customized details:
 
