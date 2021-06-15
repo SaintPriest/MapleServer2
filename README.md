@@ -35,7 +35,7 @@ Discord: https://discord.gg/mABkFFhBuU.
 ## Follow me on discord:
 My discord server: https://discord.gg/E96qZNA.
 
-My discord ID: SaintPriest#4610.
+My discord ID: SaintPriest#9860.
 
 Also report bugs please message me to fix.
 
