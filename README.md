@@ -5,7 +5,7 @@ May not very instant update.
 
 All the progress was follow by author.
 
-Tested can run with Gms2
+Tested only can run with GMS2
 
 ## Customized details:
 
@@ -14,8 +14,6 @@ Character limit has been set to 50.
 Customized GameEventBar.
 
 Customize game command: blockcoord: show player current block coord, similar minecraft's show XYZ coord(have difference).
-
-Add some error handling.
 
 Show beauty color, coords in console window
 
@@ -41,5 +39,3 @@ Also report bugs please message me to fix.
 
 ## Notice:
 Require install MariaDB to run
-
-Database files please put them in C:\Program Files\MariaDB 10.5\data\maple2db
