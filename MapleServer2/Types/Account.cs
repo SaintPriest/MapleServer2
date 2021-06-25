@@ -23,7 +23,7 @@ namespace MapleServer2.Types
             PasswordHash = passwordHash;
             CreationTime = DateTimeOffset.UtcNow.ToUnixTimeSeconds() + Environment.TickCount;
             LastLoginTime = CreationTime;
-            CharacterSlots = 7;
+            CharacterSlots = 50;
             Id = DatabaseManager.CreateAccount(this);
         }
     }
