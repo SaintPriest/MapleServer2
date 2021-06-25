@@ -73,7 +73,7 @@ namespace MapleServer2.Packets
             return pWriter;
         }
 
-        public static Packet SetMax(int unlocked, int total = 11)
+        public static Packet SetMax(int unlocked, int total = 50)
         {
             PacketWriter pWriter = PacketWriter.Of(SendOp.CHAR_MAX_COUNT);
             pWriter.WriteInt(unlocked);
