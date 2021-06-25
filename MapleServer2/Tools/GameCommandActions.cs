@@ -133,7 +133,7 @@ namespace MapleServer2.Tools
                 }
             }
         }
-        
+
         private static void ProcessCommandList(GameSession session)
         {
             string message = "Emulator Commands \n" +
@@ -155,6 +155,9 @@ namespace MapleServer2.Tools
                 "Spawn Mob: /mob id:<font color='#71a6f0'>mobID</font> [ani:<font color='#71a6f0'>animationID</font> dir:<font color='#71a6f0'>directionvalue</font> coord:<font color='#71a6f0'>X,Y,Z Coords</font>] \n" +
                 "Move to Map: /map id:<font color='#71a6f0'>mapID</font> \n" +
                 "Display Current Coords: /coord \n" +
+                "Move To Coords: /coord <font color='#71a6f0'>X,Y,Z Coords</font> \n" +
+                "Display Block Count Coords(Custom command): /blockcoord \n +" +
+                "Move To Block Count Coords(Custom command): /blockcoord <font color='#71a6f0'>X,Y,Z Coords</font> \n" +
                 "Turn off battle stance: /battleoff \n" +
                 "Display Notice Server Wide: /notice <font color='#71a6f0'>message</font> \n";
             session.Send(NoticePacket.Notice(message, NoticeType.Chat));
