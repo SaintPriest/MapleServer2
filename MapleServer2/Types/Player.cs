@@ -38,6 +38,7 @@ namespace MapleServer2.Types
         // Mutable Values
         public Levels Levels { get; set; }
         public int MapId { get; set; }
+        public int InstanceId { get; set; }
         public int TitleId { get; set; }
         public short InsigniaId { get; set; }
         public List<int> Titles { get; set; }
@@ -151,7 +152,6 @@ namespace MapleServer2.Types
 
         public int[] GroupChatId;
 
-        // TODO: Rework to use Class Guild
         public Guild Guild;
         public GuildMember GuildMember;
         public List<GuildApplication> GuildApplications = new List<GuildApplication>();
@@ -162,11 +162,10 @@ namespace MapleServer2.Types
         public Wallet Wallet { get; set; }
         public List<QuestStatus> QuestList;
 
-        private CancellationTokenSource CombatCTS;
+        public CancellationTokenSource CombatCTS;
         private Task HpRegenThread;
         private Task SpRegenThread;
         private Task StaRegenThread;
-        private Task OnlineDurationThread;
         private TimeInfo Timestamps;
         public Dictionary<int, PlayerStat> GatheringCount = new Dictionary<int, PlayerStat>();
 
@@ -244,9 +243,10 @@ namespace MapleServer2.Types
             CharacterId = DatabaseManager.CreateCharacter(this);
         }
 
-        public void Warp(CoordF coord, CoordF rotation, int mapId)
+        public void Warp(CoordF coord, CoordF rotation, int mapId, int instanceId = 0)
         {
             MapId = mapId;
+            InstanceId = instanceId;
             Coord = coord;
             Rotation = rotation;
             SafeBlock = coord;

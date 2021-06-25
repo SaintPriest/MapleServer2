@@ -17,8 +17,7 @@ namespace MapleServer2.PacketHandlers.Game
         {
             int objectId = packet.ReadInt();
 
-            IFieldObject<Item> fieldItem;
-            bool foundItem = session.FieldManager.State.TryGetItem(objectId, out fieldItem);
+            bool foundItem = session.FieldManager.State.TryGetItem(objectId, out IFieldObject<Item> fieldItem);
             if (foundItem)
             {
                 switch (fieldItem.Value.Id)
@@ -51,7 +50,6 @@ namespace MapleServer2.PacketHandlers.Game
             int countExtra = packet.ReadByte();
             for (int i = 0; i < countExtra; i++)
             {
-                return;
             }
         }
     }

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -106,8 +106,8 @@ namespace MapleServer2.Servers.Game
             }
             AddInteractObject(actors);
 
-            string mapName = MapMetadataStorage.GetMetadata(mapId).Name;
-            Triggers = TriggerLoader.GetTriggers(mapName).Select(initializer =>
+            string xBlockName = MapMetadataStorage.GetMetadata(mapId).XBlockName;
+            Triggers = TriggerLoader.GetTriggers(xBlockName).Select(initializer =>
             {
                 TriggerContext context = new TriggerContext(this, Logger);
                 TriggerState startState = initializer.Invoke(context);
@@ -155,6 +155,17 @@ namespace MapleServer2.Servers.Game
                 trigger.Next();
             }
             return updates;
+        }
+
+        private void SendUpdates()
+        {
+            foreach (Packet update in GetUpdates())
+            {
+                Broadcast(session =>
+                {
+                    session.Send(update);
+                });
+            }
         }
 
         public IFieldObject<T> RequestFieldObject<T>(T player)
@@ -426,8 +437,7 @@ namespace MapleServer2.Servers.Game
 
         public bool RemoveItem(int objectId, out Item item)
         {
-            Item itemResult;
-            if (!State.RemoveItem(objectId, out itemResult))
+            if (!State.RemoveItem(objectId, out Item itemResult))
             {
                 item = itemResult;
                 return false;
@@ -522,28 +532,19 @@ namespace MapleServer2.Servers.Game
                 while (!State.Players.IsEmpty)
                 {
                     HealingSpot();
-                    MonsterMovement();
+                    UpdateMobs();
+                    SendUpdates();
                     await Task.Delay(1000);
                 }
             });
         }
 
-        private void MonsterMovement()
+        private void UpdateMobs()
         {
-            Random Rand = new Random();
             foreach (IFieldObject<Mob> mob in State.Mobs.Values)
             {
-                short x = (short) Rand.Next(-70, 70); //random x position, units are block units
-
-                mob.Coord += mob.Value.Speed.ToFloat(); //current position that is given to ControlMob Packet
-
-                mob.Value.Speed = CoordS.From(x, 0, 0); //speed vector given to ControlMob Packet
-
-                mob.Value.ZRotation = (short) (x * 10); //looking direction of the monster
-
-                //using random animation values, makes it look more lively for now
-                //will be replaced with correct animations on mob creation once animations have been handled. 
-                mob.Value.Animation = (short) Rand.Next(20);
+                mob.Coord += mob.Value.Velocity;    // Set current position (given to ControlMob Packet)
+                mob.Value.Act();
             }
         }
 
