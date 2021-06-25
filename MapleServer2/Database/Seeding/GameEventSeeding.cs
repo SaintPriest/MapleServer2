@@ -17,7 +17,7 @@ namespace MapleServer2.Database
                     {
                         new StringBoardEvent
                         {
-                            String = "MapleStory 2 edited by Diana, Game Version: v1.19p alpha 9, Follow me on discord: discord.gg/E96qZNA"
+                            String = "MapleStory 2 edited by Diana, Game Version: v1.19p alpha 10, Follow me on discord: discord.gg/E96qZNA"
                         }
                     }
                 },
