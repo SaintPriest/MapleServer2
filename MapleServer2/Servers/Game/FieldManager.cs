@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -29,18 +29,19 @@ namespace MapleServer2.Servers.Game
         private int Counter = 10000000;
 
         public readonly int MapId;
+        public readonly int InstanceId;
         public readonly CoordS[] BoundingBox;
         public readonly FieldState State = new FieldState();
         private readonly HashSet<GameSession> Sessions = new HashSet<GameSession>();
         private readonly TriggerScript[] Triggers;
-
         private Task MapLoopTask;
-
         private readonly ILogger Logger = LogManager.GetCurrentClassLogger();
+        private int PlayerCount;
 
-        public FieldManager(int mapId)
+        public FieldManager(int mapId, int instanceId)
         {
             MapId = mapId;
+            InstanceId = instanceId;
             BoundingBox = MapEntityStorage.GetBoundingBox(mapId);
             // Load default npcs for map from config
             foreach (MapNpc npc in MapEntityStorage.GetNpcs(mapId))
@@ -92,6 +93,7 @@ namespace MapleServer2.Servers.Game
                     IsMinimapVisible = portal.Flags.HasFlag(MapPortalFlag.MinimapVisible),
                     Rotation = portal.Rotation.ToFloat(),
                     TargetMapId = portal.Target,
+                    PortalType = portal.PortalType
                 });
                 fieldPortal.Coord = portal.Coord.ToFloat();
                 AddPortal(fieldPortal);
@@ -558,7 +560,7 @@ namespace MapleServer2.Servers.Game
                     if ((healingCoord - player.Coord.ToShort()).Length() < Block.BLOCK_SIZE * 2 && healingCoord.Z == player.Coord.ToShort().Z - 1) // 3x3x1 area
                     {
                         int healAmount = (int) (player.Value.Stats[PlayerStatId.Hp].Max * 0.03);
-                        Status status = new Status(new SkillCast(70000018, 1, 0, 1), owner: player.ObjectId, source: healingSpot.ObjectId, duration: 100, stacks: 1);
+                        Status status = new Status(new SkillCast(70000018, 1, 0, 1), owner: player.ObjectId, source: healingSpot.ObjectId, stacks: 1);
 
                         player.Value.Session.Send(BuffPacket.SendBuff(0, status));
                         BroadcastPacket(SkillDamagePacket.ApplyHeal(status, healAmount));
@@ -603,6 +605,16 @@ namespace MapleServer2.Servers.Game
                     SpawnMobs(mobSpawn);
                 }
             });
+        }
+
+        public int Increment()
+        {
+            return Interlocked.Increment(ref PlayerCount);
+        }
+
+        public int Decrement()
+        {
+            return Interlocked.Decrement(ref PlayerCount);
         }
     }
 }
