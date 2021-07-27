@@ -33,7 +33,7 @@ Discord: https://discord.gg/mABkFFhBuU.
 ## Follow me on discord:
 My discord server: https://discord.gg/E96qZNA.
 
-My discord ID: SaintPriest#9860.
+My discord ID: ~~SaintPriest#9860.~~ temporary discord ID:priestDiana2#2239
 
 Also report bugs please message me to fix.
 
