@@ -2,12 +2,13 @@
 
     <PropertyGroup>
         <OutputType>Exe</OutputType>
-        <TargetFramework>net5.0</TargetFramework>
-        <LangVersion>9</LangVersion>
+        <TargetFramework>net6.0</TargetFramework>
+        <LangVersion>10</LangVersion>
     </PropertyGroup>
 
     <ItemGroup>
       <PackageReference Include="DotNetZip" Version="1.15.0" />
+      <PackageReference Include="Maple2.File.Parser" Version="2.0.0-alpha" />
     </ItemGroup>
 
     <ItemGroup>
@@ -15,9 +16,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Files\m2dFiles\" />
       <Folder Include="Hash\" />
-      <Folder Include="Properties\" />
     </ItemGroup>
 
 </Project>

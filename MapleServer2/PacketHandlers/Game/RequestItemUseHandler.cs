@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Maple2Storage.Tools;
 using Maple2Storage.Types;
 using Maple2Storage.Types.Metadata;
 using MaplePacketLib2.Tools;
@@ -224,7 +225,6 @@ namespace MapleServer2.PacketHandlers.Game
 
             GachaMetadata gacha = GachaMetadataStorage.GetMetadata(capsule.Function.Id);
 
-            Random random = new Random();
             List<Item> items = new List<Item>() { };
 
             if (amount == "single")
@@ -240,7 +240,7 @@ namespace MapleServer2.PacketHandlers.Game
             {
                 GachaContent contents = HandleSmartGender(gacha, session.Player.Gender);
 
-                int itemAmount = random.Next(contents.MinAmount, contents.MaxAmount);
+                int itemAmount = RandomProvider.Get().Next(contents.MinAmount, contents.MaxAmount);
 
                 Item gachaItem = new Item(contents.ItemId)
                 {
@@ -262,7 +262,7 @@ namespace MapleServer2.PacketHandlers.Game
 
         private static GachaContent HandleSmartGender(GachaMetadata gacha, byte playerGender)
         {
-            Random random = new Random();
+            Random random = RandomProvider.Get();
             int index = random.Next(gacha.Contents.Count);
 
             GachaContent contents = gacha.Contents[index];
@@ -298,7 +298,7 @@ namespace MapleServer2.PacketHandlers.Game
             Player otherPlayer = GameServer.Storage.GetPlayerByName(targetUser);
             if (otherPlayer == null)
             {
-                session.Send(NoticePacket.Notice(SystemNotice.CharacterNotFound, NoticeType.Popup));
+                session.Send(NoticePacket.Notice(SystemNotice.CharacterNotFound, type: NoticeType.Popup));
                 return;
             }
 
@@ -382,7 +382,7 @@ namespace MapleServer2.PacketHandlers.Game
             }
 
             account.CharacterSlots++;
-            DatabaseManager.UpdateAccount(account);
+            DatabaseManager.Update(account);
             session.Send(CouponUsePacket.CharacterSlotAdded());
             InventoryController.Consume(session, item.Uid, 1);
         }

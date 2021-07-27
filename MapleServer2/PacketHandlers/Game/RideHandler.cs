@@ -114,7 +114,7 @@ namespace MapleServer2.PacketHandlers.Game
 
             bool isFriend = BuddyManager.IsFriend(session.Player, otherPlayer.Value);
             bool isGuildMember = session.Player != null && otherPlayer.Value.Guild != null && session.Player.Guild.Id == otherPlayer.Value.Guild.Id;
-            bool isPartyMember = session.Player.PartyId == otherPlayer.Value.PartyId;
+            bool isPartyMember = session.Player.Party == otherPlayer.Value.Party;
 
             if (!isFriend &&
                 !isGuildMember &&
@@ -137,7 +137,7 @@ namespace MapleServer2.PacketHandlers.Game
             }
 
             session.FieldManager.BroadcastPacket(MountPacket.StopTwoPersonRide(otherPlayer.ObjectId, session.FieldPlayer.ObjectId));
-            session.Send(UserMoveByPortalPacket.Move(session, otherPlayer.Coord, otherPlayer.Rotation));
+            session.Send(UserMoveByPortalPacket.Move(session.FieldPlayer, otherPlayer.Coord, otherPlayer.Rotation));
 
             if (otherPlayer.Value.Mount != null)
             {

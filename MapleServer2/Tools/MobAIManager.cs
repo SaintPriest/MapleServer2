@@ -14,10 +14,10 @@ namespace MapleServer2.Tools
 
         public static void Load(string dirPath, string schemaPath = null)
         {
-            Console.WriteLine("Loading AI...");
+            Console.WriteLine("Loading Mob AI...");
             foreach (string filePath in Directory.GetFiles(dirPath, "*.xml", SearchOption.AllDirectories))
             {
-                string filename = filePath.Split(@"MobAI\")[1];
+                string filename = Path.GetFileName(filePath);
                 XmlDocument document = new XmlDocument();
                 try
                 {
@@ -61,7 +61,7 @@ namespace MapleServer2.Tools
                 NpcState stateValue = GetMobState(node.Name);
                 NpcAction newActionValue = GetMobAction(node.Attributes["action"]?.Value);
                 MobMovement movementValue = GetMobMovement(node.Attributes["movement"]?.Value);
-                MobAI.Condition[] conditions = GetConditions(node);
+                MobAI.Condition[] conditions = GetConditions(/*node*/);
 
                 ai.Rules.TryAdd(stateValue, (newActionValue, movementValue, Array.Empty<MobAI.Condition>()));
             }
@@ -103,7 +103,7 @@ namespace MapleServer2.Tools
             };
         }
 
-        private static MobAI.Condition[] GetConditions(XmlNode node)
+        private static MobAI.Condition[] GetConditions(/*XmlNode node*/)
         {
             // TODO: Parse actions' conditions
             return Array.Empty<MobAI.Condition>();

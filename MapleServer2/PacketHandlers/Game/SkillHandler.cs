@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using Maple2Storage.Tools;
 using Maple2Storage.Types;
 using MaplePacketLib2.Tools;
 using MapleServer2.Constants;
@@ -13,7 +15,7 @@ namespace MapleServer2.PacketHandlers.Game
 {
     public class SkillHandler : GamePacketHandler
     {
-        static readonly Random rand = new Random();
+        static readonly Random rand = RandomProvider.Get();
 
         public override RecvOp OpCode => RecvOp.SKILL;
 
@@ -23,8 +25,9 @@ namespace MapleServer2.PacketHandlers.Game
         {
             Cast = 0x0,     // Start of a skill
             Damage = 0x1,   // Damaging part of a skill. one is sent per hit
+            Mode2 = 0x2,    // Cast continues skills
             Mode3 = 0x3,
-            Mode4 = 0x4
+            Mode4 = 0x4,
         }
 
         private enum DamagingMode : byte
@@ -87,7 +90,7 @@ namespace MapleServer2.PacketHandlers.Game
                     HandleAoeDamage(session, packet);
                     break;
                 case DamagingMode.TypeOfDamage2:
-                    HandleTypeOfDamage2(packet);
+                    HandleTypeOfDamage2(session, packet);
                     break;
                 default:
                     IPacketHandler<GameSession>.LogUnknownMode(mode);
@@ -116,13 +119,10 @@ namespace MapleServer2.PacketHandlers.Game
             packet.ReadInt();
             for (int i = 0; i < count; i++)
             {
-                packet.ReadLong();
+                packet.ReadInt(); // increment +1 every count
                 packet.ReadInt();
-                packet.ReadByte();
-                if (packet.ReadBool())
-                {
-                    packet.ReadLong();
-                }
+                packet.ReadInt();
+                packet.ReadShort(); // increment +1 every count
             }
         }
 
@@ -163,22 +163,60 @@ namespace MapleServer2.PacketHandlers.Game
                         session.Send("4F 00 03 E8 03 00 00 00 00 00 00 00 00 00 00 00 00 80 3F".ToByteArray());
                         session.Send("4F 00 03 D0 07 00 00 00 00 00 00 00 00 00 00 00 00 80 3F".ToByteArray());
                         session.Send("4F 00 08 01 04 01 00 00".ToByteArray());
+
+                        IFieldObject<Portal> portal = session.FieldManager.State.Portals.Values.First(p => p.Value.Id == 1);
+                        portal.Value.Update(true, true, true);
+                        session.FieldManager.BroadcastPacket(FieldPacket.UpdatePortal(portal));
                     }
 
                     mobs.Add((mob, damage));
+
+                    // TODO: Check if the skill is a debuff for an entity
+                    SkillCast skillCast = session.FieldPlayer.Value.SkillCast;
+                    if (skillCast.IsDebuffElement() || skillCast.IsDebuffToEntity() || skillCast.IsDebuffElement())
+                    {
+                        Status status = new Status(session.FieldPlayer.Value.SkillCast, mob.ObjectId, session.FieldPlayer.ObjectId, 1);
+                        StatusHandler.Handle(session, status);
+                    }
                 }
             }
-            session.Send(SkillDamagePacket.ApplyDamage(skillSN, unkValue, coords, session.FieldPlayer, mobs));
+            // TODO: Verify if its the player or an ally
+            if (session.FieldPlayer.Value.SkillCast.IsHeal())
+            {
+                Status status = new Status(session.FieldPlayer.Value.SkillCast, session.FieldPlayer.ObjectId, session.FieldPlayer.ObjectId, 1);
+                StatusHandler.Handle(session, status);
+
+                // TODO: Heal based on stats
+                session.Send(SkillDamagePacket.ApplyHeal(status, 50));
+                session.FieldPlayer.Value.Stats.Increase(PlayerStatId.Hp, 50);
+                session.Send(StatPacket.UpdateStats(session.FieldPlayer, PlayerStatId.Hp));
+            }
+            else
+            {
+                session.Send(SkillDamagePacket.ApplyDamage(skillSN, unkValue, coords, session.FieldPlayer, mobs));
+            }
         }
 
-        private static void HandleTypeOfDamage2(PacketReader packet)
+        private static void HandleTypeOfDamage2(GameSession session, PacketReader packet)
         {
             long skillSN = packet.ReadLong();
             byte mode = packet.ReadByte();
-            int unk1 = packet.ReadInt();
-            int unk2 = packet.ReadInt();
+            int unknown = packet.ReadInt();
+            int unknown2 = packet.ReadInt();
             CoordF coord = packet.Read<CoordF>();
             CoordF coord1 = packet.Read<CoordF>();
+
+            // TODO: Verify rest of skills to proc correctly.
+            // Send status correctly when Region attacks are proc.
+            if (SkillUsePacket.SkillCastMap[skillSN].GetConditionSkill() == null)
+            {
+                return;
+            }
+            foreach (int skill in SkillUsePacket.SkillCastMap[skillSN].GetConditionSkill())
+            {
+                SkillCast skillCast = session.Player.Cast(skill, 1, skillSN, unknown);
+                RegionSkillHandler.Handle(session, unknown, coord, skillCast);
+            }
         }
 
         private static void HandleMobKill(GameSession session, IFieldObject<Mob> mob)
