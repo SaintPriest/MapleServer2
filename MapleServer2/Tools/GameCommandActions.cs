@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using Maple2Storage.Types;
 using Maple2Storage.Types.Metadata;
@@ -175,34 +176,17 @@ namespace MapleServer2.Tools
         {
             if (command == "")
             {
-                float x = session.FieldPlayer.Coord.X / Convert.ToUInt16(166.67), y = session.FieldPlayer.Coord.Y / Convert.ToUInt16(166.67), z = session.FieldPlayer.Coord.Z / Convert.ToUInt16(166.67);
-                session.SendNotice("Coord X=" + x.ToString("#0") + "  Y=" + y.ToString("#0") + "  Z=" + z.ToString("#0"));
+                session.SendNotice(session.FieldPlayer.Coord.ToString());
             }
             else
             {
-                try
+                if (TryParseBlockCoord(command, out CoordF coordF))
                 {
-                    string[] coords = command.Replace(" ", "").Split(",");
-                    if (!float.TryParse(coords[0], out float x))
-                    {
-                        return;
-                    }
-                    if (!float.TryParse(coords[1], out float y))
-                    {
-                        return;
-                    }
-                    if (!float.TryParse(coords[2], out float z))
-                    {
-                        return;
-                    }
-                    session.Player.Coord = CoordF.From(x * Convert.ToUInt16(166.67) + 5, y * Convert.ToUInt16(166.67) + 5, z * Convert.ToUInt16(166.67));
-                    session.Send(FieldPacket.RequestEnter(session.FieldPlayer));
-                }
-                catch
-                {
-                    session.SendNotice("Syntax ERROR: Corrent syntax is: blockcoord: X,Y,Z");
+                    session.SendNotice("Syntax ERROR: Corrent syntax is: /blockcoord: X,Y,Z");
                     return;
                 }
+                session.Player.Coord = coordF;
+                session.Send(UserMoveByPortalPacket.Move(session.FieldPlayer, coordF, session.Player.Rotation));
             }
         }
 
@@ -363,7 +347,7 @@ namespace MapleServer2.Tools
             {
                 if (TryParseCoord(command, out CoordF coordF))
                 {
-                    session.SendNotice("Correct usage: /coord 200, 100, 100");
+                    session.SendNotice("Syntax ERROR: Corrent syntax is: /coord X,Y,Z");
                     return;
                 }
 
@@ -527,6 +511,21 @@ namespace MapleServer2.Tools
                                    && float.TryParse(values[2], out float z))
             {
                 result = CoordF.From(x, y, z);
+                return true;
+            }
+
+            result = default;
+            return false;
+        }
+
+        private static bool TryParseBlockCoord(string s, out CoordF result)
+        {
+            string[] values = s.Split(",");
+            if (values.Length == 3 && float.TryParse(values[0], out float x)
+                                   && float.TryParse(values[1], out float y)
+                                   && float.TryParse(values[2], out float z))
+            {
+                result = CoordF.From(x * Convert.ToUInt16(166.67) + 5, y * Convert.ToUInt16(166.67) + 5, z * Convert.ToUInt16(166.67));
                 return true;
             }
 
