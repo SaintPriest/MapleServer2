@@ -38,4 +38,4 @@ My discord ID: ~~SaintPriest#9860.~~ temporary discord ID:priestDiana2#2239
 Also report bugs please message me to fix.
 
 ## Notice:
-Require install MariaDB to run
+Require install MySql Server to run
