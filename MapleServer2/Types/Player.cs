@@ -173,6 +173,8 @@ namespace MapleServer2.Types
         public List<string> GmFlags = new List<string>();
         public int DungeonSessionId = -1;
 
+        public List<Widget> Widgets = new List<Widget>();
+
         class TimeInfo
         {
             public long CharCreation;
@@ -198,8 +200,7 @@ namespace MapleServer2.Types
             Job = job;
             GameOptions = new GameOptions();
             GameOptions.Initialize();
-            Wallet = new Wallet(this, meso: 0, meret: 0, gameMeret: 0, eventMeret: 0, valorToken: 0, treva: 0, rue: 0,
-                                haviFruit: 0, mesoToken: 0, bank: 0);
+            Wallet = new Wallet(meso: 0, valorToken: 0, treva: 0, rue: 0, haviFruit: 0, mesoToken: 0, bank: 0);
             Levels = new Levels(this, playerLevel: 1, exp: 0, restExp: 0, prestigeLevel: 1, prestigeExp: 0, new List<MasteryExp>()
             {
                 new MasteryExp(MasteryType.Fishing),
@@ -215,8 +216,8 @@ namespace MapleServer2.Types
                 new MasteryExp(MasteryType.PetTaming)
             });
             Timestamps = new TimeInfo(DateTimeOffset.UtcNow.ToUnixTimeSeconds());
-            MapId = (int) Map.UnknownLocation;
-            Coord = CoordF.From(-675, 525, 600); // Intro map (52000065)
+            MapId = JobMetadataStorage.GetStartMapId((int) job);
+            Coord = MapEntityStorage.GetRandomPlayerSpawn(MapId).Coord.ToFloat();
             Stats = new PlayerStats(strBase: 10, dexBase: 10, intBase: 10, lukBase: 10, hpBase: 500, critRateBase: 10);
             Motto = "Motto";
             ProfileUrl = "";
@@ -248,7 +249,6 @@ namespace MapleServer2.Types
 
         public void Warp(int mapId, CoordF coord = default, CoordF rotation = default, long instanceId = 0)
         {
-
             Coord = coord;
             Rotation = rotation;
             SafeBlock = coord;

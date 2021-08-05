@@ -205,7 +205,7 @@ namespace MapleServer2.PacketHandlers.Game
 
             if (player.Account.Home == null)
             {
-                player.Account.Home = new Home(player.Account.Id, player.Name, homeTemplate.ToString())
+                player.Account.Home = new Home(player.Account.Id, player.Name, homeTemplate)
                 {
                     PlotMapId = player.MapId,
                     PlotNumber = land.Id,
@@ -546,17 +546,7 @@ namespace MapleServer2.PacketHandlers.Game
             homeOwner.Value.Session.Send(FurnishingInventoryPacket.Load(newFieldCube.Value));
             if (oldFieldCube?.Value.Item != null)
             {
-                Item oldItem = warehouseItems.Values.FirstOrDefault(x => x.Id == oldFieldCube.Value.Item.Id);
-                if (oldItem == default)
-                {
-                    warehouseItems[oldFieldCube.Value.Item.Uid] = oldFieldCube.Value.Item;
-                    homeOwner.Value.Session.Send(WarehouseInventoryPacket.Load(oldFieldCube.Value.Item, warehouseItems.Values.Count));
-                }
-                else
-                {
-                    oldItem.Amount++;
-                    homeOwner.Value.Session.Send(WarehouseInventoryPacket.UpdateAmount(oldItem.Uid, oldItem.Amount));
-                }
+                _ = home.AddWarehouseItem(homeOwner.Value.Session, oldFieldCube.Value.Item.Id, 1, oldFieldCube.Value.Item);
             }
             session.FieldManager.BroadcastPacket(ResponseCubePacket.ReplaceCube(homeOwner.ObjectId, session.FieldPlayer.ObjectId, newFieldCube, sendOnlyObjectId: false));
             session.FieldManager.AddCube(newFieldCube, homeOwner.ObjectId, session.FieldPlayer.ObjectId);
@@ -1001,29 +991,13 @@ namespace MapleServer2.PacketHandlers.Game
                 return;
             }
 
-            switch (rewardId)
+            MasteryUGCHousingMetadata metadata = MasteryUGCHousingMetadataStorage.GetMetadata(rewardId);
+            if (metadata == null)
             {
-                case 2:
-                case 5:
-                    InventoryController.Add(session, new Item(20301019), true);
-                    break;
-                case 3:
-                    InventoryController.Add(session, new Item(20301020), true);
-                    break;
-                case 4:
-                case 8:
-                    InventoryController.Add(session, new Item(20301021), true);
-                    break;
-                case 6:
-                    InventoryController.Add(session, new Item(20301022), true);
-                    break;
-                case 7:
-                case 9:
-                    InventoryController.Add(session, new Item(20300552), true);
-                    break;
-                default:
-                    break;
+                return;
             }
+
+            InventoryController.Add(session, new Item(metadata.ItemId), true);
             home.InteriorRewardsClaimed.Add(rewardId);
             session.Send(ResponseCubePacket.DecorationScore(home));
         }
@@ -1190,7 +1164,7 @@ namespace MapleServer2.PacketHandlers.Game
                 case 1: // meso
                     return session.Player.Wallet.Meso.Modify(-shop.Price);
                 case 3: // meret
-                    return session.Player.Wallet.RemoveMerets(shop.Price);
+                    return session.Player.Account.RemoveMerets(shop.Price);
                 default:
                     session.SendNotice($"Unknown currency: {shop.FurnishingTokenType}");
                     return false;
@@ -1214,7 +1188,7 @@ namespace MapleServer2.PacketHandlers.Game
                     if (home.Merets - shop.Price >= 0)
                     {
                         home.Merets -= shop.Price;
-                        owner.Wallet.RemoveMerets(shop.Price);
+                        owner.Account.RemoveMerets(shop.Price);
                         fieldManager.BroadcastPacket(ResponseCubePacket.UpdateBudget(home));
                         return true;
                     }
@@ -1235,7 +1209,7 @@ namespace MapleServer2.PacketHandlers.Game
                 case 90000003:
                     return session.Player.Wallet.Meso.Modify(-price);
                 case 90000004:
-                    return session.Player.Wallet.RemoveMerets(price);
+                    return session.Player.Account.RemoveMerets(price);
                 case 90000006:
                     return session.Player.Wallet.ValorToken.Modify(-price);
                 case 90000013:
@@ -1396,18 +1370,7 @@ namespace MapleServer2.PacketHandlers.Game
             homeOwner.Value.Session.Send(FurnishingInventoryPacket.Remove(cube.Value));
 
             DatabaseManager.Delete(cube.Value);
-
-            Item item = warehouseItems.Values.FirstOrDefault(x => x.Id == cube.Value.Item.Id);
-            if (item == default)
-            {
-                warehouseItems[cube.Value.Item.Uid] = cube.Value.Item;
-                homeOwner.Value.Session.Send(WarehouseInventoryPacket.Load(cube.Value.Item, warehouseItems.Values.Count));
-            }
-            else
-            {
-                warehouseItems[item.Uid].Amount++;
-                homeOwner.Value.Session.Send(WarehouseInventoryPacket.UpdateAmount(item.Uid, item.Amount));
-            }
+            _ = home.AddWarehouseItem(homeOwner.Value.Session, cube.Value.Item.Id, 1, cube.Value.Item);
             session.FieldManager.RemoveCube(cube, homeOwner.ObjectId, session.FieldPlayer.ObjectId);
         }
 

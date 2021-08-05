@@ -362,7 +362,9 @@ namespace MapleServer2.PacketHandlers.Game
                     return;
             }
 
-            MoveFieldHandler.HandleInstanceMove(session, (int) mapId);
+            session.Player.ReturnCoord = session.FieldPlayer.Coord;
+            session.Player.ReturnMapId = session.Player.MapId;
+            session.Player.Warp(mapId: (int) mapId, instanceId: session.Player.CharacterId);
         }
 
         private static void HandleDeleteSavedHair(GameSession session, PacketReader packet)
@@ -624,7 +626,7 @@ namespace MapleServer2.PacketHandlers.Game
                 case ShopCurrencyType.Meret:
                 case ShopCurrencyType.GameMeret:
                 case ShopCurrencyType.EventMeret:
-                    return session.Player.Wallet.RemoveMerets(tokenCost);
+                    return session.Player.Account.RemoveMerets(tokenCost);
                 case ShopCurrencyType.Item:
                     Item itemCost = session.Player.Inventory.Items.FirstOrDefault(x => x.Value.Id == requiredItemId).Value;
                     if (itemCost == null)
