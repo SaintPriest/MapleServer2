@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Xml;
+﻿using System.Xml;
 using GameDataParser.Files;
 using Maple2.File.IO.Crypto.Common;
 using Maple2Storage.Types.Metadata;
@@ -59,13 +57,23 @@ namespace GameDataParser.Parsers
                     {
                         if (childNode.Name.Equals("startInvenItem"))
                         {
+                            Dictionary<int, TutorialItemMetadata> tutorialItemsDictionary = new Dictionary<int, TutorialItemMetadata>();
                             foreach (XmlNode startItem in childNode)
                             {
-                                int itemId = int.Parse(startItem.Attributes["itemID"].Value);
-                                byte rarity = byte.Parse(startItem.Attributes["grade"].Value);
-                                byte amount = byte.Parse(startItem.Attributes["count"].Value);
-                                metadata.TutorialItems.Add(new TutorialItemMetadata(itemId, rarity, amount));
+                                TutorialItemMetadata tutorialItem = new TutorialItemMetadata();
+                                tutorialItem.ItemId = int.Parse(startItem.Attributes["itemID"].Value);
+                                tutorialItem.Rarity = byte.Parse(startItem.Attributes["grade"].Value);
+                                tutorialItem.Amount = byte.Parse(startItem.Attributes["count"].Value);
+                                if (tutorialItemsDictionary.ContainsKey(tutorialItem.ItemId))
+                                {
+                                    tutorialItemsDictionary[tutorialItem.ItemId].Amount += tutorialItem.Amount;
+                                }
+                                else
+                                {
+                                    tutorialItemsDictionary[tutorialItem.ItemId] = tutorialItem;
+                                }
                             }
+                            metadata.TutorialItems.AddRange(tutorialItemsDictionary.Values);
                         }
 
                         else if (childNode.Name.Equals("skills"))

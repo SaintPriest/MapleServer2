@@ -1,7 +1,6 @@
-﻿using System.Collections.Generic;
-using System.IO;
+using Maple2Storage.Types;
 using Maple2Storage.Types.Metadata;
-using MapleServer2.Constants;
+using MapleServer2.Constants.Skills;
 using MapleServer2.Enums;
 using ProtoBuf;
 
@@ -11,7 +10,7 @@ namespace MapleServer2.Data.Static
     {
         private static readonly Dictionary<int, SkillMetadata> skill = new Dictionary<int, SkillMetadata>();
 
-        static SkillMetadataStorage()
+        public static void Init()
         {
             using FileStream stream = File.OpenRead($"{Paths.RESOURCES}/ms2-skill-metadata");
             List<SkillMetadata> skillList = Serializer.Deserialize<List<SkillMetadata>>(stream);
@@ -30,6 +29,17 @@ namespace MapleServer2.Data.Static
         public static List<SkillMetadata> GetJobSkills(Job job = Job.None)
         {
             List<SkillMetadata> jobSkill = new List<SkillMetadata>();
+            List<int> gmSkills = SkillTreeOrdered.GetListOrdered(Job.GameMaster);
+
+            if (Job.GameMaster == job)
+            {
+                foreach (int skillId in gmSkills)
+                {
+                    jobSkill.Add(skill[skillId]);
+                    jobSkill.First(skill => skill.SkillId == skillId).CurrentLevel = 1;
+                }
+                return jobSkill;
+            }
 
             foreach (KeyValuePair<int, SkillMetadata> skills in skill)
             {
@@ -40,12 +50,12 @@ namespace MapleServer2.Data.Static
                 else if (skills.Value.SkillId == 20000001) // Swiming
                 {
                     jobSkill.Add(skills.Value);
-                    skills.Value.Learned = 1;
+                    skills.Value.CurrentLevel = 1;
                 }
                 else if (skills.Value.SkillId == 20000011) // Climbing walls
                 {
                     jobSkill.Add(skills.Value);
-                    skills.Value.Learned = 1;
+                    skills.Value.CurrentLevel = 1;
                 }
             }
             return jobSkill;

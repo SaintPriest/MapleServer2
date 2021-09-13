@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+﻿using MapleServer2.Database;
 
 namespace MapleServer2.Types
 {
@@ -9,20 +9,27 @@ namespace MapleServer2.Types
         public List<Hotbar> Hotbars { get; private set; }
         public short ActiveHotbarId { get; private set; }
 
-        public GameOptions() { }
-
-        public void Initialize()
+        public GameOptions()
         {
             KeyBinds = new Dictionary<int, KeyBind>();
+            Id = DatabaseManager.GameOptions.Insert(this);
+
             Hotbars = new List<Hotbar>();
 
             // Have 3 hotbars available
             for (int i = 0; i < 3; i++)
             {
-                Hotbar hotbar = new Hotbar();
-                hotbar.Initialize();
+                Hotbar hotbar = new Hotbar(Id);
                 Hotbars.Add(hotbar);
             }
+        }
+
+        public GameOptions(Dictionary<int, KeyBind> keyBinds, List<Hotbar> hotbars, short activeHotbarId, long id)
+        {
+            KeyBinds = keyBinds;
+            Hotbars = hotbars;
+            ActiveHotbarId = activeHotbarId;
+            Id = id;
         }
 
         public void SetKeyBind(ref KeyBind keyBind)

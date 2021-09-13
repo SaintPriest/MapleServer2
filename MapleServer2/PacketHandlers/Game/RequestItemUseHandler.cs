@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using Maple2Storage.Tools;
+﻿using Maple2Storage.Tools;
 using Maple2Storage.Types;
 using Maple2Storage.Types.Metadata;
 using MaplePacketLib2.Tools;
@@ -14,7 +11,6 @@ using MapleServer2.Packets;
 using MapleServer2.Servers.Game;
 using MapleServer2.Tools;
 using MapleServer2.Types;
-using Microsoft.Extensions.Logging;
 
 namespace MapleServer2.PacketHandlers.Game
 {
@@ -22,7 +18,7 @@ namespace MapleServer2.PacketHandlers.Game
     {
         public override RecvOp OpCode => RecvOp.REQUEST_ITEM_USE;
 
-        public RequestItemUseHandler(ILogger<RequestItemUseHandler> logger) : base(logger) { }
+        public RequestItemUseHandler() : base() { }
 
         public override void Handle(GameSession session, PacketReader packet)
         {
@@ -91,8 +87,11 @@ namespace MapleServer2.PacketHandlers.Game
                 case "ItemChangeBeauty": // special beauty vouchers
                     HandleBeautyVoucher(session, item);
                     break;
+                case "ItemRePackingScroll":
+                    HandleRepackingScroll(session, item);
+                    break;
                 default:
-                    Console.WriteLine("Unhandled item function: " + item.Function.Name);
+                    Logger.Warn("Unhandled item function: " + item.Function.Name);
                     break;
             }
         }
@@ -104,21 +103,21 @@ namespace MapleServer2.PacketHandlers.Game
 
         private static void HandleChatEmoticonAdd(GameSession session, Item item)
         {
-            long expiration = DateTimeOffset.UtcNow.ToUnixTimeSeconds() + item.Function.Duration + Environment.TickCount;
+            long expiration = DateTimeOffset.UtcNow.ToUnixTimeSeconds() + item.Function.ChatEmoticonAdd.Duration + Environment.TickCount;
 
-            if (item.Function.Duration == 0) // if no duration was set, set it to not expire
+            if (item.Function.ChatEmoticonAdd.Duration == 0) // if no duration was set, set it to not expire
             {
-                expiration = 9223372036854775807;
+                expiration = long.MaxValue;
             }
 
-            if (session.Player.ChatSticker.Any(p => p.GroupId == item.Function.Id))
+            if (session.Player.ChatSticker.Any(p => p.GroupId == item.Function.ChatEmoticonAdd.Id))
             {
                 // TODO: Find reject packet
                 return;
             }
 
-            session.Send(ChatStickerPacket.AddSticker(item.Id, item.Function.Id, expiration));
-            session.Player.ChatSticker.Add(new((byte) item.Function.Id, expiration));
+            session.Send(ChatStickerPacket.AddSticker(item.Id, item.Function.ChatEmoticonAdd.Id, expiration));
+            session.Player.ChatSticker.Add(new((byte) item.Function.ChatEmoticonAdd.Id, expiration));
             InventoryController.Consume(session, item.Uid, 1);
         }
 
@@ -127,25 +126,14 @@ namespace MapleServer2.PacketHandlers.Game
             short boxType = packet.ReadShort();
             int index = packet.ReadShort() - 0x30;
 
-            if (item.Content.Count <= 0)
-            {
-                return;
-            }
-
-            InventoryController.Consume(session, item.Uid, 1);
-
-            if (index < item.Content.Count)
-            {
-                ItemUseHelper.GiveItem(session, item.Content[index]);
-            }
+            ItemBoxHelper.GiveItemFromSelectBox(session, item, index);
         }
 
         private static void HandleOpenItemBox(GameSession session, PacketReader packet, Item item)
         {
             short boxType = packet.ReadShort();
 
-            InventoryController.Consume(session, item.Uid, 1);
-            ItemUseHelper.OpenBox(session, item.Content);
+            ItemBoxHelper.GiveItemFromOpenBox(session, item);
         }
 
         private static void HandleOpenMassive(GameSession session, PacketReader packet, Item item)
@@ -153,23 +141,23 @@ namespace MapleServer2.PacketHandlers.Game
             // Major WIP
 
             string password = packet.ReadUnicodeString();
-            int duration = item.Function.Duration + Environment.TickCount;
+            int duration = item.Function.OpenMassiveEvent.Duration + Environment.TickCount;
             CoordF portalCoord = session.Player.Coord;
             CoordF portalRotation = session.Player.Rotation;
 
-            session.FieldManager.BroadcastPacket(PlayerHostPacket.StartMinigame(session.Player, item.Function.FieldId));
+            session.FieldManager.BroadcastPacket(PlayerHostPacket.StartMinigame(session.Player, item.Function.OpenMassiveEvent.FieldId));
             //  session.FieldManager.BroadcastPacket(FieldPacket.AddPortal()
             InventoryController.Consume(session, item.Uid, 1);
         }
 
         private static void HandleLevelPotion(GameSession session, Item item)
         {
-            if (session.Player.Levels.Level >= item.Function.TargetLevel)
+            if (session.Player.Levels.Level >= item.Function.LevelPotion.TargetLevel)
             {
                 return;
             }
 
-            session.Player.Levels.SetLevel(item.Function.TargetLevel);
+            session.Player.Levels.SetLevel(item.Function.LevelPotion.TargetLevel);
 
             InventoryController.Consume(session, item.Uid, 1);
         }
@@ -198,7 +186,7 @@ namespace MapleServer2.PacketHandlers.Game
 
         private static void HandleVIPCoupon(GameSession session, Item item)
         {
-            long vipTime = item.Function.Duration * 3600;
+            long vipTime = item.Function.VIPCoupon.Duration * 3600;
 
             PremiumClubHandler.ActivatePremium(session, vipTime);
             InventoryController.Consume(session, item.Uid, 1);
@@ -211,7 +199,7 @@ namespace MapleServer2.PacketHandlers.Game
 
         private static void HandleHongBao(GameSession session, Item item)
         {
-            HongBao newHongBao = new(session.Player, item.Function.TotalUser, item.Id, item.Function.Id, item.Function.Count, item.Function.Duration);
+            HongBao newHongBao = new(session.Player, item.Function.HongBao.TotalUsers, item.Id, item.Function.HongBao.Id, item.Function.HongBao.Count, item.Function.HongBao.Duration);
             GameServer.HongBaoManager.AddHongBao(newHongBao);
 
             session.FieldManager.BroadcastPacket(PlayerHostPacket.OpenHongbao(session.Player, newHongBao));
@@ -302,16 +290,16 @@ namespace MapleServer2.PacketHandlers.Game
                 return;
             }
 
-            Item badge = new Item(item.Function.Id)
+            Item badge = new Item(item.Function.OpenCoupleEffectBox.Id)
             {
-                Rarity = item.Function.Rarity,
+                Rarity = item.Function.OpenCoupleEffectBox.Rarity,
                 PairedCharacterId = otherPlayer.CharacterId,
                 PairedCharacterName = otherPlayer.Name
             };
 
             Item otherUserBadge = new Item(item.Function.Id)
             {
-                Rarity = item.Function.Rarity,
+                Rarity = item.Function.OpenCoupleEffectBox.Rarity,
                 PairedCharacterId = session.Player.CharacterId,
                 PairedCharacterName = session.Player.Name
             };
@@ -374,7 +362,7 @@ namespace MapleServer2.PacketHandlers.Game
 
         public static void HandleExpandCharacterSlot(GameSession session, Item item)
         {
-            Account account = DatabaseManager.GetAccount(session.Player.AccountId);
+            Account account = DatabaseManager.Accounts.FindById(session.Player.AccountId);
             if (account.CharacterSlots >= 11) // TODO: Move the max character slots (of all users) to a centralized location
             {
                 session.Send(CouponUsePacket.MaxCharacterSlots());
@@ -382,7 +370,7 @@ namespace MapleServer2.PacketHandlers.Game
             }
 
             account.CharacterSlots++;
-            DatabaseManager.Update(account);
+            DatabaseManager.Accounts.Update(account);
             session.Send(CouponUsePacket.CharacterSlotAdded());
             InventoryController.Consume(session, item.Uid, 1);
         }
@@ -396,5 +384,7 @@ namespace MapleServer2.PacketHandlers.Game
 
             session.Send(CouponUsePacket.BeautyCoupon(session.FieldPlayer, item.Uid));
         }
+
+        public static void HandleRepackingScroll(GameSession session, Item item) => session.Send(ItemRepackagePacket.Open(item.Uid));
     }
 }

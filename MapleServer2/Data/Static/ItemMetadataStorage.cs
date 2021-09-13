@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using Maple2Storage.Enums;
+﻿using Maple2Storage.Enums;
 using Maple2Storage.Tools;
 using Maple2Storage.Types;
 using Maple2Storage.Types.Metadata;
-using MapleServer2.Constants;
 using MapleServer2.Enums;
 using ProtoBuf;
 
@@ -17,7 +12,7 @@ namespace MapleServer2.Data.Static
     {
         private static readonly Dictionary<int, ItemMetadata> map = new Dictionary<int, ItemMetadata>();
 
-        static ItemMetadataStorage()
+        public static void Init()
         {
             using FileStream stream = File.OpenRead($"{Paths.RESOURCES}/ms2-item-metadata");
             List<ItemMetadata> items = Serializer.Deserialize<List<ItemMetadata>>(stream);
@@ -85,7 +80,6 @@ namespace MapleServer2.Data.Static
         public static bool GetIsCustomScore(int itemId)
         {
             return map.GetValueOrDefault(itemId).IsCustomScore;
-
         }
 
         public static byte GetGender(int itemId)
@@ -113,16 +107,36 @@ namespace MapleServer2.Data.Static
             return map.GetValueOrDefault(itemId).ShopID;
         }
 
+        public static bool IsSellablle(int itemId)
+        {
+            return map.GetValueOrDefault(itemId).Sellable;
+        }
+
+        public static TransferType GetTransferType(int itemId)
+        {
+            return map.GetValueOrDefault(itemId).TransferType;
+        }
+
+        public static int GetTradeableCount(int itemId)
+        {
+            return map.GetValueOrDefault(itemId).TradeableCount;
+        }
+
+        public static int GetRepackageCount(int itemId)
+        {
+            return map.GetValueOrDefault(itemId).RepackageCount;
+        }
+
+        public static int GetRepackageConsumeCount(int itemId)
+        {
+            return map.GetValueOrDefault(itemId).RepackageItemConsumeCount;
+        }
+
         public static List<Job> GetRecommendJobs(int itemId)
         {
             Converter<int, Job> converter = new Converter<int, Job>((integer) => (Job) integer);
 
             return map.GetValueOrDefault(itemId).RecommendJobs.ConvertAll(converter);
-        }
-
-        public static List<ItemContent> GetContent(int itemId)
-        {
-            return map.GetValueOrDefault(itemId).Content;
         }
 
         public static int GetSellPrice(int itemId)
@@ -156,11 +170,6 @@ namespace MapleServer2.Data.Static
         public static ItemFunction GetFunction(int itemId)
         {
             return map.GetValueOrDefault(itemId).FunctionData;
-        }
-
-        public static AdBalloonData GetBalloonData(int itemId)
-        {
-            return map.GetValueOrDefault(itemId).AdBalloonData;
         }
 
         public static string GetTag(int itemId)

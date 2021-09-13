@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using Maple2Storage.Enums;
+﻿using Maple2Storage.Enums;
 using Maple2Storage.Tools;
 using Maple2Storage.Types;
 using Maple2Storage.Types.Metadata;
@@ -14,7 +11,6 @@ using MapleServer2.Packets;
 using MapleServer2.Servers.Game;
 using MapleServer2.Tools;
 using MapleServer2.Types;
-using Microsoft.Extensions.Logging;
 
 namespace MapleServer2.PacketHandlers.Game
 {
@@ -22,7 +18,7 @@ namespace MapleServer2.PacketHandlers.Game
     {
         public override RecvOp OpCode => RecvOp.BEAUTY;
 
-        public BeautyHandler(ILogger<BeautyHandler> logger) : base(logger) { }
+        public BeautyHandler() : base() { }
 
         private enum BeautyMode : byte
         {
@@ -148,7 +144,8 @@ namespace MapleServer2.PacketHandlers.Game
                 Color = equipColor,
                 IsTemplate = false,
                 IsEquipped = true,
-                Owner = session.Player
+                OwnerCharacterId = session.Player.CharacterId,
+                OwnerCharacterName = session.Player.Name
             };
             BeautyMetadata beautyShop = BeautyMetadataStorage.GetShopById(session.Player.ShopId);
 
@@ -168,7 +165,6 @@ namespace MapleServer2.PacketHandlers.Game
             }
             Console.WriteLine(equipColor.Color);
             ModifyBeauty(session, packet, beautyItem);
-            session.Player.ShopId = 0;
         }
 
         private static void HandleModifyExistingBeauty(GameSession session, PacketReader packet)
@@ -198,7 +194,6 @@ namespace MapleServer2.PacketHandlers.Game
             beautyItem.Color = equipColor;
             Console.WriteLine(equipColor.Color);
             ModifyBeauty(session, packet, beautyItem);
-            session.Player.ShopId = 0;
         }
 
         private static void HandleModifySkin(GameSession session, PacketReader packet)
@@ -217,7 +212,6 @@ namespace MapleServer2.PacketHandlers.Game
             session.Player.SkinColor = skinColor;
             Console.WriteLine(skinColor);
             session.FieldManager.BroadcastPacket(SkinColorPacket.Update(session.FieldPlayer, skinColor));
-            session.Player.ShopId = 0;
         }
         private static void HandleRandomHair(GameSession session, PacketReader packet)
         {
@@ -262,7 +256,8 @@ namespace MapleServer2.PacketHandlers.Game
                 HairData = new HairData((float) chosenBackLength, (float) chosenFrontLength, chosenPreset.BackPositionCoord, chosenPreset.BackPositionRotation, chosenPreset.FrontPositionCoord, chosenPreset.FrontPositionRotation),
                 IsTemplate = false,
                 IsEquipped = true,
-                Owner = session.Player
+                OwnerCharacterId = session.Player.CharacterId,
+                OwnerCharacterName = session.Player.Name
             };
             Dictionary<ItemSlot, Item> cosmetics = session.Player.Inventory.Cosmetics;
 
@@ -271,7 +266,7 @@ namespace MapleServer2.PacketHandlers.Game
             {
                 previousHair.Slot = -1;
                 session.Player.HairInventory.RandomHair = previousHair; // store the previous hair
-                DatabaseManager.Delete(previousHair);
+                DatabaseManager.Items.Delete(previousHair.Uid);
                 session.FieldManager.BroadcastPacket(EquipmentPacket.UnequipItem(session.FieldPlayer, previousHair));
             }
 
@@ -279,7 +274,6 @@ namespace MapleServer2.PacketHandlers.Game
 
             session.FieldManager.BroadcastPacket(EquipmentPacket.EquipItem(session.FieldPlayer, newHair, ItemSlot.HR));
             session.Send(BeautyPacket.RandomHairOption(previousHair, newHair));
-            session.Player.ShopId = 0;
         }
 
         private static void HandleChooseRandomHair(GameSession session, PacketReader packet)
@@ -293,7 +287,7 @@ namespace MapleServer2.PacketHandlers.Game
                 if (cosmetics.Remove(ItemSlot.HR, out Item newHair))
                 {
                     newHair.Slot = -1;
-                    DatabaseManager.Delete(newHair);
+                    DatabaseManager.Items.Delete(newHair.Uid);
                     session.FieldManager.BroadcastPacket(EquipmentPacket.UnequipItem(session.FieldPlayer, newHair));
                 }
 
@@ -358,12 +352,10 @@ namespace MapleServer2.PacketHandlers.Game
                     mapId = Map.DouglasDyeWorkshop;
                     break;
                 default:
-                    Console.WriteLine($"teleportId: {teleportId} not found");
+                    Logger.Warn($"teleportId: {teleportId} not found");
                     return;
             }
 
-            session.Player.ReturnCoord = session.FieldPlayer.Coord;
-            session.Player.ReturnMapId = session.Player.MapId;
             session.Player.Warp(mapId: (int) mapId, instanceId: session.Player.CharacterId);
         }
 
@@ -443,20 +435,20 @@ namespace MapleServer2.PacketHandlers.Game
                     return;
                 }
 
-                if (item.ItemSlot == ItemSlot.CP)
-                {
-                    hatData[i] = packet.Read<HatData>();
-                }
-
                 if (!HandleShopPay(session, beautyShop, useVoucher[i]))
                 {
                     return;
                 }
 
+                if (item.ItemSlot == ItemSlot.CP)
+                {
+                    hatData[i] = packet.Read<HatData>();
+                    item.HatData = hatData[i];
+                }
+
                 item.Color = equipColor[i];
                 Console.WriteLine(item.Color);
                 session.FieldManager.BroadcastPacket(ItemExtraDataPacket.Update(session.FieldPlayer, item));
-                session.Player.ShopId = 0;
             }
         }
 
@@ -492,7 +484,7 @@ namespace MapleServer2.PacketHandlers.Game
             if (cosmetics.Remove(itemSlot, out Item removeItem))
             {
                 removeItem.Slot = -1;
-                DatabaseManager.Delete(removeItem);
+                DatabaseManager.Items.Delete(removeItem.Uid);
                 session.FieldManager.BroadcastPacket(EquipmentPacket.UnequipItem(session.FieldPlayer, removeItem));
             }
             // equip new item

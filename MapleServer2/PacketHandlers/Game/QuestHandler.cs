@@ -1,15 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using Maple2Storage.Types.Metadata;
+﻿using Maple2Storage.Types.Metadata;
 using MaplePacketLib2.Tools;
 using MapleServer2.Constants;
 using MapleServer2.Data.Static;
+using MapleServer2.Database;
 using MapleServer2.Packets;
 using MapleServer2.Servers.Game;
 using MapleServer2.Tools;
 using MapleServer2.Types;
-using Microsoft.Extensions.Logging;
 
 namespace MapleServer2.PacketHandlers.Game
 {
@@ -17,13 +14,14 @@ namespace MapleServer2.PacketHandlers.Game
     {
         public override RecvOp OpCode => RecvOp.QUEST;
 
-        public QuestHandler(ILogger<QuestHandler> logger) : base(logger) { }
+        public QuestHandler() : base() { }
 
         private enum QuestMode : byte
         {
             AcceptQuest = 0x02,
             CompleteQuest = 0x04,
             ExplorationQuests = 0x08,
+            ToggleTracking = 0x09,
             CompleteNavigator = 0x18,
         }
 
@@ -45,6 +43,9 @@ namespace MapleServer2.PacketHandlers.Game
                 case QuestMode.CompleteNavigator:
                     HandleCompleteNavigator(session, packet);
                     break;
+                case QuestMode.ToggleTracking:
+                    HandleToggleTracking(session, packet);
+                    break;
                 default:
                     IPacketHandler<GameSession>.LogUnknownMode(mode);
                     break;
@@ -64,6 +65,7 @@ namespace MapleServer2.PacketHandlers.Game
 
             questStatus.Started = true;
             questStatus.StartTimestamp = DateTimeOffset.Now.ToUnixTimeSeconds();
+            DatabaseManager.Quests.Update(questStatus);
             session.Send(QuestPacket.AcceptQuest(questId));
         }
 
@@ -97,6 +99,7 @@ namespace MapleServer2.PacketHandlers.Game
                 }
             }
 
+            DatabaseManager.Quests.Update(questStatus);
             session.Send(QuestPacket.CompleteQuest(questId, true));
 
             // Add next quest
@@ -131,7 +134,7 @@ namespace MapleServer2.PacketHandlers.Game
             }
             questStatus.Completed = true;
             questStatus.CompleteTimestamp = DateTimeOffset.Now.ToUnixTimeSeconds();
-
+            DatabaseManager.Quests.Update(questStatus);
             session.Send(QuestPacket.CompleteQuest(questId, false));
         }
 
@@ -149,16 +152,27 @@ namespace MapleServer2.PacketHandlers.Game
                 }
 
                 QuestMetadata metadata = QuestMetadataStorage.GetMetadata(questId);
-                QuestStatus questStatus = new QuestStatus(session.Player, metadata)
-                {
-                    Started = true,
-                    StartTimestamp = DateTimeOffset.Now.ToUnixTimeSeconds()
-                };
+                QuestStatus questStatus = new QuestStatus(session.Player, metadata, true, DateTimeOffset.Now.ToUnixTimeSeconds());
                 list.Add(questStatus);
                 session.Send(QuestPacket.AcceptQuest(questStatus.Basic.Id));
             }
 
             session.Player.QuestList.AddRange(list);
+        }
+
+        private static void HandleToggleTracking(GameSession session, PacketReader packet)
+        {
+            int questId = packet.ReadInt();
+            bool tracked = packet.ReadBool();
+
+            QuestStatus questStatus = session.Player.QuestList.FirstOrDefault(x => x.Basic.Id == questId);
+            if (questStatus == null)
+            {
+                return;
+            }
+            questStatus.Tracked = tracked;
+            DatabaseManager.Quests.Update(questStatus);
+            session.Send(QuestPacket.ToggleTracking(questId, tracked));
         }
     }
 }

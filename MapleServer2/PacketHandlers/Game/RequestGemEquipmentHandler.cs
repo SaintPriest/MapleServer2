@@ -1,11 +1,9 @@
-﻿using System.Collections.Generic;
-using MaplePacketLib2.Tools;
+﻿using MaplePacketLib2.Tools;
 using MapleServer2.Constants;
 using MapleServer2.Packets;
 using MapleServer2.Servers.Game;
 using MapleServer2.Tools;
 using MapleServer2.Types;
-using Microsoft.Extensions.Logging;
 
 namespace MapleServer2.PacketHandlers.Game
 {
@@ -13,7 +11,7 @@ namespace MapleServer2.PacketHandlers.Game
     {
         public override RecvOp OpCode => RecvOp.REQUEST_GEM_EQUIPMENT;
 
-        public RequestGemEquipmentHandler(ILogger<RequestGemEquipmentHandler> logger) : base(logger) { }
+        public RequestGemEquipmentHandler() : base() { }
 
         private enum RequestGemEquipmentMode : byte
         {

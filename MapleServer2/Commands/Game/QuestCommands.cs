@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using Maple2Storage.Types.Metadata;
+﻿using Maple2Storage.Types.Metadata;
 using MapleServer2.Commands.Core;
 using MapleServer2.Data.Static;
 using MapleServer2.Packets;
@@ -14,7 +11,7 @@ namespace MapleServer2.Commands.Game
     {
         public QuestCommand()
         {
-            Aliases = new[]
+            Aliases = new()
             {
                 "completequest"
             };

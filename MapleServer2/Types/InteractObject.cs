@@ -1,5 +1,4 @@
-﻿using System;
-using Maple2Storage.Enums;
+﻿using Maple2Storage.Enums;
 
 namespace MapleServer2.Types
 {
@@ -36,17 +35,17 @@ namespace MapleServer2.Types
         public AdBalloon(Player owner, Item item, string title, string description, bool publicHouse)
         {
             Owner = owner;
-            InteractId = item.AdBalloon.InteractId;
-            Model = item.AdBalloon.Model;
-            Asset = item.AdBalloon.Asset;
-            NormalState = item.AdBalloon.NormalState;
-            Reactable = item.AdBalloon.Reactable;
-            Scale = item.AdBalloon.Scale;
+            InteractId = item.Function.InstallBillboard.InteractId;
+            Model = item.Function.InstallBillboard.Model;
+            Asset = item.Function.InstallBillboard.Asset;
+            NormalState = item.Function.InstallBillboard.NormalState;
+            Reactable = item.Function.InstallBillboard.Reactable;
+            Scale = item.Function.InstallBillboard.Scale;
             Title = title;
             Description = description;
             PublicHouse = publicHouse;
             CreationTimestamp = DateTimeOffset.UtcNow.ToUnixTimeSeconds() + Environment.TickCount;
-            ExpirationTimestamp = DateTimeOffset.UtcNow.ToUnixTimeSeconds() + Environment.TickCount + item.AdBalloon.Duration;
+            ExpirationTimestamp = DateTimeOffset.UtcNow.ToUnixTimeSeconds() + Environment.TickCount + item.Function.InstallBillboard.Duration;
         }
     }
 }

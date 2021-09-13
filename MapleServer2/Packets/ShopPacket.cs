@@ -1,5 +1,4 @@
-﻿using System;
-using Maple2Storage.Enums;
+﻿using Maple2Storage.Enums;
 using MaplePacketLib2.Tools;
 using MapleServer2.Constants;
 using MapleServer2.Database.Types;
@@ -85,12 +84,7 @@ namespace MapleServer2.Packets
             pWriter.WriteByte(1);
             pWriter.WriteByte();
             pWriter.WriteInt();
-            pWriter.WriteItem(new Item(itemId)
-            {
-                Amount = quantity,
-                CreationTime = DateTimeOffset.UtcNow.ToUnixTimeSeconds(),
-                Owner = null
-            });
+            pWriter.WriteItem(new Item(itemId, quantity));
 
             return pWriter;
         }
@@ -128,13 +122,7 @@ namespace MapleServer2.Packets
             pWriter.WriteInt(product.RequiredFameGrade);
             pWriter.WriteBool(product.AutoPreviewEquip);
             pWriter.WriteByte();
-            pWriter.WriteItem(new Item(product.ItemId)
-            {
-                Amount = product.Quantity,
-                CreationTime = DateTimeOffset.UtcNow.ToUnixTimeSeconds(),
-                Owner = null
-            });
-
+            pWriter.WriteItem(new Item(product.ItemId, product.Quantity));
 
             return pWriter;
         }

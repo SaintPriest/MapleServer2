@@ -1,11 +1,10 @@
-﻿using System;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using MapleServer2.Enums;
+using MapleServer2.Managers;
 using MapleServer2.Network;
 using MapleServer2.Packets;
 using MapleServer2.Tools;
 using MapleServer2.Types;
-using Microsoft.Extensions.Logging;
 
 namespace MapleServer2.Servers.Game
 {
@@ -22,7 +21,7 @@ namespace MapleServer2.Servers.Game
         public FieldManager FieldManager { get; private set; }
         private readonly FieldManagerFactory FieldManagerFactory;
 
-        public GameSession(FieldManagerFactory fieldManagerFactory, ILogger<GameSession> logger) : base(logger)
+        public GameSession(FieldManagerFactory fieldManagerFactory) : base()
         {
             FieldManagerFactory = fieldManagerFactory;
         }
@@ -39,11 +38,23 @@ namespace MapleServer2.Servers.Game
             FieldManager = FieldManagerFactory.GetManager(player.MapId, instanceId: 0);
             FieldPlayer = FieldManager.RequestFieldObject(player);
             GameServer.Storage.AddPlayer(player);
+            GameServer.BuddyManager.SetFriendSessions(player);
+
             Party party = GameServer.PartyManager.GetPartyByMember(player.CharacterId);
             if (party != null)
             {
                 party.BroadcastPacketParty(PartyPacket.LoginNotice(player), this);
             }
+
+            player.BuddyList.ForEach(buddy =>
+            {
+                if (buddy.Friend?.Session?.Connected() ?? false)
+                {
+                    Buddy myBuddy = GameServer.BuddyManager.GetBuddyByPlayerAndId(buddy.Friend, buddy.SharedId);
+                    buddy.Friend.Session.Send(BuddyPacket.LoginLogoutNotification(myBuddy));
+                    buddy.Friend.Session.Send(BuddyPacket.UpdateBuddy(myBuddy));
+                }
+            });
         }
 
         public void EnterField(Player player)
@@ -73,22 +84,28 @@ namespace MapleServer2.Servers.Game
             FieldManager.AddPlayer(this, FieldPlayer); // Add player
         }
 
-        public void SyncTicks()
-        {
-            ServerTick = Environment.TickCount;
-            Send(RequestPacket.TickSync(ServerTick));
-        }
-
         public override void EndSession()
         {
+            Player.Session = null;
+            GameServer.BuddyManager.SetFriendSessions(Player);
+            FieldManager.RemovePlayer(this, FieldPlayer);
+            GameServer.Storage.RemovePlayer(FieldPlayer.Value);
+            // Should we Join the thread to wait for it to complete?
+
             if (Player.Party != null)
             {
                 Player.Party.CheckOffineParty(Player);
             }
 
-            FieldManager.RemovePlayer(this, FieldPlayer);
-            GameServer.Storage.RemovePlayer(FieldPlayer.Value);
-            // Should we Join the thread to wait for it to complete?
+            Player.BuddyList.ForEach(buddy =>
+            {
+                if (buddy.Friend?.Session?.Connected() ?? false)
+                {
+                    Buddy myBuddy = GameServer.BuddyManager.GetBuddyByPlayerAndId(buddy.Friend, buddy.SharedId);
+                    buddy.Friend.Session.Send(BuddyPacket.LoginLogoutNotification(myBuddy));
+                    buddy.Friend.Session.Send(BuddyPacket.UpdateBuddy(myBuddy));
+                }
+            });
         }
 
         public void ReleaseField(Player player)

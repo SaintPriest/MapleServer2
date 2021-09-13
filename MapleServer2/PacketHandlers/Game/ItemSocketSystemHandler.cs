@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using Maple2Storage.Types.Metadata;
+﻿using Maple2Storage.Types.Metadata;
 using MaplePacketLib2.Tools;
 using MapleServer2.Constants;
 using MapleServer2.Data.Static;
@@ -8,7 +6,6 @@ using MapleServer2.Packets;
 using MapleServer2.Servers.Game;
 using MapleServer2.Tools;
 using MapleServer2.Types;
-using Microsoft.Extensions.Logging;
 
 namespace MapleServer2.PacketHandlers.Game
 {
@@ -16,7 +13,7 @@ namespace MapleServer2.PacketHandlers.Game
     {
         public override RecvOp OpCode => RecvOp.ITEM_SOCKET_SYSTEM;
 
-        public ItemSocketSystemHandler(ILogger<ItemSocketSystemHandler> logger) : base(logger) { }
+        public ItemSocketSystemHandler() : base() { }
 
         private enum ItemSocketSystemMode : byte
         {
@@ -248,7 +245,8 @@ namespace MapleServer2.PacketHandlers.Game
             Player owner = GameServer.Storage.GetPlayerById(gemstone.OwnerId);
             if (owner != null)
             {
-                newGem.Owner = owner;
+                newGem.OwnerCharacterId = owner.CharacterId;
+                newGem.OwnerCharacterName = owner.Name;
             }
 
             Gemstone upgradedGemstone = new Gemstone()
@@ -375,10 +373,10 @@ namespace MapleServer2.PacketHandlers.Game
                 IsLocked = gemItem.IsLocked,
                 UnlockTime = gemItem.UnlockTime
             };
-            if (gemItem.Owner != null)
+            if (gemItem.OwnerCharacterId != 0)
             {
-                gemstone.OwnerId = gemItem.Owner.CharacterId;
-                gemstone.OwnerName = gemItem.Owner.Name;
+                gemstone.OwnerId = gemItem.OwnerCharacterId;
+                gemstone.OwnerName = gemItem.OwnerCharacterName;
             }
 
             equipItem.Stats.GemSockets[slot].Gemstone = gemstone;
@@ -420,7 +418,8 @@ namespace MapleServer2.PacketHandlers.Game
                 Player owner = GameServer.Storage.GetPlayerById(gemstone.OwnerId);
                 if (owner != null)
                 {
-                    gemstoneItem.Owner = owner;
+                    gemstoneItem.OwnerCharacterId = owner.CharacterId;
+                    gemstoneItem.OwnerCharacterName = owner.Name;
                 }
             }
 

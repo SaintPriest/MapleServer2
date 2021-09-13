@@ -1,10 +1,8 @@
-﻿using System.Linq;
-using MaplePacketLib2.Tools;
+﻿using MaplePacketLib2.Tools;
 using MapleServer2.Constants;
 using MapleServer2.Data.Static;
 using MapleServer2.Packets;
 using MapleServer2.Servers.Game;
-using Microsoft.Extensions.Logging;
 
 namespace MapleServer2.PacketHandlers.Game
 {
@@ -12,7 +10,7 @@ namespace MapleServer2.PacketHandlers.Game
     {
         public override RecvOp OpCode => RecvOp.CHAT_STICKER;
 
-        public ChatStickerHandler(ILogger<ChatStickerHandler> logger) : base(logger) { }
+        public ChatStickerHandler() : base() { }
 
         private enum ChatStickerMode : byte
         {

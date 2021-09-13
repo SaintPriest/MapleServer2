@@ -1,6 +1,4 @@
-﻿using System;
-using System.Linq;
-using Maple2Storage.Types;
+﻿using Maple2Storage.Types;
 using MapleServer2.Database;
 using MapleServer2.Packets;
 using MapleServer2.Servers.Game;
@@ -13,6 +11,67 @@ namespace MapleServer2.Tools
         // Adds item
         public static void Add(GameSession session, Item item, bool isNew)
         {
+            // item is currency
+            if (item.Id.ToString().StartsWith("9"))
+            {
+                switch (item.Id)
+                {
+                    case 90000001: // Meso
+                        session.Player.Wallet.Meso.Modify(item.Amount);
+                        break;
+                    case 90000006: // Valor Token
+                        session.Player.Wallet.ValorToken.Modify(item.Amount);
+                        break;
+                    case 90000004: // Meret
+                    case 90000011: // Meret
+                    case 90000015: // Meret
+                    case 90000016: // Meret
+                        session.Player.Account.Meret.Modify(item.Amount);
+                        break;
+                    case 90000013: // Rue
+                        session.Player.Wallet.Rue.Modify(item.Amount);
+                        break;
+                    case 90000014: // Havi
+                        session.Player.Wallet.HaviFruit.Modify(item.Amount);
+                        break;
+                    case 90000017: // Treva
+                        session.Player.Wallet.Treva.Modify(item.Amount);
+                        break;
+                    case 90000021: // Guild Funds
+                        if (session.Player.Guild != null)
+                        {
+                            session.Player.Guild.Funds += item.Amount;
+                            session.Player.Guild.BroadcastPacketGuild(GuildPacket.UpdateGuildFunds(session.Player.Guild.Funds));
+                            DatabaseManager.Guilds.Update(session.Player.Guild);
+                        }
+                        break;
+
+                }
+                return;
+            }
+            // TODO: Find a way to categorize items appropriately
+            else if (item.Id.ToString().StartsWith("501") ||
+                item.Id.ToString().StartsWith("502") ||
+                item.Id.ToString().StartsWith("503") ||
+                item.Id.ToString().StartsWith("504") ||
+                item.Id.ToString().StartsWith("505"))
+            {
+                if (session.Player.Account.Home == null)
+                {
+                    return;
+                }
+
+                Home home = GameServer.HomeManager.GetHome(session.Player.Account.Home.Id);
+                if (home == null)
+                {
+                    return;
+                }
+
+                _ = home.AddWarehouseItem(session, item.Id, item.Amount, item);
+                session.Send(WarehouseInventoryPacket.GainItemMessage(item, item.Amount));
+                return;
+            }
+
             // Checks if item is stackable or not
             if (item.StackLimit > 1)
             {
@@ -76,7 +135,7 @@ namespace MapleServer2.Tools
                     Amount = 1,
                     Uid = 0
                 };
-                newItem.Uid = DatabaseManager.AddItem(newItem);
+                newItem.Uid = DatabaseManager.Items.Insert(newItem);
 
                 if (!session.Player.Inventory.Add(newItem))
                 {
@@ -147,12 +206,12 @@ namespace MapleServer2.Tools
                 else if (remaining > 0) // Updates item
                 {
                     session.Send(ItemInventoryPacket.Update(uid, remaining));
-                    DatabaseManager.Update(session.Player.Inventory.Items.Values.First(x => x.Uid == uid));
+                    DatabaseManager.Items.Update(session.Player.Inventory.Items.Values.First(x => x.Uid == uid));
                 }
                 else // Removes item
                 {
                     session.Send(ItemInventoryPacket.Remove(uid));
-                    DatabaseManager.Delete(droppedItem);
+                    DatabaseManager.Items.Delete(droppedItem.Uid);
                 }
                 session.FieldManager.AddItem(session, droppedItem); // Drops item onto floor
             }
@@ -163,7 +222,7 @@ namespace MapleServer2.Tools
                     return; // Removal from inventory failed
                 }
                 session.Send(ItemInventoryPacket.Remove(uid));
-                DatabaseManager.Delete(droppedItem);
+                DatabaseManager.Items.Delete(droppedItem.Uid);
 
                 // Allow dropping bound items for now
                 session.FieldManager.AddItem(session, droppedItem);

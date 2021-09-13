@@ -1,18 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
-using System.IO;
+﻿using System.Diagnostics.CodeAnalysis;
 using System.Net.Sockets;
 using System.Security.Cryptography;
-using System.Threading;
-using System.Threading.Tasks;
 using MaplePacketLib2.Crypto;
 using MaplePacketLib2.Tools;
 using MapleServer2.Constants;
 using MapleServer2.Enums;
-using MapleServer2.Extensions;
-using Microsoft.Extensions.Logging;
-using Pastel;
+using Maple2Storage.Extensions;
+using NLog;
 
 namespace MapleServer2.Network
 {
@@ -46,13 +40,12 @@ namespace MapleServer2.Network
         private readonly byte[] RecvBuffer;
         private readonly CancellationTokenSource Source;
 
-        protected readonly ILogger Logger;
+        protected readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
         private static readonly RandomNumberGenerator Rng = RandomNumberGenerator.Create();
 
-        protected Session(ILogger<Session> logger)
+        protected Session()
         {
-            Logger = logger;
             SendQueue = new Queue<byte[]>();
             RecvBuffer = new byte[BUFFER_SIZE];
             Source = new CancellationTokenSource();
@@ -92,7 +85,7 @@ namespace MapleServer2.Network
                 // Must close socket before network stream to prevent lingering
                 Client.Client.Close();
                 Client.Close();
-                Logger.Debug($"Disconnected Client.");
+                Logger.Debug("Disconnected Client.");
             }
         }
 
@@ -131,7 +124,7 @@ namespace MapleServer2.Network
                 }
                 catch (SystemException ex)
                 {
-                    Logger.Trace($"Fatal error for session:{this}", ex);
+                    Logger.Trace("Fatal error for session:{ex}", ex);
                     Disconnect();
                 }
             });
@@ -143,7 +136,7 @@ namespace MapleServer2.Network
                 }
                 catch (SystemException ex)
                 {
-                    Logger.Trace($"Fatal error for session:{this}", ex);
+                    Logger.Trace("Fatal error for session:{ex}", ex);
                     Disconnect();
                 }
             });
@@ -167,7 +160,7 @@ namespace MapleServer2.Network
 
             // No encryption for handshake
             Packet packet = SendCipher.WriteHeader(pWriter.ToArray());
-            Logger.Debug($"Handshake: {packet}");
+            Logger.Debug("Handshake: {packet}", packet);
             SendRaw(packet);
         }
 
@@ -221,7 +214,7 @@ namespace MapleServer2.Network
                 }
                 catch (Exception ex)
                 {
-                    Logger.Error("Exception reading from socket: ", ex);
+                    Logger.Error(ex, "Exception reading from socket:");
                     return;
                 }
 
@@ -238,12 +231,13 @@ namespace MapleServer2.Network
                         case RecvOp.KEY_TABLE:
                         case RecvOp.RIDE_SYNC:
                         case RecvOp.GUIDE_OBJECT_SYNC:
+                        case RecvOp.REQUEST_TIME_SYNC:
                         case RecvOp.STATE:
                         case RecvOp.STATE_FALL_DAMAGE:
                             break;
                         default:
                             string packetString = packet.ToString();
-                            Logger.Debug($"RECV ({recvOp}): {packetString[Math.Min(packetString.Length, 6)..]}".Pastel("#8CC265"));
+                            Logger.Debug($"RECV ({recvOp}): {packetString[Math.Min(packetString.Length, 6)..]}".ColorGreen());
                             break;
                     }
                     OnPacket?.Invoke(this, packet); // handle packet
@@ -292,10 +286,11 @@ namespace MapleServer2.Network
                 case SendOp.STORAGE_INVENTORY:
                 case SendOp.TROPHY:
                 case SendOp.INTERACT_OBJECT:
+                case SendOp.RESPONSE_TIME_SYNC:
                     break;
                 default:
                     string packetString = packet.ToHexString(' ');
-                    Logger.Debug($"SEND ({sendOp}): {packetString[Math.Min(packetString.Length, 6)..]}".Pastel("#E05561"));
+                    Logger.Debug($"SEND ({sendOp}): {packetString[Math.Min(packetString.Length, 6)..]}".ColorRed());
                     break;
             }
             Packet encryptedPacket = SendCipher.Transform(packet);
@@ -310,7 +305,7 @@ namespace MapleServer2.Network
             }
             catch (IOException ex)
             {
-                Logger.Error("Exception writing to socket: ", ex);
+                Logger.Error("Exception writing to socket: {ex}", ex);
                 Disconnect();
             }
         }

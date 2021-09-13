@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Xml.Serialization;
+﻿using System.Xml.Serialization;
 
 
 namespace Maple2Storage.Types.Metadata
@@ -17,7 +15,7 @@ namespace Maple2Storage.Types.Metadata
         [XmlElement(Order = 4)]
         public int Job;
         [XmlElement(Order = 5)]
-        public byte Learned = 0;
+        public short CurrentLevel = 0;
         [XmlElement(Order = 6)]
         public readonly string State;
         [XmlElement(Order = 7)]
@@ -32,6 +30,8 @@ namespace Maple2Storage.Types.Metadata
         public readonly byte SuperArmor;
         [XmlElement(Order = 12)]
         public readonly bool IsSpRecovery;
+        [XmlElement(Order = 13)]
+        public short MaxLevel;
 
         public SkillMetadata()
         {
@@ -57,16 +57,9 @@ namespace Maple2Storage.Types.Metadata
             IsSpRecovery = isSpRecovery;
         }
 
-        public SkillMetadata(int id, List<SkillLevel> skillLevels, int[] subSkills, int job, string state, byte damageType, byte type, byte subType, byte element, byte superArmor, bool isSpRecovery)
-            : this(id, skillLevels, state, damageType, type, subType, element, superArmor, isSpRecovery)
-        {
-            SubSkills = subSkills;
-            Job = job;
-        }
-
         public override int GetHashCode()
         {
-            return HashCode.Combine(SkillId, SkillLevels, Job, Learned);
+            return HashCode.Combine(SkillId, SkillLevels, Job, CurrentLevel);
         }
 
         public override string ToString() =>
@@ -89,21 +82,32 @@ namespace Maple2Storage.Types.Metadata
         [XmlElement(Order = 6)]
         public readonly SkillMotion SkillMotions;
         [XmlElement(Order = 7)]
-        public readonly SkillAttack SkillAttacks;
+        public readonly List<SkillAttack> SkillAttacks;
         [XmlElement(Order = 8)]
+        public readonly List<SkillCondition> SkillConditions;
+        [XmlElement(Order = 9)]
         public SkillAdditionalData SkillAdditionalData;
+        [XmlElement(Order = 10)]
+        public readonly SkillUpgrade SkillUpgrade;
 
         // Required for deserialization
-        public SkillLevel() { }
+        public SkillLevel()
+        {
+            SkillAttacks = new List<SkillAttack>();
+            SkillConditions = new List<SkillCondition>();
+        }
 
         public SkillLevel(int level, SkillAdditionalData data)
         {
             Level = level;
             SkillAdditionalData = data;
             SkillMotions = new SkillMotion();
+            SkillAttacks = new List<SkillAttack>();
+            SkillConditions = new List<SkillCondition>();
         }
 
-        public SkillLevel(int level, int spirit, int stamina, float damageRate, string feature, SkillMotion skillMotions, SkillAttack skillAttack)
+        public SkillLevel(int level, int spirit, int stamina, float damageRate, string feature,
+            SkillMotion skillMotions, List<SkillAttack> skillAttacks, List<SkillCondition> skillConditions, SkillUpgrade skillUpgrade)
         {
             Level = level;
             Spirit = spirit;
@@ -111,8 +115,10 @@ namespace Maple2Storage.Types.Metadata
             DamageRate = damageRate;
             Feature = feature;
             SkillMotions = skillMotions;
-            SkillAttacks = skillAttack;
+            SkillAttacks = skillAttacks;
+            SkillConditions = skillConditions;
             SkillAdditionalData = new SkillAdditionalData();
+            SkillUpgrade = skillUpgrade;
         }
 
         public override int GetHashCode()
@@ -121,26 +127,49 @@ namespace Maple2Storage.Types.Metadata
         }
 
         public override string ToString() =>
-            $"SkillLevel(Level:{Level},Spirit:{Spirit},Stamina:{Stamina},DamageRate:{DamageRate},Feature:{Feature},SkillMotion:{SkillMotions})";
+            $"SkillLevel(Level:{Level},Spirit:{Spirit},Stamina:{Stamina},DamageRate:{DamageRate},Feature:{Feature}," +
+            $"SkillMotion:{SkillMotions},SkillAttacks:{SkillAttacks},SkillConditions: {SkillConditions})";
+    }
+
+    [XmlType]
+    public class SkillUpgrade
+    {
+        [XmlElement(Order = 1)]
+        public readonly int LevelRequired;
+        [XmlElement(Order = 2)]
+        public readonly int[] SkillIdsRequired = Array.Empty<int>();
+        [XmlElement(Order = 3)]
+        public readonly short[] SkillLevelsRequired = Array.Empty<short>();
+
+        public SkillUpgrade() { }
+
+        public SkillUpgrade(int levelRequired, int[] skillIds, short[] skillLevels)
+        {
+            LevelRequired = levelRequired;
+            SkillIdsRequired = skillIds;
+            SkillLevelsRequired = skillLevels;
+        }
+
+        public override string ToString() => $"LevelRequired: {LevelRequired},SkillIds:{string.Join(",", SkillIdsRequired)}, SkillLevels: {string.Join(",", SkillLevelsRequired)}";
     }
 
     [XmlType] // TODO: More to implement from attack attribute.
     public class SkillAttack
     {
         [XmlElement(Order = 1)]
-        public readonly List<int> ConditionSkillIds;
+        public readonly byte AttackPoint;
+        [XmlElement(Order = 2)]
+        public readonly short TargetCount;
 
-        public SkillAttack()
+        public SkillAttack() { }
+
+        public SkillAttack(byte attackPoint, short targetCount)
         {
-            ConditionSkillIds = new List<int>();
+            AttackPoint = attackPoint;
+            TargetCount = targetCount;
         }
 
-        public SkillAttack(List<int> conditionSkillsID)
-        {
-            ConditionSkillIds = conditionSkillsID;
-        }
-
-        public override string ToString() => $"Skills: {string.Join(",", ConditionSkillIds)}";
+        public override string ToString() => $"Point:{AttackPoint}, TargetCount:{TargetCount}";
     }
 
     [XmlType]
@@ -151,10 +180,7 @@ namespace Maple2Storage.Types.Metadata
         [XmlElement(Order = 2)]
         public string MotionEffect = "";
 
-        public SkillMotion()
-        {
-
-        }
+        public SkillMotion() { }
 
         public SkillMotion(string sequenceName, string motionEffect)
         {
@@ -186,18 +212,49 @@ namespace Maple2Storage.Types.Metadata
         public readonly int EventBuffType;
         [XmlElement(Order = 6)]
         public readonly int MaxStack;
+        [XmlElement(Order = 7)]
+        public readonly byte KeepCondition;
 
         public SkillAdditionalData() { }
 
-        public SkillAdditionalData(int duration, int buffType, int buffSubType, int buffCategory, int maxStack)
+        public SkillAdditionalData(int duration, int buffType, int buffSubType, int buffCategory, int maxStack, byte keepCondition)
         {
             Duration = duration;
             BuffType = buffType;
             BuffSubType = buffSubType;
             BuffCategory = buffCategory;
             MaxStack = maxStack;
+            KeepCondition = keepCondition;
         }
 
         public override string ToString() => $"DurationTick: {Duration}; Type:{BuffType}; SubType:{BuffSubType};";
+    }
+
+    [XmlType]
+    public class SkillCondition
+    {
+        [XmlElement(Order = 1)]
+        public readonly int Id;
+        [XmlElement(Order = 2)]
+        public readonly short Level;
+        [XmlElement(Order = 3)]
+        public readonly bool Splash;
+        [XmlElement(Order = 4)]
+        public readonly byte Target;
+        [XmlElement(Order = 5)]
+        public readonly byte Owner;
+
+        public SkillCondition() { }
+
+        public SkillCondition(int id, short level, bool splash, byte target, byte owner)
+        {
+            Id = id;
+            Level = level;
+            Splash = splash;
+            Target = target;
+            Owner = owner;
+        }
+
+        public override string ToString() => $"Id: {Id}, Level:{Level}, Splash:{Splash}, Target:{Target}, Owner:{Owner}";
     }
 }

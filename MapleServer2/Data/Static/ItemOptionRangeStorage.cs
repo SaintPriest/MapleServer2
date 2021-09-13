@@ -1,8 +1,6 @@
-﻿using System.Collections.Generic;
-using System.IO;
-using Maple2Storage.Enums;
+﻿using Maple2Storage.Enums;
+using Maple2Storage.Types;
 using Maple2Storage.Types.Metadata;
-using MapleServer2.Constants;
 using ProtoBuf;
 
 namespace MapleServer2.Data.Static
@@ -12,7 +10,7 @@ namespace MapleServer2.Data.Static
         public static readonly Dictionary<ItemOptionRangeType, Dictionary<ItemAttribute, List<ParserStat>>> NormalRange = new Dictionary<ItemOptionRangeType, Dictionary<ItemAttribute, List<ParserStat>>>();
         public static readonly Dictionary<ItemOptionRangeType, Dictionary<SpecialItemAttribute, List<ParserSpecialStat>>> SpecialRange = new Dictionary<ItemOptionRangeType, Dictionary<SpecialItemAttribute, List<ParserSpecialStat>>>();
 
-        static ItemOptionRangeStorage()
+        public static void Init()
         {
             using FileStream stream = File.OpenRead($"{Paths.RESOURCES}/ms2-item-option-range-metadata");
             List<ItemOptionRangeMetadata> items = Serializer.Deserialize<List<ItemOptionRangeMetadata>>(stream);

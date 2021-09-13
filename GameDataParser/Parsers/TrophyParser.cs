@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Xml;
+﻿using System.Xml;
 using GameDataParser.Files;
 using Maple2.File.IO.Crypto.Common;
 using Maple2Storage.Enums;
@@ -8,7 +6,7 @@ using Maple2Storage.Types.Metadata;
 
 namespace GameDataParser.Parsers
 {
-    class TrophyParser : Exporter<List<TrophyMetadata>>
+    internal class TrophyParser : Exporter<List<TrophyMetadata>>
     {
         public TrophyParser(MetadataResources resources) : base(resources, "trophy") { }
 
@@ -28,6 +26,7 @@ namespace GameDataParser.Parsers
                 TrophyMetadata newTrophy = new TrophyMetadata();
                 newTrophy.Id = int.Parse(trophy.Attributes["id"].Value);
                 newTrophy.Categories = trophy.Attributes["categoryTag"]?.Value.Split(",");
+                newTrophy.AccountWide = trophy.Attributes["account"].Value == "1";
 
                 XmlNodeList grades = trophy.SelectNodes("grade");
 
@@ -38,10 +37,13 @@ namespace GameDataParser.Parsers
 
                     XmlNode condition = grade.SelectSingleNode("condition");
                     newGrade.Condition = long.Parse(condition.Attributes["value"].Value);
+                    newGrade.ConditionType = condition.Attributes["type"].Value;
+                    newGrade.ConditionCodes = condition.Attributes["code"].Value.Split(",");
+                    newGrade.ConditionTargets = condition.Attributes["target"].Value.Split(",");
 
                     XmlNode reward = grade.SelectSingleNode("reward");
                     Enum.TryParse(reward.Attributes["type"].Value, true, out RewardType type);
-                    newGrade.RewardType = (byte) type;
+                    newGrade.RewardType = type;
                     newGrade.RewardCode = int.Parse(reward.Attributes["code"].Value);
                     newGrade.RewardValue = int.Parse(reward.Attributes["value"].Value);
 

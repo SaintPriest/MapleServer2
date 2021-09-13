@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using Maple2Storage.Enums;
+﻿using Maple2Storage.Enums;
 using Maple2Storage.Types;
 using Maple2Storage.Types.Metadata;
 using MapleServer2.Data.Static;
@@ -27,14 +25,12 @@ namespace MapleServer2.Types
         public string FileName { get; set; }
         public int SkillId { get; set; }
         public List<Job> RecommendJobs { get; set; }
-        public List<ItemContent> Content { get; private set; }
         public ItemFunction Function { get; set; }
-        public AdBalloonData AdBalloon { get; set; }
         public string Tag { get; set; }
         public int ShopID { get; set; }
         public ItemHousingCategory HousingCategory;
 
-        public readonly int Id;
+        public int Id;
         public long Uid;
         public short Slot;
         public int Amount;
@@ -51,9 +47,10 @@ namespace MapleServer2.Types
         public int Enchants;
         // EnchantExp (10000 = 100%) for Peachy
         public int EnchantExp;
-        public bool CanRepackage;
+        public int RepackageCount;
         public int Charges;
         public TransferFlag TransferFlag;
+        public TransferType TransferType;
         public int RemainingTrades;
 
         // For friendship badges
@@ -62,7 +59,8 @@ namespace MapleServer2.Types
         public int PetSkinBadgeId;
         public byte[] TransparencyBadgeBools;
 
-        public Player Owner;
+        public long OwnerCharacterId;
+        public string OwnerCharacterName;
         public EquipColor Color;
         public HairData HairData;
         public HatData HatData;
@@ -70,16 +68,16 @@ namespace MapleServer2.Types
         public MusicScore Score;
         public ItemStats Stats;
 
-        public Inventory Inventory;
-        public BankInventory BankInventory;
-        public Home Home;
+        public long InventoryId;
+        public long BankInventoryId;
+        public long HomeId;
 
         public Item() { }
 
         public Item(int id)
         {
             Id = id;
-            SetMetadataValues(id);
+            SetMetadataValues();
             IsTemplate = ItemMetadataStorage.GetIsTemplate(id);
             Level = ItemMetadataStorage.GetLevel(id);
             ItemSlot = ItemMetadataStorage.GetSlot(id);
@@ -92,8 +90,7 @@ namespace MapleServer2.Types
             Amount = 1;
             Score = new MusicScore();
             Stats = new ItemStats(id, Rarity, ItemSlot, Level);
-            CanRepackage = true; // If false, item becomes untradable
-            Uid = DatabaseManager.AddItem(this);
+            Uid = DatabaseManager.Items.Insert(this);
         }
 
         public Item(int id, int amount) : this(id)
@@ -119,9 +116,7 @@ namespace MapleServer2.Types
             IsCustomScore = other.IsCustomScore;
             PlayCount = other.PlayCount;
             FileName = other.FileName;
-            Content = other.Content;
             Function = other.Function;
-            AdBalloon = other.AdBalloon;
             Uid = other.Uid;
             Slot = other.Slot;
             Amount = other.Amount;
@@ -134,7 +129,7 @@ namespace MapleServer2.Types
             GachaDismantleId = other.GachaDismantleId;
             Enchants = other.Enchants;
             EnchantExp = other.EnchantExp;
-            CanRepackage = other.CanRepackage;
+            RepackageCount = other.RepackageCount;
             Charges = other.Charges;
             TransferFlag = other.TransferFlag;
             RemainingTrades = other.RemainingTrades;
@@ -142,7 +137,11 @@ namespace MapleServer2.Types
             PairedCharacterName = other.PairedCharacterName;
             PetSkinBadgeId = other.PetSkinBadgeId;
             RecommendJobs = other.RecommendJobs;
-            Owner = other.Owner;
+            OwnerCharacterId = other.OwnerCharacterId;
+            OwnerCharacterName = other.OwnerCharacterName;
+            InventoryId = other.InventoryId;
+            BankInventoryId = other.BankInventoryId;
+            HomeId = other.HomeId;
             Color = other.Color;
             HairData = other.HairData;
             HatData = other.HatData;
@@ -162,7 +161,7 @@ namespace MapleServer2.Types
             Amount -= amount;
             splitItem.Amount = amount;
             splitItem.Slot = -1;
-            splitItem.Uid = DatabaseManager.AddItem(this);
+            splitItem.Uid = DatabaseManager.Items.Insert(this);
             return true;
         }
 
@@ -186,28 +185,29 @@ namespace MapleServer2.Types
             return itemId >= 60000001 && itemId < 61000000;
         }
 
-        public void SetMetadataValues(int id)
+        public void SetMetadataValues()
         {
-            InventoryTab = ItemMetadataStorage.GetTab(id);
-            GemSlot = ItemMetadataStorage.GetGem(id);
+            InventoryTab = ItemMetadataStorage.GetTab(Id);
+            GemSlot = ItemMetadataStorage.GetGem(Id);
             if (GemSlot == GemSlot.TRANS)
             {
                 TransparencyBadgeBools = new byte[10];
             }
-            StackLimit = ItemMetadataStorage.GetStackLimit(id);
-            EnableBreak = ItemMetadataStorage.GetEnableBreak(id);
-            IsTwoHand = ItemMetadataStorage.GetIsTwoHand(id);
-            IsDress = ItemMetadataStorage.GetIsDress(id);
-            IsCustomScore = ItemMetadataStorage.GetIsCustomScore(id);
-            Gender = ItemMetadataStorage.GetGender(id);
-            FileName = ItemMetadataStorage.GetFileName(id);
-            SkillId = ItemMetadataStorage.GetSkillID(id);
-            RecommendJobs = ItemMetadataStorage.GetRecommendJobs(id);
-            Content = ItemMetadataStorage.GetContent(id);
-            Function = ItemMetadataStorage.GetFunction(id);
-            AdBalloon = ItemMetadataStorage.GetBalloonData(id);
-            Tag = ItemMetadataStorage.GetTag(id);
-            ShopID = ItemMetadataStorage.GetShopID(id);
+            StackLimit = ItemMetadataStorage.GetStackLimit(Id);
+            EnableBreak = ItemMetadataStorage.GetEnableBreak(Id);
+            IsTwoHand = ItemMetadataStorage.GetIsTwoHand(Id);
+            IsDress = ItemMetadataStorage.GetIsDress(Id);
+            IsCustomScore = ItemMetadataStorage.GetIsCustomScore(Id);
+            Gender = ItemMetadataStorage.GetGender(Id);
+            FileName = ItemMetadataStorage.GetFileName(Id);
+            SkillId = ItemMetadataStorage.GetSkillID(Id);
+            RecommendJobs = ItemMetadataStorage.GetRecommendJobs(Id);
+            Function = ItemMetadataStorage.GetFunction(Id);
+            Tag = ItemMetadataStorage.GetTag(Id);
+            ShopID = ItemMetadataStorage.GetShopID(Id);
+            RemainingTrades = ItemMetadataStorage.GetTradeableCount(Id);
+            TransferType = ItemMetadataStorage.GetTransferType(Id);
+            RepackageCount = ItemMetadataStorage.GetRepackageCount(Id);
         }
     }
 }

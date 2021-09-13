@@ -1,7 +1,7 @@
-﻿using System;
-using MaplePacketLib2.Tools;
+﻿using MaplePacketLib2.Tools;
 using MapleServer2.Constants;
 using MapleServer2.Network;
+using NLog;
 
 namespace MapleServer2.PacketHandlers
 {
@@ -13,9 +13,7 @@ namespace MapleServer2.PacketHandlers
 
         public void Handle(T session, PacketReader packet);
 
-        public static void LogUnknownMode(Enum mode)
-        {
-            Console.WriteLine("New Unknown " + mode.GetType().Name + ": 0x" + mode.ToString("X"));
-        }
+        public static void LogUnknownMode(Enum mode) =>
+            LogManager.GetCurrentClassLogger().Warn("New Unknown " + mode.GetType().Name + ": 0x" + mode.ToString("X"));
     }
 }

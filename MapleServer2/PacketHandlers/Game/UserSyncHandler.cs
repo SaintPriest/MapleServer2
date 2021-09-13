@@ -1,5 +1,4 @@
-﻿using System;
-using Maple2Storage.Types;
+﻿using Maple2Storage.Types;
 using MaplePacketLib2.Tools;
 using MapleServer2.Constants;
 using MapleServer2.Data.Static;
@@ -7,7 +6,6 @@ using MapleServer2.Packets;
 using MapleServer2.Packets.Helpers;
 using MapleServer2.Servers.Game;
 using MapleServer2.Types;
-using Microsoft.Extensions.Logging;
 
 namespace MapleServer2.PacketHandlers.Game
 {
@@ -17,7 +15,7 @@ namespace MapleServer2.PacketHandlers.Game
     {
         public override RecvOp OpCode => RecvOp.USER_SYNC;
 
-        public UserSyncHandler(ILogger<UserSyncHandler> logger) : base(logger) { }
+        public UserSyncHandler() : base() { }
 
         public override void Handle(GameSession session, PacketReader packet)
         {

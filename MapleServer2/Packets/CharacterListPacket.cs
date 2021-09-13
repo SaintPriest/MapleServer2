@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using Maple2Storage.Types;
+﻿using Maple2Storage.Types;
 using MaplePacketLib2.Tools;
 using MapleServer2.Constants;
 using MapleServer2.Packets.Helpers;
@@ -89,27 +88,9 @@ namespace MapleServer2.Packets
             pWriter.WriteUnicodeString(player.ProfileUrl);
             pWriter.WriteLong();
 
-            pWriter.WriteByte((byte) (player.Inventory.Equips.Count + player.Inventory.Cosmetics.Count)); // num equips
-            foreach ((ItemSlot slot, Item equip) in player.Inventory.Equips)
-            {
-                WriteEquip(slot, equip, pWriter);
-            }
-            foreach ((ItemSlot slot, Item equip) in player.Inventory.Cosmetics)
-            {
-                WriteEquip(slot, equip, pWriter);
-            }
+            WriteEquipsAndCosmetics(pWriter, player);
 
-            byte badgeCount = 0;
-            pWriter.WriteByte(badgeCount);
-            for (int i = 0; i < badgeCount; i++)
-            {
-                pWriter.WriteByte();
-
-                pWriter.WriteInt(); // BRANCH HERE if Badge
-                // Badge data here is causing a LOT of potential branching...
-                pWriter.WriteLong();
-                pWriter.WriteInt();
-            }
+            WriteBadges(pWriter, player);
 
             bool boolValue = false;
             pWriter.WriteBool(boolValue);
@@ -156,22 +137,13 @@ namespace MapleServer2.Packets
             pWriter.Write(player.ReturnCoord);
             pWriter.WriteInt(); // gearscore
             pWriter.Write(player.SkinColor);
-            pWriter.WriteLong(player.CreationTime);
+            pWriter.WriteLong(player.CreationTime + Environment.TickCount64);
             foreach (int trophyCount in player.TrophyCount)
             {
                 pWriter.WriteInt(trophyCount);
             }
-
-            if (player.Guild != null)
-            {
-                pWriter.WriteLong(player.Guild.Id);
-                pWriter.WriteUnicodeString(player.Guild.Name);
-            }
-            else
-            {
-                pWriter.WriteLong();
-                pWriter.WriteUnicodeString("");
-            }
+            pWriter.WriteLong(player.GuildId);
+            pWriter.WriteUnicodeString(player.Guild?.Name ?? "");
             pWriter.WriteUnicodeString(player.Motto);
 
             pWriter.WriteUnicodeString(player.ProfileUrl);
@@ -246,11 +218,30 @@ namespace MapleServer2.Packets
             pWriter.WriteItem(item);
         }
 
-        public static void WriteBadge(PacketWriter pWriter)
+        public static void WriteEquipsAndCosmetics(PacketWriter pWriter, Player player)
         {
-            pWriter.WriteLong();
-            pWriter.WriteInt();
-            pWriter.WriteItem(new Item(70100000));
+            pWriter.WriteByte((byte) (player.Inventory.Equips.Count + player.Inventory.Cosmetics.Count));
+            foreach ((ItemSlot slot, Item equip) in player.Inventory.Equips)
+            {
+                WriteEquip(slot, equip, pWriter);
+            }
+            foreach ((ItemSlot slot, Item equip) in player.Inventory.Cosmetics)
+            {
+                WriteEquip(slot, equip, pWriter);
+            }
+        }
+
+        public static void WriteBadges(PacketWriter pWriter, Player player)
+        {
+            pWriter.WriteByte((byte) player.Inventory.Badges.Count);
+            foreach (Item badge in player.Inventory.Badges)
+            {
+                pWriter.WriteByte((byte) badge.GemSlot);
+                pWriter.WriteInt(badge.Id);
+                pWriter.WriteLong(badge.Uid);
+                pWriter.WriteInt(badge.Rarity);
+                pWriter.WriteItem(badge);
+            }
         }
 
         public static Packet StartList()

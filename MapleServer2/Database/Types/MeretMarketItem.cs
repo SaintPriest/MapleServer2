@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using Maple2Storage.Types;
+﻿using Maple2Storage.Types;
 
 namespace MapleServer2.Database.Types
 {
@@ -27,6 +26,7 @@ namespace MapleServer2.Database.Types
         public bool PCCafe = false;
         public bool RestockUnavailable = false;
         public int ParentMarketId;
+        public long BannerId;
         public Banner Banner;
         public string PromoName = "";
         public MeretMarketPromoFlag PromoFlag;

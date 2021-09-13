@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Xml.Serialization;
+﻿using System.Xml.Serialization;
+using Maple2Storage.Enums;
 
 namespace Maple2Storage.Types.Metadata
 {
@@ -13,6 +11,8 @@ namespace Maple2Storage.Types.Metadata
         [XmlElement(Order = 2)]
         public string[] Categories;
         [XmlElement(Order = 3)]
+        public bool AccountWide;
+        [XmlElement(Order = 4)]
         public List<TrophyGradeMetadata> Grades;
 
         // Required for deserialization
@@ -80,10 +80,16 @@ namespace Maple2Storage.Types.Metadata
         [XmlElement(Order = 2)]
         public long Condition;
         [XmlElement(Order = 3)]
-        public byte RewardType;
+        public string ConditionType;
         [XmlElement(Order = 4)]
-        public int RewardCode;
+        public string[] ConditionCodes;
         [XmlElement(Order = 5)]
+        public string[] ConditionTargets;
+        [XmlElement(Order = 6)]
+        public RewardType RewardType;
+        [XmlElement(Order = 7)]
+        public int RewardCode;
+        [XmlElement(Order = 8)]
         public int RewardValue;
 
         // Required for deserialization

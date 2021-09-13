@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using Maple2Storage.Types.Metadata;
+﻿using Maple2Storage.Types.Metadata;
 using MapleServer2.Constants.Skills;
 using MapleServer2.Data.Static;
 using MapleServer2.Database;
@@ -14,30 +12,27 @@ namespace MapleServer2.Types
         public long TabId { get; set; }
         public string Name { get; set; }
 
-        public Player Player;
-
         public List<int> Order { get; private set; }
         public Dictionary<int, SkillMetadata> SkillJob { get; private set; }
-        public Dictionary<int, int> SkillLevels { get; private set; }
+        public Dictionary<int, short> SkillLevels { get; private set; }
 
         public SkillTab() { }
 
-        public SkillTab(Player player, Job job)
-        {
-            Name = $"Build {(player.SkillTabs == null ? "1" : player.SkillTabs.Count + 1)}";
-            ResetSkillTree(job);
-            Player = player;
-            TabId = player.CharacterId;
-            Uid = DatabaseManager.AddSkillTab(this);
-        }
-
-        public SkillTab(Player player, Job job, long id, string name)
+        public SkillTab(long characterId, Job job, long id, string name)
         {
             Name = name;
             ResetSkillTree(job);
-            Player = player;
             TabId = id;
-            Uid = DatabaseManager.AddSkillTab(this);
+            Uid = DatabaseManager.SkillTabs.Insert(this, characterId);
+        }
+
+        public SkillTab(string name, int jobId, long tabId, long uid, Dictionary<int, short> skillLevels)
+        {
+            Name = name;
+            TabId = tabId;
+            Uid = uid;
+            GenerateSkills((Job) jobId);
+            SkillLevels = skillLevels;
         }
 
         public static Dictionary<int, SkillMetadata> AddOnDictionary(Job job)
@@ -53,7 +48,7 @@ namespace MapleServer2.Types
 
         public void AddOrUpdate(int id, short level, bool isLearned)
         {
-            SkillLevels[id] = isLearned ? level : 0;
+            SkillLevels[id] = isLearned ? level : (short) 0;
             if (!SkillJob.ContainsKey(id))
             {
                 return;
@@ -61,7 +56,7 @@ namespace MapleServer2.Types
 
             foreach (int sub in SkillJob[id].SubSkills)
             {
-                SkillLevels[sub] = isLearned ? level : 0;
+                SkillLevels[sub] = isLearned ? level : (short) 0;
             }
         }
 
@@ -74,7 +69,7 @@ namespace MapleServer2.Types
         public void ResetSkillTree(Job job)
         {
             GenerateSkills(job);
-            SkillLevels = SkillJob.ToDictionary(x => x.Key, x => (int) x.Value.Learned);
+            SkillLevels = SkillJob.ToDictionary(x => x.Key, x => x.Value.CurrentLevel);
         }
 
         public static List<SkillMetadata> GetJobFeatureSkills(Job job) => SkillMetadataStorage.GetJobSkills(job);

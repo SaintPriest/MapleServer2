@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using MaplePacketLib2.Tools;
+﻿using MaplePacketLib2.Tools;
 using MapleServer2.Constants;
 using MapleServer2.Servers.Game;
 
@@ -32,7 +31,7 @@ namespace MapleServer2.Packets
             pWriter.WriteLong();
             pWriter.WriteLong();
             pWriter.WriteLong();
-            pWriter.WriteLong(session.Player.Wallet.MesoToken.Amount);
+            pWriter.WriteLong(session.Player.Account.MesoToken.Amount);
             pWriter.WriteUnicodeString(""); // Profile Url
             pWriter.WriteByte();
             pWriter.WriteByte();

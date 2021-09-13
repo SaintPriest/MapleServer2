@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using MaplePacketLib2.Tools;
+﻿using MaplePacketLib2.Tools;
 using MapleServer2.Packets;
 using MapleServer2.Servers.Game;
 using MapleServer2.Tools;
@@ -134,14 +130,15 @@ namespace MapleServer2.Types
             }
         }
 
-        private List<GameSession> GetSessions()
+        public List<GameSession> GetSessions()
         {
             List<GameSession> sessions = new List<GameSession>();
             foreach (Player member in Members)
             {
-                if (member.Session.Connected())
+                GameSession playerSession = GameServer.Storage.GetPlayerById(member.CharacterId)?.Session;
+                if (playerSession != null)
                 {
-                    sessions.Add(GameServer.Storage.GetPlayerById(member.CharacterId).Session);
+                    sessions.Add(playerSession);
                 }
             }
             return sessions;

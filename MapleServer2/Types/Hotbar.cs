@@ -1,5 +1,4 @@
-﻿using System;
-using System.Linq;
+﻿using MapleServer2.Database;
 
 namespace MapleServer2.Types
 {
@@ -9,9 +8,7 @@ namespace MapleServer2.Types
         public const int MAX_SLOTS = 22;
         public QuickSlot[] Slots { get; private set; }
 
-        public Hotbar() { }
-
-        public void Initialize()
+        public Hotbar(long gameOptionsId)
         {
             Slots = new QuickSlot[MAX_SLOTS];
 
@@ -19,6 +16,13 @@ namespace MapleServer2.Types
             {
                 Slots[i] = new QuickSlot();
             }
+            Id = DatabaseManager.Hotbars.Insert(this, gameOptionsId);
+        }
+
+        public Hotbar(QuickSlot[] slots, long id)
+        {
+            Slots = slots;
+            Id = id;
         }
 
         public bool AddToFirstSlot(QuickSlot quickSlot)

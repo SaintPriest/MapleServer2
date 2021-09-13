@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using Maple2Storage.Tools;
+﻿using Maple2Storage.Tools;
 using Maple2Storage.Types;
 using Maple2Storage.Types.Metadata;
 using MaplePacketLib2.Tools;
@@ -9,7 +7,6 @@ using MapleServer2.Data.Static;
 using MapleServer2.Packets;
 using MapleServer2.Servers.Game;
 using MapleServer2.Types;
-using Microsoft.Extensions.Logging;
 
 namespace MapleServer2.PacketHandlers.Game
 {
@@ -17,7 +14,7 @@ namespace MapleServer2.PacketHandlers.Game
     {
         public override RecvOp OpCode => RecvOp.REQUEST_LOAD_UGC_MAP;
 
-        public LoadUgcMapHandler(ILogger<LoadUgcMapHandler> logger) : base(logger) { }
+        public LoadUgcMapHandler() : base() { }
 
         public override void Handle(GameSession session, PacketReader packet)
         {

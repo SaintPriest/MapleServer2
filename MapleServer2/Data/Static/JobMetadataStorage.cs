@@ -1,7 +1,5 @@
-﻿using System.Collections.Generic;
-using System.IO;
+﻿using Maple2Storage.Types;
 using Maple2Storage.Types.Metadata;
-using MapleServer2.Constants;
 using ProtoBuf;
 
 namespace MapleServer2.Data.Static
@@ -10,7 +8,7 @@ namespace MapleServer2.Data.Static
     {
         private static readonly Dictionary<int, JobMetadata> jobs = new Dictionary<int, JobMetadata>();
 
-        static JobMetadataStorage()
+        public static void Init()
         {
             using FileStream stream = File.OpenRead($"{Paths.RESOURCES}/ms2-job-metadata");
             List<JobMetadata> jobList = Serializer.Deserialize<List<JobMetadata>>(stream);

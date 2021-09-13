@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using Maple2Storage.Types;
+﻿using Maple2Storage.Types;
 using MaplePacketLib2.Tools;
 using MapleServer2.Constants;
 using MapleServer2.Database;
@@ -10,7 +7,6 @@ using MapleServer2.Packets;
 using MapleServer2.Servers.Game;
 using MapleServer2.Tools;
 using MapleServer2.Types;
-using Microsoft.Extensions.Logging;
 
 namespace MapleServer2.PacketHandlers.Game
 {
@@ -18,7 +14,7 @@ namespace MapleServer2.PacketHandlers.Game
     {
         public override RecvOp OpCode => RecvOp.MERET_MARKET;
 
-        public MeretMarketHandler(ILogger<MeretMarketHandler> logger) : base(logger) { }
+        public MeretMarketHandler() : base() { }
 
         private enum MeretMarketMode : byte
         {
@@ -64,7 +60,7 @@ namespace MapleServer2.PacketHandlers.Game
         private static void HandleOpenPremium(GameSession session, PacketReader packet)
         {
             MeretMarketCategory category = (MeretMarketCategory) packet.ReadInt();
-            List<MeretMarketItem> marketItems = DatabaseManager.GetMeretMarketItemsByCategory(category);
+            List<MeretMarketItem> marketItems = DatabaseManager.MeretMarket.FindAllByCategoryId(category);
             if (marketItems == null)
             {
                 return;
@@ -87,7 +83,7 @@ namespace MapleServer2.PacketHandlers.Game
             string unk6 = packet.ReadUnicodeString();
             long price = packet.ReadLong();
 
-            MeretMarketItem marketItem = DatabaseManager.GetMeretMarketItem(marketItemId);
+            MeretMarketItem marketItem = DatabaseManager.MeretMarket.FindById(marketItemId);
             if (marketItem == null)
             {
                 return;
@@ -141,7 +137,7 @@ namespace MapleServer2.PacketHandlers.Game
 
         private static void HandleHome(GameSession session)
         {
-            List<MeretMarketItem> marketItems = DatabaseManager.GetMeretMarketItemsByCategory(MeretMarketCategory.Promo);
+            List<MeretMarketItem> marketItems = DatabaseManager.MeretMarket.FindAllByCategoryId(MeretMarketCategory.Promo);
             if (marketItems == null)
             {
                 return;

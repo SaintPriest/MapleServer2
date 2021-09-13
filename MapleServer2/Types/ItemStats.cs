@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using Maple2Storage.Enums;
+﻿using Maple2Storage.Enums;
 using Maple2Storage.Tools;
 using Maple2Storage.Types;
 using Maple2Storage.Types.Metadata;
@@ -9,9 +6,7 @@ using MapleServer2.Data.Static;
 
 namespace MapleServer2.Types
 {
-    public interface ItemStat
-    {
-    }
+    public abstract class ItemStat { }
 
     public class NormalStat : ItemStat
     {
@@ -351,7 +346,7 @@ namespace MapleServer2.Types
         {
             List<ItemStat> newBonus = new List<ItemStat>();
 
-            foreach (NormalStat stat in item.Stats.BonusStats.Where(x => x.GetType() == typeof(NormalStat)))
+            foreach (NormalStat stat in item.Stats.BonusStats.OfType<NormalStat>())
             {
                 if (!isSpecialStat && (short) stat.ItemAttribute == ignoreStat)
                 {
@@ -367,7 +362,7 @@ namespace MapleServer2.Types
                 newBonus.Add(new NormalStat(dictionary[stat.ItemAttribute][Roll(item.Level)]));
             }
 
-            foreach (SpecialStat stat in item.Stats.BonusStats.Where(x => x.GetType() == typeof(SpecialStat)))
+            foreach (SpecialStat stat in item.Stats.BonusStats.OfType<SpecialStat>())
             {
                 if (isSpecialStat && (short) stat.ItemAttribute == ignoreStat)
                 {

@@ -12,7 +12,7 @@ namespace MapleServer2.Commands.Game
     {
         public GuildExpCommand()
         {
-            Aliases = new[]
+            Aliases = new()
             {
                 "setguildexp"
             };
@@ -39,7 +39,7 @@ namespace MapleServer2.Commands.Game
             guild.Exp = guildExp;
             guild.BroadcastPacketGuild(GuildPacket.UpdateGuildExp(guild.Exp));
             GuildPropertyMetadata data = GuildPropertyMetadataStorage.GetMetadata(guild.Exp);
-            DatabaseManager.Update(guild);
+            DatabaseManager.Guilds.Update(guild);
         }
     }
 
@@ -47,7 +47,7 @@ namespace MapleServer2.Commands.Game
     {
         public GuildFundCommand()
         {
-            Aliases = new[]
+            Aliases = new()
             {
                 "setguildfund"
             };
@@ -73,7 +73,7 @@ namespace MapleServer2.Commands.Game
             }
             guild.Funds = guildFunds;
             guild.BroadcastPacketGuild(GuildPacket.UpdateGuildFunds(guild.Funds));
-            DatabaseManager.Update(guild);
+            DatabaseManager.Guilds.Update(guild);
         }
     }
 }

@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using Maple2.Trigger.Enum;
+﻿using Maple2.Trigger.Enum;
 using Maple2Storage.Types.Metadata;
 using MapleServer2.Data.Static;
 using MapleServer2.Enums;
-using MapleServer2.Servers.Game;
+using MapleServer2.Managers;
 using MapleServer2.Types;
 
 namespace MapleServer2.Triggers
@@ -212,17 +209,18 @@ namespace MapleServer2.Triggers
 
         public bool WidgetCondition(WidgetType type, string name, string arg3)
         {
-            List<IFieldObject<Player>> players = Field.State.Players.Values.ToList();
-            foreach (IFieldObject<Player> player in players)
+            Widget widget = Field.GetWidget(type);
+            if (widget == null)
             {
-                Widget widget = player.Value.Widgets.FirstOrDefault(x => x.Type == type);
-                if (widget == null)
-                {
-                    continue;
-                }
+                return false;
+            }
+
+            if (widget.Arg == "")
+            {
                 return widget.State == name;
             }
-            return false;
+
+            return widget.State == name && widget.Arg == arg3;
         }
     }
 }

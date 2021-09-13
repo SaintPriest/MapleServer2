@@ -1,9 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using System.Text.RegularExpressions;
 using MaplePacketLib2.Tools;
 using MapleServer2.Network;
+using NLog;
 
 namespace MapleServer2.Tools
 {
@@ -16,6 +15,8 @@ namespace MapleServer2.Tools
         private readonly ushort OpCode;
         private readonly PacketWriter Packet;
         private readonly Dictionary<uint, SockHintInfo> Overrides;
+        private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
+
 
         private static readonly Regex infoRegex = new Regex(@"\[type=(\d+)\]\[offset=(\d+)\]\[hint=(\w+)\]");
 
@@ -56,7 +57,7 @@ namespace MapleServer2.Tools
                 }
                 else
                 {
-                    Console.WriteLine("Invalid opcode.");
+                    Logger.Info("Invalid opcode.");
                     return null;
                 }
             }
@@ -67,7 +68,7 @@ namespace MapleServer2.Tools
                 Match match = overrideRegex.Match(args[i]);
                 if (!match.Success)
                 {
-                    Console.WriteLine($"Invalid override:{args[i]} skipped.");
+                    Logger.Info($"Invalid override:{args[i]} skipped.");
                 }
                 else
                 {
@@ -111,15 +112,14 @@ namespace MapleServer2.Tools
                 SockHintInfo @override = Overrides[info.Offset];
                 Debug.Assert(@override.Hint == info.Hint, $"Override does not match expected hint:{info.Hint}");
                 @override.Update(Packet);
-                Console.WriteLine(info.Hint.GetScript($"{@override.Name}+{info.Offset}"));
+                Logger.Info(info.Hint.GetScript($"{@override.Name}+{info.Offset}"));
             }
             else
             {
                 new SockHintInfo(info.Hint, DefaultValue).Update(Packet);
-                Console.WriteLine(info.Hint.GetScript($"Unknown+{info.Offset}"));
+                Logger.Info(info.Hint.GetScript($"Unknown+{info.Offset}"));
             }
 
-            //Console.WriteLine($"Updated with hint:{info.Hint}, offset:{info.Offset}");
             (session as Session)?.Send(Packet);
         }
 

@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using Maple2Storage.Types;
+﻿using Maple2Storage.Types;
 using Maple2Storage.Types.Metadata;
 using MaplePacketLib2.Tools;
 using MapleServer2.Constants;
@@ -8,7 +6,6 @@ using MapleServer2.Data.Static;
 using MapleServer2.Packets;
 using MapleServer2.Servers.Game;
 using MapleServer2.Types;
-using Microsoft.Extensions.Logging;
 
 namespace MapleServer2.PacketHandlers.Game
 {
@@ -16,7 +13,7 @@ namespace MapleServer2.PacketHandlers.Game
     {
         public override RecvOp OpCode => RecvOp.REQUEST_MOVE_FIELD;
 
-        public MoveFieldHandler(ILogger<MoveFieldHandler> logger) : base(logger) { }
+        public MoveFieldHandler() : base() { }
 
         private enum RequestMoveFieldMode : byte
         {
@@ -75,7 +72,7 @@ namespace MapleServer2.PacketHandlers.Game
                 .FirstOrDefault(portal => portal.Id == portalId);
             if (srcPortal == default)
             {
-                System.Console.WriteLine($"Unable to find portal:{portalId} in map:{srcMapId}");
+                Logger.Warn($"Unable to find portal:{portalId} in map:{srcMapId}");
                 return;
             }
             switch ((PortalTypes) srcPortal.PortalType)
@@ -94,18 +91,13 @@ namespace MapleServer2.PacketHandlers.Game
                     HandleLeaveInstance(session);
                     return;
                 default:
-                    System.Console.WriteLine($"unknown portal type id: {srcPortal.PortalType}");
+                    Logger.Warn($"unknown portal type id: {srcPortal.PortalType}");
                     break;
             }
 
-            if (!MapEntityStorage.HasSafePortal(srcMapId)) // map is instance only
+            if (!MapEntityStorage.HasSafePortal(srcMapId) || srcPortal.Target == 0) // map is instance only
             {
                 HandleLeaveInstance(session);
-                return;
-            }
-
-            if (srcPortal.Target == 0)
-            {
                 return;
             }
 

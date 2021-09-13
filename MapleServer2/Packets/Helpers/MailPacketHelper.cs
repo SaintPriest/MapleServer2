@@ -1,5 +1,4 @@
-﻿using System;
-using MaplePacketLib2.Tools;
+﻿using MaplePacketLib2.Tools;
 using MapleServer2.Types;
 
 namespace MapleServer2.Packets.Helpers
@@ -46,8 +45,8 @@ namespace MapleServer2.Packets.Helpers
                     pWriter.WriteZero(6); // Unknown 6 zero bytes
                     pWriter.WriteByte(1); // Unknown
                     pWriter.WriteByte(1); // Unknown
-                    pWriter.WriteLong(item.Owner.CharacterId); // Item owner character id
-                    pWriter.WriteUnicodeString(item.Owner.Name); // Item owner name
+                    pWriter.WriteLong(item.OwnerCharacterId); // Item owner character id
+                    pWriter.WriteUnicodeString(item.OwnerCharacterName); // Item owner name
                     pWriter.WriteZero(20); // Unknown 20 zero bytes
                 }
             }

@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using Maple2Storage.Types.Metadata;
+﻿using Maple2Storage.Types.Metadata;
 using MapleServer2.Data.Static;
 using MapleServer2.Database;
 
@@ -16,17 +15,30 @@ namespace MapleServer2.Types
         public long CompleteTimestamp { get; set; }
         public long StartNpcId { get; private set; }
         public long CompleteNpcId { get; private set; }
+        public bool Tracked { get; set; }
         public List<Condition> Condition { get; set; }
         public QuestReward Reward { get; private set; }
         public List<QuestRewardItem> RewardItems { get; private set; }
 
-        public readonly Player Player;
+        public readonly long CharacterId;
 
-        public QuestStatus() { }
-
-        public QuestStatus(Player player, QuestMetadata metadata)
+        public QuestStatus(long uid, int id, long characterId, bool tracked, bool started, bool completed, long startTimestamp, long completeTimestamp, List<Condition> conditions)
         {
-            Player = player;
+            Uid = uid;
+            Id = id;
+            CharacterId = characterId;
+            Started = started;
+            Completed = completed;
+            StartTimestamp = startTimestamp;
+            CompleteTimestamp = completeTimestamp;
+            Condition = conditions;
+            Tracked = tracked;
+            SetMetadataValues();
+        }
+
+        public QuestStatus(Player player, QuestMetadata metadata, bool started = false, long startTimestamp = 0)
+        {
+            CharacterId = player.CharacterId;
             Id = metadata.Basic.Id;
             Basic = metadata.Basic;
             StartNpcId = metadata.StartNpc;
@@ -38,12 +50,15 @@ namespace MapleServer2.Types
             }
             Reward = metadata.Reward;
             RewardItems = metadata.RewardItem;
-            Uid = DatabaseManager.AddQuest(this);
+            Started = started;
+            StartTimestamp = startTimestamp;
+            Tracked = true;
+            Uid = DatabaseManager.Quests.Insert(this);
         }
 
-        public void SetMetadataValues(int id)
+        public void SetMetadataValues()
         {
-            QuestMetadata metadata = QuestMetadataStorage.GetMetadata(id);
+            QuestMetadata metadata = QuestMetadataStorage.GetMetadata(Id);
             Basic = metadata.Basic;
             StartNpcId = metadata.StartNpc;
             CompleteNpcId = metadata.CompleteNpc;
