@@ -98,7 +98,7 @@ INSERT INTO
 VALUES
   (
     0,
-    'Welcome! Please see our Github or Discord for updates and to report any bugs. discord.gg/fVZRdBN7Nd',
+    'MapleStory 2 edited by Diana, Version: v1.19 alpha 11, Follow me on discord: discord.gg/E96qZNA',
     1
   );
 
